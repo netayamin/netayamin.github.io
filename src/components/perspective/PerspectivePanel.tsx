@@ -19,7 +19,7 @@ export default function PerspectivePanel() {
 
   return (
     <div className="relative h-full min-w-0 flex-1 overflow-hidden">
-      <div className="absolute inset-0 overflow-x-hidden overflow-y-auto">
+      <div data-stage-scroll className="absolute inset-0 overflow-x-hidden overflow-y-auto">
         <div className="relative min-h-full">
           <Developer />
           <div className="absolute inset-0" style={{ clipPath: "inset(0 0 0 50%)" }}>

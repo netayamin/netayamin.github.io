@@ -20,7 +20,6 @@ const GRAB_TICKS = 7; // one jump's worth — he leaps up to grab the tile
 const DUNK_TICKS = 9;
 const RESPAWN_TICKS = 8;
 const JUMP_ARC = [5, 9, 13, 13, 9, 5];
-const OB_W = 13;
 
 function PixelBug() {
   return (
@@ -67,11 +66,24 @@ function PixelStar() {
   );
 }
 
+function PixelBlob() {
+  return (
+    <svg width="22" height="8" viewBox="0 0 22 8" shapeRendering="crispEdges" aria-hidden>
+      <rect x="0" y="4" width="22" height="4" fill="#27ae60" />
+      <rect x="2" y="2" width="6" height="2" fill="#2ecc71" />
+      <rect x="11" y="1" width="7" height="3" fill="#2ecc71" />
+      <rect x="5" y="3" width="1" height="1" fill="#145a32" />
+      <rect x="14" y="2" width="1" height="1" fill="#145a32" />
+    </svg>
+  );
+}
+
 // The hazards of shipping a product, in order of appearance.
-const OBSTACLES: Array<{ f: number; label: string; sprite: React.ReactNode }> = [
-  { f: 0.5, label: "bug", sprite: <PixelBug /> },
-  { f: 0.66, label: "standup", sprite: <PixelMeeting /> },
-  { f: 0.82, label: "1★ review", sprite: <PixelStar /> },
+const OBSTACLES: Array<{ f: number; w: number; label: string; sprite: React.ReactNode }> = [
+  { f: 0.42, w: 13, label: "P0 bug", sprite: <PixelBug /> },
+  { f: 0.56, w: 22, label: "scope creep", sprite: <PixelBlob /> },
+  { f: 0.7, w: 12, label: "\u201cquick sync\u201d (45 min)", sprite: <PixelMeeting /> },
+  { f: 0.84, w: 11, label: "1\u2605 \u201capp no work\u201d", sprite: <PixelStar /> },
 ];
 
 function Body() {
@@ -165,7 +177,7 @@ export default function ZeroToOne() {
       return s && im ? s.offsetLeft + im.offsetLeft - RUNNER_W + 6 : 60;
     };
     const trashX = () => sceneW() - 52;
-    const obstacleXs = () => OBSTACLES.map((ob) => ob.f * sceneW());
+    const obstacleXs = () => OBSTACLES.map((ob) => ({ x: ob.f * sceneW(), w: ob.w }));
 
     const progressJump = () => {
       if (jumpT >= 0) {
@@ -179,8 +191,8 @@ export default function ZeroToOne() {
       if (jumpT >= 0) {
         progressJump();
       } else {
-        for (const obX of obstacleXs()) {
-          const gap = dir > 0 ? obX - (px! + RUNNER_W) : px! - (obX + OB_W);
+        for (const ob of obstacleXs()) {
+          const gap = dir > 0 ? ob.x - (px! + RUNNER_W) : px! - (ob.x + ob.w);
           if (gap >= 0 && gap <= 6) {
             jumpT = 0;
             break;
