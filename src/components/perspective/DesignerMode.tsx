@@ -129,7 +129,7 @@ export default function DesignerMode() {
   return (
     <FigmaCanvas className="min-h-full bg-[#f0f0f3] pb-16 dark:bg-[#2c2c2e]">
       <div className="ml-auto w-1/2">
-        <div className="mx-auto flex w-[92%] max-w-[560px] flex-col gap-10 pt-10">
+        <div className="mx-auto flex w-[92%] max-w-[560px] flex-col gap-10 pt-6">
           {/* Me — component set with variants */}
           <Draggable className="mx-auto w-max max-w-full"><ZoomFrame label="❖ Me" scale={1.4}>
             <p className="mb-1.5 flex items-center gap-1.5 text-[12px] font-medium text-accent">

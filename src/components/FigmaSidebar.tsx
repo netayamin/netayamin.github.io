@@ -132,7 +132,7 @@ export default function FigmaSidebar() {
   return (
     <aside className="flex w-64 shrink-0 flex-col border-r border-line bg-card">
       {/* Identity */}
-      <div className="flex items-start gap-3 px-4 pb-4 pt-10">
+      <div className="flex items-start gap-3 px-4 pb-4 pt-6">
         <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-line bg-bg text-lg font-bold">
           N
         </span>

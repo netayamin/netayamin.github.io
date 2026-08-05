@@ -324,11 +324,14 @@ export default function ZeroToOne() {
     };
 
     let id: ReturnType<typeof setInterval> | undefined;
-    // Let the page land before the game starts — a beat to orient.
+    // Mazi is visible at her start mark immediately; the game itself
+    // begins after a beat so visitors can orient.
+    px = imX();
+    setX(px);
+    setRunning(true);
     const startTimer = setTimeout(() => {
-      px = imX(); // spawn directly under the im tile
+      px = imX(); // re-measure in case fonts/layout settled
       setX(px);
-      setRunning(true);
       window.addEventListener("keydown", onKeyDown);
       window.addEventListener("keyup", onKeyUp);
       id = setInterval(tick, TICK_MS);

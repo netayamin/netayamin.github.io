@@ -62,7 +62,7 @@ export default function SnagrDesigner() {
   return (
     <FigmaCanvas className="min-h-full bg-[#f0f0f3] pb-16 dark:bg-[#2c2c2e]">
       <div className="ml-auto w-1/2">
-        <div className="mx-auto flex w-[86%] max-w-[420px] flex-col gap-10 pt-10">
+        <div className="mx-auto flex w-[86%] max-w-[420px] flex-col gap-10 pt-6">
           {/* Brand */}
           <Draggable><ZoomFrame label="Brand" scale={1.6}>
             <FrameLabel>Brand</FrameLabel>
