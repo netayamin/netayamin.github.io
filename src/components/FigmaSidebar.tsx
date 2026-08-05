@@ -1,108 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { ChevronDown, FileText, Mail, Plus, Search, SquarePen } from "lucide-react";
+import { useState } from "react";
+import { ChevronDown, FileText, Mail, Plus, SquarePen } from "lucide-react";
 import { LinkedInIcon } from "./BrandIcons";
 import ThemeToggle from "./ThemeToggle";
 import { usePage, type PageId } from "@/context/PageContext";
 import ResumeViewer from "./ResumeViewer";
-
-// The search works — it's just honest about the inventory. Every query
-// returns the whole portfolio (it's five things), plus a couple of
-// query-aware easter eggs.
-function SearchBox({ onGo }: { onGo: (page: PageId) => void }) {
-  const [q, setQ] = useState("");
-  const [open, setOpen] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "/") {
-        e.preventDefault();
-        inputRef.current?.focus();
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
-
-  const results: Array<{ icon: string; label: string; note: string; go?: PageId; href?: string }> = [];
-  if (/mazi|dog|puppy|good girl/i.test(q)) {
-    results.push({ icon: "🦴", label: "Every photo of Mazi", note: "you get it", go: "me" });
-  }
-  if (/hire|job|work|available|opening/i.test(q)) {
-    results.push({ icon: "✅", label: "Availability: yes", note: "netayamin@gmail.com", href: "mailto:netayamin@gmail.com" });
-  }
-  if (/impossible/i.test(q)) {
-    results.push({ icon: "🗑️", label: "im", note: "recently deleted (many times)" });
-  }
-  results.push(
-    { icon: "🐶", label: "Mazi", note: "matches every search. Good girl.", go: "me" },
-    { icon: "🍽️", label: "Snagr", note: "the case study", go: "snagr" },
-    { icon: "📄", label: "Resume.md", note: "the serious stuff", go: "me" },
-  );
-
-  return (
-    <div className="relative px-4 pb-5">
-      <div className="flex items-center gap-2 rounded-lg bg-fg/[0.04] px-3 py-2 text-[13px] text-muted focus-within:ring-1 focus-within:ring-accent dark:bg-white/[0.06]">
-        <Search size={14} />
-        <input
-          ref={inputRef}
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          onFocus={() => setOpen(true)}
-          onBlur={() => setTimeout(() => setOpen(false), 150)}
-          placeholder="Search-ish"
-          className="w-full flex-1 bg-transparent text-fg outline-none placeholder:text-muted"
-        />
-        <kbd className="font-sans text-[11px] text-muted/70">⌘ /</kbd>
-      </div>
-
-      {open && q.trim() && (
-        <div className="absolute inset-x-4 top-full z-30 mt-1 rounded-xl border border-line bg-card p-1.5 shadow-lg">
-          <p className="px-2 pb-1 pt-0.5 text-[10px] text-muted">
-            Found the usual:
-          </p>
-          {results.map((r) => {
-            const inner = (
-              <>
-                <span className="text-[14px]">{r.icon}</span>
-                <span className="min-w-0">
-                  <span className="block truncate text-[12.5px] font-medium text-fg">{r.label}</span>
-                  <span className="block truncate text-[10.5px] text-muted">{r.note}</span>
-                </span>
-              </>
-            );
-            const cls =
-              "flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left transition-colors hover:bg-fg/5";
-            return r.href ? (
-              <a key={r.label} href={r.href} className={cls}>
-                {inner}
-              </a>
-            ) : (
-              <button
-                key={r.label}
-                type="button"
-                className={cls}
-                onMouseDown={(e) => e.preventDefault()}
-                onClick={() => {
-                  if (r.go) onGo(r.go);
-                  setOpen(false);
-                  setQ("");
-                }}
-              >
-                {inner}
-              </button>
-            );
-          })}
-          <p className="border-t border-line px-2 pb-1 pt-1.5 text-[10px] leading-relaxed text-muted">
-            It&rsquo;s five things. You just saw all of them.
-          </p>
-        </div>
-      )}
-    </div>
-  );
-}
 
 const PAGES: Array<{ id: PageId; name: string }> = [{ id: "me", name: "Me" }];
 
@@ -151,9 +54,6 @@ export default function FigmaSidebar() {
           <SquarePen size={15} />
         </button>
       </div>
-
-      {/* Search */}
-      <SearchBox onGo={setPage} />
 
       {/* Pages */}
       <div className="px-4">
