@@ -456,18 +456,21 @@ export default function ZeroToOne() {
           {dunking && <span className="zto-im-tile zto-toss">im</span>}
         </span>
 
-        {/* HUD — score + chrome-dino-style controls legend */}
-        <span className="absolute right-4 top-1.5 flex items-center gap-3 text-[9px] text-muted">
-          {coins > 0 && <span className="text-[10px] font-semibold">🗑️×{coins}</span>}
-          <span className="flex items-center gap-1">
-            <kbd className="rounded border border-line bg-card/70 px-1 leading-[1.5]">←</kbd>
-            <kbd className="rounded border border-line bg-card/70 px-1 leading-[1.5]">→</kbd>
-            <span className="mr-1">run</span>
-            <kbd className="rounded border border-line bg-card/70 px-1 leading-[1.5]">↑</kbd>
-            <span>jump</span>
-            {!manual && <span className="ml-1 opacity-70">— take over</span>}
-          </span>
+        {/* HUD — controls top-left where they're seen, score top-right */}
+        <span className="absolute left-5 top-1 flex items-center gap-1.5 text-[10px] font-medium text-muted">
+          <span aria-hidden>🎮</span>
+          <kbd className="rounded-md border border-line bg-card px-1.5 py-px shadow-sm">←</kbd>
+          <kbd className="rounded-md border border-line bg-card px-1.5 py-px shadow-sm">→</kbd>
+          <span>move</span>
+          <kbd className="ml-1 rounded-md border border-line bg-card px-1.5 py-px shadow-sm">↑</kbd>
+          <span>jump</span>
+          {!manual && <span className="ml-1 text-accent">— help Mazi!</span>}
         </span>
+        {coins > 0 && (
+          <span className="absolute right-4 top-1.5 text-[10px] font-semibold text-muted">
+            🗑️×{coins}
+          </span>
+        )}
 
         {/* runner */}
         {running && (
