@@ -72,15 +72,14 @@ Changing the shape of the user's question means redesigning the shape of the ans
 
 I also deleted things I loved — the feed, the voting, a whole social layer (shared plans are collaborative, not social) — and reversed myself once: plan emoji were cut on principle ("a plan is identified by its criteria"), then reinstated when real use proved criteria don't help you *recognize* your plan in a list. The reversal taught me more than either decision.
 
-## Empathy as design rules
-
-The spine of the product came from taking one moment seriously: tapping a "live" table that's already gone. That tap is a small betrayal — worse than silence, because the app promised. So:
-
-- **Never show false availability.** Unverifiable means invisible.
-- **"We're not watching this spot yet" — never "No tables."** Absence of information is not a negative fact.
-- **Specificity earns interruption.** Vague plans respect quiet hours; only an exact ask may buzz you at 2am — and skipped pushes are never replayed at breakfast.
-- **Prove you're alive** while being invisible, so trust survives the silent days.
-
 ## Research, honestly
 
-No interviews or usability tests ran pre-launch — I'd rather say so than pretend. What existed: daily dogfooding (every plan was a dinner I truly wanted) and beta testers filing bugs by shaking their phone — of the first five reports, three were *trust* bugs, not visual ones. Users tell you where it hurts when reporting costs them nothing. Next, in order: contextual interviews to pressure-test the personas and core hypothesis, then a two-week notification diary — the line between "helpful" and "muted" is the product's whole life.`;
+No interviews or usability tests ran pre-launch — I'd rather say so than pretend. What existed: daily dogfooding (every plan was a dinner I truly wanted) and beta testers filing bugs by shaking their phone — of the first five reports, three were *trust* bugs, not visual ones. Users tell you where it hurts when reporting costs them nothing. Next, in order: contextual interviews to pressure-test the personas and core hypothesis, then a two-week notification diary — the line between "helpful" and "muted" is the product's whole life.
+
+## What I learned
+
+- **Engagement is not value.** The best Snagr session is fifteen seconds long and ends at a dinner table. Designing for absence — being trustworthy while invisible — is harder than designing for attention.
+- **Trust is the actual product.** One tap on a dead table costs more than a week of silence. That's why nothing unverifiable is ever shown, why an empty state says "we're not watching this spot yet" instead of "no tables," and why only a specific ask earns a 2am interruption.
+- **People want outcomes, not jobs.** Every feature that asked users to work — voting, curating, configuring — died. Every feature that quietly did the work survived.
+- **Delete your darlings, and admit the reversals.** The feed, the voting, the social layer all went; the emoji came back. The reversal taught me more than either decision.
+- **A solo builder's biggest risk is building for herself.** Which is exactly why the next chapter of this product belongs to research.`;
