@@ -483,7 +483,7 @@ export default function ZeroToOne() {
             <span>move</span>
             <kbd className="ml-1 rounded-md border border-line bg-card px-1.5 py-px shadow-sm">↑</kbd>
             <span>jump</span>
-            {!manual && <span className="ml-1 text-accent">— help Mazi!</span>}
+            {!manual && <span className="ml-1 text-accent">help Mazi!</span>}
           </span>
         </div>
 

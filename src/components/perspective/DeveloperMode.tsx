@@ -1,7 +1,7 @@
 import MarkdownDoc from "./MarkdownDoc";
 
 // The real resume, straight from the CV — the text lens of the Me page.
-const RESUME = `# Neta Yamin — Design Engineer
+const RESUME = `# Neta Yamin · Design Engineer
 *New York, NY · netayamin@gmail.com*
 
 ## Summary
@@ -27,11 +27,11 @@ Design-minded software engineer with 5+ years building intuitive products across
 - Scalable frontend architecture and reusable UI components for enterprise web apps
 
 ## Projects
-- **Snagr** — native SwiftUI, idea → App Store launch
-- **Peel** — AI-powered commercial real estate · getpeel.co
+- **Snagr**: native SwiftUI, idea → App Store launch
+- **Peel**: AI-powered commercial real estate · getpeel.co
 
 ## Sidekick
-- Mazi — Chief Morale Officer, barks at bugs`;
+- Mazi: Chief Morale Officer, barks at bugs`;
 
 // The developer lens of Me: the actual resume as Resume.md.
 export default function DeveloperMode() {

@@ -44,7 +44,7 @@ const MAZI_VARIANTS = [
   {
     id: "sleep",
     label: "DND",
-    caption: "Do Not Disturb — recharging after a long sprint of naps.",
+    caption: "Do Not Disturb. Recharging after a long sprint of naps.",
     src: "/mazi/sleep.jpg",
   },
   {
@@ -68,7 +68,7 @@ const MAZI_VARIANTS = [
   {
     id: "camping",
     label: "Camping",
-    caption: "Mazi camping. Glamping, actually — she has standards.",
+    caption: "Mazi camping. Glamping, actually. She has standards.",
     src: "/mazi/camping.jpg",
   },
 ];
