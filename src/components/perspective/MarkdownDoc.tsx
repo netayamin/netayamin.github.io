@@ -190,7 +190,7 @@ export default function MarkdownDoc({
           </button>
         </div>
       </div>
-      <h1 className="mb-5 text-[26px] font-bold leading-tight tracking-tight">{title}</h1>
+      <h1 className="mb-5 font-[family-name:var(--font-serif)] text-[30px] font-semibold italic leading-[1.15] tracking-tight">{title}</h1>
       {raw ? <Raw source={source} /> : <Formatted source={body} />}
     </div>
   );
