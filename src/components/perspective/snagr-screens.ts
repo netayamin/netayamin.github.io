@@ -16,6 +16,14 @@ export const SNAGR_SCREENS: SnagrScreen[] = [
     title: "Home · Plans",
     caption:
       "The real home screen: two plans quietly watching (15 and 26 tables live), and editorial collections ready to become the next plan.",
+    anchor: "who-what-when-where-why-how",
+    offset: 190,
+  },
+  {
+    file: "collection.png",
+    title: "Collection · Declare",
+    caption:
+      "Selection is creation: an Infatuation guide with tickable venues, three taps from editorial list to live plan. 'In Wednesday Dinner' marks what's already being watched.",
     anchor: "the-journey-with-snagr",
     offset: 130,
   },
