@@ -164,7 +164,7 @@ export default function ZeroToOne() {
 
   return (
     <span className="zto-scene zto-ground" aria-hidden>
-      Nothing is{" "}
+      Everything is{" "}
       {!imTaken && (
         <span ref={imRef} className={phase === "respawn" ? "zto-im zto-pop" : "zto-im"}>
           im

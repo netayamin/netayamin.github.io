@@ -103,9 +103,23 @@ body {
   animation: zto-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* The sentence is a floating platform in the header's level */
 .zto-ground {
-  padding-bottom: 3px;
-  border-bottom: 1px solid var(--line);
+  padding-bottom: 4px;
+  border-bottom: 3px solid #a97c50;
+}
+
+.cloud-drift {
+  animation: cloud-sway 16s ease-in-out infinite alternate;
+}
+
+.cloud-drift-slow {
+  animation: cloud-sway 24s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes cloud-sway {
+  from { transform: translateX(0); }
+  to { transform: translateX(18px); }
 }
 
 .zto-soi {
