@@ -37,27 +37,27 @@ function PixelCloud({ className = "" }: { className?: string }) {
   );
 }
 
-// The nav bar is a tiny platformer level: sky with clouds and sun, trees
-// and grass along the bottom, a goal flag at the far right — and the
-// tagline sentence is the floating platform the builder runs on.
+// The nav bar is a tiny platformer level: sky, clouds, sun, trees, and a
+// grass floor. The game itself (sentence → rocks → trash can) lives in
+// ZeroToOne, layered on top.
 function Backdrop() {
   return (
     <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
-      <span className="absolute right-10 top-1.5 h-3.5 w-3.5 rounded-[3px] bg-[#ffd23f] shadow-[0_0_10px_rgba(255,210,63,0.55)]" />
+      <span className="absolute right-24 top-1.5 h-3.5 w-3.5 rounded-[3px] bg-[#ffd23f] shadow-[0_0_10px_rgba(255,210,63,0.55)]" />
       <PixelCloud className="cloud-drift absolute left-[46%] top-1.5 text-[#e4e4ec] dark:text-white/10" />
       <PixelCloud className="cloud-drift-slow absolute left-[68%] top-5 scale-75 text-[#ececf2] dark:text-white/[0.07]" />
-      <span className="absolute bottom-[5px] right-[7%]">
+      <span className="absolute bottom-[5px] right-[10%]">
         <PixelTree size={30} />
       </span>
-      <span className="absolute bottom-[5px] right-[16%] opacity-90">
-        <PixelTree size={22} />
-      </span>
       <span className="absolute bottom-[5px] left-[58%] opacity-80">
-        <PixelTree size={17} />
+        <PixelTree size={18} />
+      </span>
+      <span className="absolute bottom-[5px] left-[74%] opacity-90">
+        <PixelTree size={23} />
       </span>
       {/* bush */}
       <svg
-        className="absolute bottom-[5px] right-[26%]"
+        className="absolute bottom-[5px] left-[40%]"
         width="22"
         height="8"
         viewBox="0 0 11 4"
@@ -65,17 +65,6 @@ function Backdrop() {
       >
         <rect x="1" y="2" width="9" height="2" fill="#57ab4a" />
         <rect x="3" y="0" width="5" height="2" fill="#6dc25e" />
-      </svg>
-      {/* goal flag */}
-      <svg
-        className="absolute bottom-[5px] right-3"
-        width="12"
-        height="26"
-        viewBox="0 0 6 13"
-        shapeRendering="crispEdges"
-      >
-        <rect x="0" y="0" width="1" height="13" fill="#8a8a92" />
-        <path d="M1 0 L6 1.5 L1 3 Z" fill="#7c5cfc" />
       </svg>
       {/* grass strip */}
       <svg className="absolute inset-x-0 bottom-0 h-[6px] w-full" preserveAspectRatio="none">
@@ -94,14 +83,9 @@ function Backdrop() {
 
 export default function Header() {
   return (
-    <header className="relative flex h-14 shrink-0 items-end overflow-hidden border-b border-line px-5">
+    <header className="relative h-14 shrink-0 overflow-hidden border-b border-line">
       <Backdrop />
-      <span
-        className="relative z-10 pb-[6px] text-[13px] font-medium text-muted"
-        aria-label="Everything is possible: improve, impress, impact."
-      >
-        <ZeroToOne />
-      </span>
+      <ZeroToOne />
     </header>
   );
 }

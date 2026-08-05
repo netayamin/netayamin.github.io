@@ -2,11 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 
-// The header is one sentence-sized platformer level:
-//   "Going from 0 to 1 is impossible. So I ▯prove · ▯press · ▯pact"
-// The builder rips the "im" off "impossible" (…is possible ✨), welds it
-// into the next empty slot — improve, impress, impact stay built — and
-// the "im" respawns like a coin. Build all three and the level clears.
+// The header game, one sentence long: "Everything is impossible." The
+// builder rips the im tile out of the word, carries it across the level
+// — hopping the rocks in his way — and dumps it in the trash can at the
+// far right. The im respawns (they always do), and he does it again.
+// Score ticks up with every im disposed of.
 const CAP = "#7c5cfc";
 const SKIN = "#f2c9a1";
 const DARK = "#3f2a1d";
@@ -17,11 +17,11 @@ const TICK_MS = 70;
 const STEP = 3;
 const RUNNER_W = 18;
 const GRAB_TICKS = 5;
-const INSTALL_TICKS = 12;
-const CLEAR_TICKS = 26;
-const RESPAWN_TICKS = 6;
-
-const WORDS = ["prove", "press", "pact"];
+const DUNK_TICKS = 9;
+const RESPAWN_TICKS = 8;
+const JUMP_ARC = [5, 9, 12, 12, 9, 5];
+const OBSTACLES = [0.5, 0.66, 0.82]; // fractions of the level width
+const OB_W = 12;
 
 function Body() {
   return (
@@ -68,36 +68,77 @@ function PixelRunner({ frame }: { frame: 0 | 1 }) {
   );
 }
 
-type Phase = "grab" | "carry" | "install" | "clear" | "back" | "respawn";
+function Rock() {
+  return (
+    <svg width="12" height="8" viewBox="0 0 6 4" shapeRendering="crispEdges" aria-hidden>
+      <rect x="1" y="1" width="4" height="3" fill="#9a9aa2" />
+      <rect x="0" y="2" width="6" height="2" fill="#83838c" />
+      <rect x="2" y="0" width="2" height="1" fill="#b0b0b8" />
+    </svg>
+  );
+}
+
+function TrashCan({ open }: { open: boolean }) {
+  return (
+    <svg width="22" height="26" viewBox="0 0 11 13" shapeRendering="crispEdges" aria-hidden>
+      <g className={open ? "zto-lid zto-lid-open" : "zto-lid"}>
+        <rect x="0" y="2" width="11" height="1.5" fill="#6d6d76" />
+        <rect x="4" y="0.5" width="3" height="1.5" fill="#6d6d76" />
+      </g>
+      <rect x="1" y="4" width="9" height="9" fill="#8a8a92" />
+      <rect x="3" y="5.5" width="1" height="6" fill="#6d6d76" />
+      <rect x="5" y="5.5" width="1" height="6" fill="#6d6d76" />
+      <rect x="7" y="5.5" width="1" height="6" fill="#6d6d76" />
+    </svg>
+  );
+}
+
+type Phase = "grab" | "carry" | "dunk" | "back" | "respawn";
 
 export default function ZeroToOne() {
+  const sceneRef = useRef<HTMLDivElement>(null);
+  const sentenceRef = useRef<HTMLSpanElement>(null);
   const imRef = useRef<HTMLSpanElement>(null);
-  const slotRefs = useRef<Array<HTMLSpanElement | null>>([]);
   const [running, setRunning] = useState(false);
   const [x, setX] = useState(0);
+  const [jumpY, setJumpY] = useState(0);
   const [phase, setPhase] = useState<Phase>("grab");
   const [imTaken, setImTaken] = useState(false);
-  const [builtSlots, setBuiltSlots] = useState<boolean[]>([false, false, false]);
+  const [dunking, setDunking] = useState(false);
   const [coins, setCoins] = useState(0);
-  const [showClear, setShowClear] = useState(false);
 
   useEffect(() => {
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setImTaken(true);
-      setBuiltSlots([true, true, true]); // static, fully-built sentence
-      return;
-    }
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     setRunning(true);
 
     let px: number | null = null;
     let ph: Phase = "grab";
     let wait = GRAB_TICKS;
-    let target = 0;
+    let jumpT = -1;
 
-    const imX = () => (imRef.current ? imRef.current.offsetLeft - RUNNER_W + 6 : 0);
-    const slotX = (i: number) => {
-      const el = slotRefs.current[i];
-      return el ? el.offsetLeft - RUNNER_W + 8 : 300;
+    const sceneW = () => sceneRef.current?.offsetWidth ?? 900;
+    const imX = () => {
+      const s = sentenceRef.current;
+      const im = imRef.current;
+      return s && im ? s.offsetLeft + im.offsetLeft - RUNNER_W + 6 : 60;
+    };
+    const trashX = () => sceneW() - 52;
+    const obstacleXs = () => OBSTACLES.map((f) => f * sceneW());
+
+    const move = (dir: 1 | -1) => {
+      px! += STEP * dir;
+      if (jumpT >= 0) {
+        jumpT += 1;
+        if (jumpT >= JUMP_ARC.length) jumpT = -1;
+      } else {
+        for (const obX of obstacleXs()) {
+          const gap = dir > 0 ? obX - (px! + RUNNER_W) : px! - (obX + OB_W);
+          if (gap >= 0 && gap <= 6) {
+            jumpT = 0;
+            break;
+          }
+        }
+      }
     };
 
     const id = setInterval(() => {
@@ -109,39 +150,26 @@ export default function ZeroToOne() {
           ph = "carry";
         }
       } else if (ph === "carry") {
-        px += STEP;
-        if (px >= slotX(target)) {
-          px = slotX(target);
-          const idx = target;
-          setBuiltSlots((b) => b.map((v, i) => (i === idx ? true : v)));
+        move(1);
+        if (px >= trashX()) {
+          px = trashX();
+          jumpT = -1;
+          setDunking(true);
           setCoins((c) => c + 1);
-          ph = "install";
-          wait = INSTALL_TICKS;
+          ph = "dunk";
+          wait = DUNK_TICKS;
         }
-      } else if (ph === "install") {
+      } else if (ph === "dunk") {
         if (--wait <= 0) {
-          if (target === WORDS.length - 1) {
-            setShowClear(true);
-            setCoins((c) => c + 2); // level bonus
-            ph = "clear";
-            wait = CLEAR_TICKS;
-          } else {
-            target += 1;
-            ph = "back";
-          }
-        }
-      } else if (ph === "clear") {
-        if (--wait <= 0) {
-          setShowClear(false);
-          setBuiltSlots([false, false, false]);
-          target = 0;
+          setDunking(false);
           ph = "back";
         }
       } else if (ph === "back") {
-        px -= STEP;
+        move(-1);
         if (px <= imX()) {
           px = imX();
-          setImTaken(false); // the "im" respawns
+          jumpT = -1;
+          setImTaken(false); // it respawns. It always respawns.
           ph = "respawn";
           wait = RESPAWN_TICKS;
         }
@@ -151,7 +179,9 @@ export default function ZeroToOne() {
           wait = GRAB_TICKS;
         }
       }
+
       setX(px);
+      setJumpY(jumpT >= 0 && jumpT < JUMP_ARC.length ? JUMP_ARC[jumpT] : 0);
       setPhase(ph);
     }, TICK_MS);
 
@@ -159,55 +189,72 @@ export default function ZeroToOne() {
   }, []);
 
   const frame = (running ? Math.floor(x / 6) % 2 : 0) as 0 | 1;
-  const carrying = phase === "carry";
+  const carrying = phase === "carry" && imTaken;
   const facingLeft = phase === "back";
 
   return (
-    <span className="zto-scene zto-ground" aria-hidden>
-      Everything is{" "}
-      {!imTaken && (
-        <span ref={imRef} className={phase === "respawn" ? "zto-im zto-pop" : "zto-im"}>
-          im
-        </span>
-      )}
-      <span className={imTaken ? "zto-possible zto-possible-on" : "zto-possible"}>
-        possible.
-      </span>
-      {WORDS.map((word, i) => (
+    <div
+      ref={sceneRef}
+      role="img"
+      aria-label="Everything is possible. (A tiny pixel builder keeps hauling the 'im' from 'impossible' to the trash.)"
+      className="absolute inset-0"
+    >
+      <div aria-hidden className="absolute inset-0">
+        {/* the sentence, standing on the grass */}
         <span
-          key={word}
-          ref={(el) => {
-            slotRefs.current[i] = el;
-          }}
-          style={i === 0 ? { marginLeft: 18 } : undefined}
-          className={builtSlots[i] ? "zto-slotbox zto-slotbox-built" : "zto-slotbox"}
+          ref={sentenceRef}
+          className="absolute bottom-[5px] left-5 whitespace-nowrap text-[13px] font-medium text-muted"
         >
-          {builtSlots[i] ? (
-            <>
-              <span className="zto-built zto-pop">im</span>
-              <span className="zto-built">{word}</span>
-            </>
-          ) : (
-            <>
-              <span className="zto-gap">▯</span>
-              <span className="zto-site-word">{word}</span>
-            </>
-          )}
+          Everything is{" "}
+          <span ref={imRef}>
+            {imTaken ? (
+              <span className="zto-hole">▯</span>
+            ) : (
+              <span className={phase === "respawn" ? "zto-im-tile zto-pop" : "zto-im-tile"}>
+                im
+              </span>
+            )}
+          </span>
+          <span className={imTaken ? "zto-possible zto-possible-on" : "zto-possible"}>
+            possible.
+          </span>
         </span>
-      ))}
-      {coins > 0 && <span className="zto-coins">🪙×{coins}</span>}
 
-      {showClear && <span className="zto-clear">LEVEL CLEAR!</span>}
+        {/* obstacles */}
+        {OBSTACLES.map((f) => (
+          <span key={f} className="absolute bottom-[5px]" style={{ left: `${f * 100}%` }}>
+            <Rock />
+          </span>
+        ))}
 
-      {running && (
-        <span
-          className="zto-player"
-          style={{ left: x, transform: facingLeft ? "scaleX(-1)" : undefined }}
-        >
-          {carrying && <span className="zto-loot">im</span>}
-          <PixelRunner frame={frame} />
+        {/* the trash can */}
+        <span className="absolute bottom-[5px] right-[30px]">
+          <TrashCan open={dunking} />
+          {dunking && <span className="zto-im-tile zto-toss">im</span>}
         </span>
-      )}
-    </span>
+
+        {/* HUD */}
+        {coins > 0 && (
+          <span className="absolute right-4 top-1.5 text-[10px] font-semibold text-muted">
+            🗑️×{coins}
+          </span>
+        )}
+
+        {/* runner */}
+        {running && (
+          <span
+            className="zto-player"
+            style={{
+              left: x,
+              bottom: 5 + jumpY,
+              transform: facingLeft ? "scaleX(-1)" : undefined,
+            }}
+          >
+            {carrying && <span className="zto-loot">im</span>}
+            <PixelRunner frame={frame} />
+          </span>
+        )}
+      </div>
+    </div>
   );
 }
