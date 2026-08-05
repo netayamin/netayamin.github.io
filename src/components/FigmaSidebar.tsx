@@ -5,6 +5,7 @@ import { ChevronDown, FileText, Mail, Plus, Search, SquarePen } from "lucide-rea
 import { LinkedInIcon } from "./BrandIcons";
 import ThemeToggle from "./ThemeToggle";
 import { usePage, type PageId } from "@/context/PageContext";
+import ResumeViewer from "./ResumeViewer";
 
 // The search works — it's just honest about the inventory. Every query
 // returns the whole portfolio (it's five things), plus a couple of
@@ -118,17 +119,13 @@ const PROJECTS: Array<{
 ];
 
 const LINKS = [
-  {
-    label: "Resume",
-    href: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/resume.pdf`,
-    icon: <FileText size={15} />,
-  },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/neta-y/", icon: <LinkedInIcon size={15} /> },
   { label: "Email", href: "mailto:netayamin@gmail.com", icon: <Mail size={15} /> },
 ];
 
 export default function FigmaSidebar() {
   const { page, setPage } = usePage();
+  const [resumeOpen, setResumeOpen] = useState(false);
   return (
     <aside className="flex w-64 shrink-0 flex-col border-r border-line bg-card">
       {/* Identity */}
@@ -241,6 +238,14 @@ export default function FigmaSidebar() {
 
       {/* Links + theme */}
       <div className="border-t border-line px-4 py-4">
+        <button
+          type="button"
+          onClick={() => setResumeOpen(true)}
+          className="flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-[13px] text-fg/80 transition-colors hover:bg-fg/5 hover:text-fg"
+        >
+          <FileText size={15} />
+          Resume
+        </button>
         {LINKS.map((link) => (
           <a
             key={link.label}
@@ -257,6 +262,7 @@ export default function FigmaSidebar() {
           <ThemeToggle />
         </div>
       </div>
+      {resumeOpen && <ResumeViewer onClose={() => setResumeOpen(false)} />}
     </aside>
   );
 }
