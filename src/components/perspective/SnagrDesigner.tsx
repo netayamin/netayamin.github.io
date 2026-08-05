@@ -68,9 +68,12 @@ export default function SnagrDesigner() {
           <AnchoredFrame anchor="who-what-when-where-why-how" offset={0}><Draggable><ZoomFrame label="Brand" scale={1.6}>
             <FrameLabel>Brand</FrameLabel>
             <div className="flex items-center gap-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-[#1f1f22]">
-              <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#9d7bff] to-[#6a45f0] text-2xl font-bold text-white">
-                S
-              </span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/snagr/icon.png`}
+                alt="Snagr app icon"
+                className="h-14 w-14 rounded-2xl shadow-sm"
+              />
               <div>
                 <p className="text-xl font-bold text-neutral-900 dark:text-white">Snagr</p>
                 <a

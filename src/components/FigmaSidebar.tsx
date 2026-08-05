@@ -11,12 +11,13 @@ const PAGES: Array<{ id: PageId; name: string }> = [{ id: "me", name: "Me" }];
 
 const PROJECTS: Array<{
   emoji: string;
+  icon?: string;
   name: string;
   page?: PageId;
   href?: string;
   soon?: boolean;
 }> = [
-  { emoji: "🍽️", name: "Snagr", page: "snagr" },
+  { emoji: "", icon: "/snagr/icon.png", name: "Snagr", page: "snagr" },
   { emoji: "📋", name: "Peel", soon: true },
   { emoji: "🧪", name: "Experiments", soon: true },
 ];
@@ -116,7 +117,16 @@ export default function FigmaSidebar() {
               onClick={() => setPage(project.page!)}
               className={classes}
             >
-              <span className="text-[15px] leading-none">{project.emoji}</span>
+              {project.icon ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${project.icon}`}
+                  alt=""
+                  className="h-[18px] w-[18px] rounded-[5px]"
+                />
+              ) : (
+                <span className="text-[15px] leading-none">{project.emoji}</span>
+              )}
               {project.name}
             </button>
           ) : (
