@@ -6,6 +6,13 @@ import { useState } from "react";
 // belongs to the document, not the window). Preview renders a minimal
 // markdown subset: #/##/### headings, -/1. lists, > quotes, **bold**,
 // *italic*. Raw shows the highlighted source.
+export function mdSlug(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 type Tone = "h1" | "h2" | "h3" | "bullet" | "quote" | "meta" | "body";
 
 const RAW_TONE_CLASS: Record<Tone, string> = {
@@ -100,7 +107,11 @@ function Formatted({ source }: { source: string }) {
       );
     } else if (t.startsWith("## ")) {
       blocks.push(
-        <h2 key={blocks.length} className="mt-2 text-[16px] font-bold tracking-tight">
+        <h2
+          key={blocks.length}
+          data-md-anchor={mdSlug(t.slice(3))}
+          className="mt-2 text-[16px] font-bold tracking-tight"
+        >
           {t.slice(3)}
         </h2>,
       );
