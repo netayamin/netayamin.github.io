@@ -171,6 +171,7 @@ export default function ZeroToOne() {
       } else if (ph === "dunk") {
         if (--wait <= 0) {
           setDunking(false);
+          setImTaken(false); // a new im pops in across the level — go get it
           ph = "back";
         }
       } else if (ph === "back") {
@@ -178,7 +179,6 @@ export default function ZeroToOne() {
         if (px <= imX()) {
           px = imX();
           jumpT = -1;
-          setImTaken(false); // it respawns. It always respawns.
           ph = "respawn";
           wait = RESPAWN_TICKS;
         }
@@ -219,7 +219,7 @@ export default function ZeroToOne() {
             {imTaken ? (
               <span className="zto-hole">▯</span>
             ) : (
-              <span className={phase === "respawn" ? "zto-im-tile zto-pop" : "zto-im-tile"}>
+              <span className={phase === "back" ? "zto-im-tile zto-pop" : "zto-im-tile"}>
                 im
               </span>
             )}
