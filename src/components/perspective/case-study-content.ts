@@ -1,9 +1,9 @@
 // Snagr case study (~1161 words): 5W1H, personas, journey maps,
 // empathy-led decisions. Facts from docs/snagr-case-study.md in the snagr repo;
 // personas marked provisional pending interviews.
-export const CASE_STUDY = `# Snagr — Product Design Case Study
+export const CASE_STUDY = `# Designing for a question reservation apps were never built to answer
 
-*Designing for a question reservation apps were never built to answer.*
+*Snagr — Product Design Case Study*
 
 **Tools:** SwiftUI · Xcode · Node.js backend · Redis · Render (deploy) · GitHub Actions CI/CD · TestFlight
 
