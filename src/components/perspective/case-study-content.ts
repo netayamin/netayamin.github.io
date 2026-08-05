@@ -7,8 +7,6 @@ export const CASE_STUDY = `# Snagr — Product Design Case Study
 
 **Tools:** SwiftUI · Xcode · Node.js backend · Redis · Render (deploy) · GitHub Actions CI/CD · TestFlight
 
-*Solo: product, design, and build — 17 weeks to TestFlight build 69.*
-
 ## Who, what, when, where, why, how
 
 **Who.** The friend who carries the dinner — the group's planner, late 20s to 40s, living in a reservation-scarce city. Secondary: the rest of their group chat, who just want to be told where to show up.
@@ -85,8 +83,4 @@ The spine of the product came from taking one moment seriously: tapping a "live"
 
 ## Research, honestly
 
-No interviews or usability tests ran pre-launch — I'd rather say so than pretend. What existed: daily dogfooding (every plan was a dinner I truly wanted) and beta testers filing bugs by shaking their phone — of the first five reports, three were *trust* bugs, not visual ones. Users tell you where it hurts when reporting costs them nothing. Next, in order: contextual interviews to pressure-test the personas and core hypothesis, then a two-week notification diary — the line between "helpful" and "muted" is the product's whole life.
-
-## Where it landed
-
-TestFlight build 69, App Store review prepared, guides across New York and Paris. Open and named: notification fatigue has no design answer yet, and the catalog can't watch everything it shows. The journey continues — the most honest thing a 0 → 1 product can say.`;
+No interviews or usability tests ran pre-launch — I'd rather say so than pretend. What existed: daily dogfooding (every plan was a dinner I truly wanted) and beta testers filing bugs by shaking their phone — of the first five reports, three were *trust* bugs, not visual ones. Users tell you where it hurts when reporting costs them nothing. Next, in order: contextual interviews to pressure-test the personas and core hypothesis, then a two-week notification diary — the line between "helpful" and "muted" is the product's whole life.`;
