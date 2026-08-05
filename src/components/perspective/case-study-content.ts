@@ -3,7 +3,11 @@
 // personas marked provisional pending interviews.
 export const CASE_STUDY = `# Snagr — Product Design Case Study
 
-*A reservation-watching iOS app. Solo: product, design, and build — 17 weeks from a feeling to TestFlight build 69.*
+*Designing for a question reservation apps were never built to answer.*
+
+**Tools:** SwiftUI · Xcode · Node.js backend · Redis · Render (deploy) · GitHub Actions CI/CD · TestFlight
+
+*Solo: product, design, and build — 17 weeks to TestFlight build 69.*
 
 ## Who, what, when, where, why, how
 
@@ -48,7 +52,7 @@ The product opportunity is stages 3–5. Nothing on the market touches them: dis
 
 The reframe that shaped everything: people aren't trying to *find* a restaurant — they're trying to *stop checking* one. So the answer had to start from what's bookable, be group-native, and interrupt rather than be browsed. Rejected on the way: a discovery app (a better Beli — but discovery isn't the bottleneck), a group-chat bot (no control of the notification surface, and bots get muted), and a web app (the product *is* a timely push; that lives on iOS).
 
-## Designing for a question reservation apps were never built to answer
+## Breaking the one-reservation model
 
 Until now, every reservation product has been built around the same interaction: **one restaurant, one date, one time, one party size.** The interface is simple because the question is simple. Snagr intentionally breaks that model. A user isn't asking *"Can I book Carbone on Friday at 7?"* They're asking *"We're in Paris Aug 17–18, anytime between 6 and 9 PM, for 3–5 people — which restaurants from this list can actually work?"* That's a completely different problem.
 
@@ -81,7 +85,7 @@ The spine of the product came from taking one moment seriously: tapping a "live"
 
 ## Research, honestly
 
-No interviews or usability tests ran pre-launch, and this case study won't pretend otherwise. What existed: daily dogfooding (every plan was a dinner I truly wanted) and beta testers filing bugs by shaking their phone — of the first five reports, three were *trust* bugs, not visual ones. Users tell you where it hurts when reporting costs them nothing. Next, in order: contextual interviews to pressure-test the personas and core hypothesis, then a two-week notification diary — the line between "helpful" and "muted" is the product's whole life.
+No interviews or usability tests ran pre-launch — I'd rather say so than pretend. What existed: daily dogfooding (every plan was a dinner I truly wanted) and beta testers filing bugs by shaking their phone — of the first five reports, three were *trust* bugs, not visual ones. Users tell you where it hurts when reporting costs them nothing. Next, in order: contextual interviews to pressure-test the personas and core hypothesis, then a two-week notification diary — the line between "helpful" and "muted" is the product's whole life.
 
 ## Where it landed
 
