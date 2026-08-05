@@ -2,29 +2,29 @@
 
 import { useEffect, useRef, useState } from "react";
 
-// The header game, one sentence long: "Everything is impossible." The
-// builder rips the im tile out of the word, carries it across the level
-// — hopping the rocks in his way — and dumps it in the trash can at the
-// far right. The im respawns (they always do), and he does it again.
-// Score ticks up with every im disposed of.
-const CAP = "#7c5cfc";
-const SKIN = "#f2c9a1";
-const DARK = "#3f2a1d";
-const OVERALLS = "#2e3f6e";
-const BOOTS = "#5d4023";
-
+// The header game, one sentence long: "Everything is impossible." Pixel
+// Mazi rips the im tile out of the word, carries it in her mouth across
+// the level — leaping the hazards of shipping — and dumps it in the
+// trash can at the far right. The im respawns (they always do), and she
+// goes again. Score ticks up with every im disposed of.
 const TICK_MS = 70;
 const STEP = 3;
-const RUNNER_W = 18;
-const GRAB_TICKS = 7; // one jump's worth — he leaps up to grab the tile
+const RUNNER_W = 24;
+const GRAB_TICKS = 7; // one jump's worth — she leaps up to grab the tile
 const DUNK_TICKS = 9;
 const RESPAWN_TICKS = 8;
-const JUMP_ARC = [5, 9, 13, 13, 9, 5];
-const LONG_JUMP_ARC = [5, 9, 12, 14, 14, 14, 12, 9, 5]; // for wide hazards (scope creep)
+const JUMP_ARC = [6, 11, 16, 17, 17, 16, 11, 6];
+const LONG_JUMP_ARC = [6, 11, 15, 17, 18, 18, 18, 17, 15, 11, 6]; // wide hazards
+
+const FUR = "#1c1c1e";
+const FUR_DARK = "#0f0f10";
+const BEARD = "#6b6b70";
+const EYE = "#b5651d";
+const TAG = "#e0b13e";
 
 function PixelBug() {
   return (
-    <svg width="13" height="8" viewBox="0 0 13 8" shapeRendering="crispEdges" aria-hidden>
+    <svg width="20" height="12" viewBox="0 0 13 8" shapeRendering="crispEdges" aria-hidden>
       <rect x="1" y="6" width="2" height="2" fill="#3f2a1d" />
       <rect x="5" y="6" width="2" height="2" fill="#3f2a1d" />
       <rect x="8" y="6" width="2" height="2" fill="#3f2a1d" />
@@ -40,7 +40,7 @@ function PixelBug() {
 
 function PixelMeeting() {
   return (
-    <svg width="12" height="10" viewBox="0 0 12 10" shapeRendering="crispEdges" aria-hidden>
+    <svg width="18" height="15" viewBox="0 0 12 10" shapeRendering="crispEdges" aria-hidden>
       <rect x="0" y="1" width="12" height="9" fill="#e8e8ee" />
       <rect x="0" y="1" width="12" height="3" fill="#e74c3c" />
       <rect x="2" y="0" width="1" height="2" fill="#6d6d76" />
@@ -56,7 +56,7 @@ function PixelMeeting() {
 
 function PixelStar() {
   return (
-    <svg width="11" height="10" viewBox="0 0 11 10" shapeRendering="crispEdges" aria-hidden>
+    <svg width="17" height="15" viewBox="0 0 11 10" shapeRendering="crispEdges" aria-hidden>
       <rect x="5" y="0" width="1" height="2" fill="#f1c40f" />
       <rect x="4" y="2" width="3" height="2" fill="#f1c40f" />
       <rect x="0" y="3" width="11" height="2" fill="#f1c40f" />
@@ -69,7 +69,7 @@ function PixelStar() {
 
 function PixelBlob() {
   return (
-    <svg width="22" height="8" viewBox="0 0 22 8" shapeRendering="crispEdges" aria-hidden>
+    <svg width="33" height="12" viewBox="0 0 22 8" shapeRendering="crispEdges" aria-hidden>
       <rect x="0" y="4" width="22" height="4" fill="#27ae60" />
       <rect x="2" y="2" width="6" height="2" fill="#2ecc71" />
       <rect x="11" y="1" width="7" height="3" fill="#2ecc71" />
@@ -81,57 +81,48 @@ function PixelBlob() {
 
 // The hazards of shipping a product, in order of appearance.
 const OBSTACLES: Array<{ f: number; w: number; label: string; anim: string; sprite: React.ReactNode }> = [
-  { f: 0.42, w: 13, label: "P0 bug", anim: "ob-jitter", sprite: <PixelBug /> },
-  { f: 0.56, w: 22, label: "scope creep", anim: "ob-creep", sprite: <PixelBlob /> },
-  { f: 0.7, w: 12, label: "\u201cquick sync\u201d (45 min)", anim: "ob-bob", sprite: <PixelMeeting /> },
-  { f: 0.84, w: 11, label: "1\u2605 \u201capp no work\u201d", anim: "ob-blink", sprite: <PixelStar /> },
+  { f: 0.42, w: 20, label: "P0 bug", anim: "ob-jitter", sprite: <PixelBug /> },
+  { f: 0.56, w: 33, label: "scope creep", anim: "ob-creep", sprite: <PixelBlob /> },
+  { f: 0.7, w: 18, label: "\u201cquick sync\u201d (45 min)", anim: "ob-bob", sprite: <PixelMeeting /> },
+  { f: 0.84, w: 17, label: "1\u2605 \u201capp no work\u201d", anim: "ob-blink", sprite: <PixelStar /> },
 ];
 
-function Body() {
+// Pixel Mazi: black wire-haired pup, gold tag, two-frame gallop.
+function PixelMazi({ frame }: { frame: 0 | 1 }) {
   return (
-    <>
-      <rect x="3" y="0" width="6" height="1" fill={CAP} />
-      <rect x="2" y="1" width="9" height="1" fill={CAP} />
-      <rect x="2" y="2" width="2" height="1" fill={DARK} />
-      <rect x="4" y="2" width="6" height="1" fill={SKIN} />
-      <rect x="2" y="3" width="1" height="1" fill={DARK} />
-      <rect x="3" y="3" width="4" height="1" fill={SKIN} />
-      <rect x="7" y="3" width="1" height="1" fill={DARK} />
-      <rect x="8" y="3" width="2" height="1" fill={SKIN} />
-      <rect x="3" y="4" width="7" height="1" fill={SKIN} />
-      <rect x="3" y="5" width="6" height="1" fill={CAP} />
-      <rect x="1" y="6" width="1" height="1" fill={SKIN} />
-      <rect x="2" y="6" width="8" height="1" fill={CAP} />
-      <rect x="10" y="6" width="1" height="1" fill={SKIN} />
-      <rect x="2" y="7" width="8" height="1" fill={OVERALLS} />
-      <rect x="3" y="8" width="6" height="1" fill={OVERALLS} />
-    </>
-  );
-}
-
-function PixelRunner({ frame }: { frame: 0 | 1 }) {
-  return (
-    <svg width="18" height="16.5" viewBox="0 0 12 11" shapeRendering="crispEdges" aria-hidden>
-      <Body />
+    <svg width="24" height="16.5" viewBox="0 0 16 11" shapeRendering="crispEdges" aria-hidden>
+      {/* tail */}
+      <rect x="0" y="2" width="1" height="1" fill={FUR} />
+      <rect x="1" y="3" width="1" height="2" fill={FUR} />
+      {/* body */}
+      <rect x="2" y="3" width="9" height="4" fill={FUR} />
+      <rect x="3" y="7" width="7" height="1" fill={FUR} />
+      {/* head + floppy ear */}
+      <rect x="10" y="1" width="4" height="4" fill={FUR} />
+      <rect x="10" y="1" width="2" height="3" fill={FUR_DARK} />
+      {/* scruffy snout + beard */}
+      <rect x="13" y="3" width="3" height="2" fill={BEARD} />
+      <rect x="13" y="5" width="2" height="1" fill={BEARD} />
+      <rect x="15" y="3" width="1" height="1" fill={FUR_DARK} />
+      {/* eye */}
+      <rect x="12" y="2" width="1" height="1" fill={EYE} />
+      {/* gold tag */}
+      <rect x="10" y="5" width="1" height="1" fill={TAG} />
+      {/* legs: gallop frames */}
       {frame === 0 ? (
         <>
-          <rect x="3" y="9" width="2" height="1" fill={OVERALLS} />
-          <rect x="7" y="9" width="2" height="1" fill={OVERALLS} />
-          <rect x="2" y="10" width="3" height="1" fill={BOOTS} />
-          <rect x="7" y="10" width="3" height="1" fill={BOOTS} />
+          <rect x="3" y="8" width="2" height="3" fill={FUR} />
+          <rect x="9" y="8" width="2" height="3" fill={FUR} />
         </>
       ) : (
         <>
-          <rect x="4" y="9" width="2" height="1" fill={OVERALLS} />
-          <rect x="6" y="9" width="2" height="1" fill={OVERALLS} />
-          <rect x="4" y="10" width="2" height="1" fill={BOOTS} />
-          <rect x="6" y="10" width="3" height="1" fill={BOOTS} />
+          <rect x="5" y="8" width="2" height="3" fill={FUR} />
+          <rect x="7" y="8" width="2" height="3" fill={FUR} />
         </>
       )}
     </svg>
   );
 }
-
 
 function TrashCan({ open }: { open: boolean }) {
   return (
@@ -196,7 +187,7 @@ export default function ZeroToOne() {
         for (const ob of obstacleXs()) {
           const gap = dir > 0 ? ob.x - (px! + RUNNER_W) : px! - (ob.x + ob.w);
           if (gap >= 0 && gap <= 3) {
-            arc = ob.w > 16 ? LONG_JUMP_ARC : JUMP_ARC;
+            arc = ob.w > 24 ? LONG_JUMP_ARC : JUMP_ARC;
             jumpT = 0;
             break;
           }
@@ -289,7 +280,7 @@ export default function ZeroToOne() {
         {/* obstacles — the hazards of shipping */}
         {OBSTACLES.map((ob) => (
           <span key={ob.label} className="absolute bottom-[5px]" style={{ left: `${ob.f * 100}%` }}>
-            <span className="absolute -top-[13px] left-1/2 -translate-x-1/2 whitespace-nowrap text-[8px] font-medium text-muted/80">
+            <span className="absolute -top-[15px] left-1/2 -translate-x-1/2 whitespace-nowrap text-[8px] font-medium text-muted/80">
               {ob.label}
             </span>
             <span className={`block ${ob.anim}`}>{ob.sprite}</span>
@@ -320,7 +311,7 @@ export default function ZeroToOne() {
             }}
           >
             {carrying && <span className="zto-loot">im</span>}
-            <PixelRunner frame={frame} />
+            <PixelMazi frame={frame} />
           </span>
         )}
       </div>

@@ -92,8 +92,8 @@ body {
 
 .zto-loot {
   position: absolute;
-  top: -15px;
-  left: 1px;
+  top: -9px;
+  left: 19px;
   padding: 0 3px;
   border-radius: 4px;
   background: var(--accent);
