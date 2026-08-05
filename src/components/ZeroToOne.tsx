@@ -326,6 +326,8 @@ export default function ZeroToOne() {
     let id: ReturnType<typeof setInterval> | undefined;
     // Let the page land before the game starts — a beat to orient.
     const startTimer = setTimeout(() => {
+      px = imX(); // spawn directly under the im tile
+      setX(px);
       setRunning(true);
       window.addEventListener("keydown", onKeyDown);
       window.addEventListener("keyup", onKeyUp);

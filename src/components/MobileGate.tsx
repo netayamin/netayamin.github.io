@@ -16,11 +16,12 @@ export default function MobileGate() {
         <p className="text-[26px] font-bold leading-tight tracking-tight">
           No mobile version.
           <br />
-          On purpose. 🙈
+          On purpose.
         </p>
-        <p className="mx-auto mt-4 max-w-[320px] text-[15px] leading-relaxed text-fg/85">
-          I&rsquo;m good at responsive UI — this was a creative decision.
-          Come back on a bigger screen.
+        <p className="mx-auto mt-4 max-w-[330px] text-[15px] leading-relaxed text-fg/85">
+          Responsive UI is my specialty. That&rsquo;s exactly how I know this
+          page shouldn&rsquo;t have any. Come back on a bigger screen —
+          Mazi is waiting.
         </p>
       </div>
       <div className="flex items-center gap-6 text-sm font-medium text-fg/85">
