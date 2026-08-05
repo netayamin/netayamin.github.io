@@ -1,56 +1,75 @@
-// Snagr case study, designer-voiced (~1074 words): the journey and
-// the empathy behind it. Facts from docs/snagr-case-study.md in the snagr repo.
-export const CASE_STUDY = `# Snagr — a product design journey
+// Snagr case study (~1161 words): 5W1H, personas, journey maps,
+// empathy-led decisions. Facts from docs/snagr-case-study.md in the snagr repo;
+// personas marked provisional pending interviews.
+export const CASE_STUDY = `# Snagr — Product Design Case Study
 
-*A reservation-watching app for iOS. Solo: product, design, and build — 17 weeks from a feeling to TestFlight build 69.*
+*A reservation-watching iOS app. Solo: product, design, and build — 17 weeks from a feeling to TestFlight build 69.*
 
-## Where it started
+## Who, what, when, where, why, how
 
-Every group of friends has one person who carries the dinner. They find the place on Infatuation or TikTok, drop it in the group chat, collect the "omg yes"s — and then the plan quietly dies, because the place is booked out and nobody has the energy to keep checking. I was that person. I knew the exact low-grade anxiety of opening Resy at midnight *just in case*, and the small shame of giving up and going to the same three places again.
+**Who.** The friend who carries the dinner — the group's planner, late 20s to 40s, living in a reservation-scarce city. Secondary: the rest of their group chat, who just want to be told where to show up.
 
-That feeling is the product brief. Not "restaurant discovery" — discovery is solved, delightfully, by people whose whole job is editorial. The unsolved thing is the gap between *we should go* and *we have a table*: a stretch of days where the plan's survival depends on someone refreshing four apps at the right random moment. Humans are bad at that, and worse, it feels bad — you're either anxious or you've already quit.
+**What.** An app that turns the restaurant lists people already trust into live, watchable plans — and interrupts them the moment a real table opens.
 
-## Who it's for
+**When.** In the gap between "we should go" and "we have a table": the days when a plan exists but no reservation does, and inventory appears at random hours and vanishes in minutes.
 
-Two people, really. The **planner**, who feels responsible for the group's joy and absorbs all the checking. And the **flexible friend**, who genuinely doesn't care which of the six places they end up at — they just want to be told where to show up. Every tool on the market serves a third person who barely exists: the solo diner with one specific restaurant and infinite patience.
+**Where.** New York and Paris to start — and mostly on the lock screen, not in the app. The product lives in a push notification.
 
-## What people were actually asking for
+**Why.** Discovery is solved; editors do it beautifully. Booking tools assume you already know exactly what to track. In between, plans die — because keeping one alive means a human polling four apps for a week, and humans are bad at polling. It doesn't just fail; it *feels* bad.
 
-Not more restaurants. **Relief.** The insight that reframed everything: people aren't trying to find a place — they're trying to *stop checking* one. So Snagr's shape became: declare what you want once — these places, these nights, this party size — and then be gently interrupted the moment a real table opens. The lists people already trust become live, selectable objects: tick the spots you'd actually go to, scope it to your occasion, and watch them all in one place instead of ten tabs.
+**How.** Declare an occasion once — these places, these nights, this party size — and Snagr watches everything on the list at once, then pushes a booking link the second a matching table opens. Sixty seconds of setup, days of silence, fifteen seconds from push to booked.
 
-The best version of this app is almost invisible. Sixty seconds of setup, days of silence, fifteen seconds from push to booked. Success isn't a long session; it's a short one that ends at dinner.
+## Personas
 
-## The journey — four products, each a lesson about people
+**Maya, 29 — The Planner.** Runs the group chat like a second job. Saves Infatuation lists, screenshots menus, sets phone reminders to check Resy at odd hours. *Goal:* get her people into places worth the night — and honestly, be the hero who pulled it off. *Frustrations:* four apps on rotation, tables gone by the time anyone answers the thread, quiet blame when the plan fizzles. *"We have a whole list of places we want to try. We always end up at the same three."*
 
-**The drop feed.** V1 was a live feed of every table opening in the city. It was genuinely fun to watch — and useless, because a table at a restaurant you don't care about is noise. *Lesson: engagement is not value. People wanted less to look at, not more.*
+**Dan, 31 — The Flexible Friend.** Would happily eat at any of six places. *Goal:* minimum effort between "I'm in" and dinner. *Frustrations:* sixty-message threads that end nowhere; being asked to have opinions about time slots. *"Just tell me where and when. I'll be there."*
 
-**The community hotlist.** V2 asked users to vote on which restaurants deserved watching. Elegant on paper; in reality it handed users a chore. *Lesson: people don't want jobs, they want outcomes. Editors already curate beautifully — borrow their work, don't recreate it.*
+*(Honesty note: these personas are drawn from lived observation and dogfooding, not interviews — they're provisional by design, and validating them is the first study on the research roadmap below.)*
 
-**Watchlists, then shared watchlists.** V3 got close. And sharing revealed the truth underneath: dining is a group decision, and every existing tool is single-player. *Lesson: build for the group chat, not the individual.*
+## The journey before Snagr
 
-**Plans.** The final shape. A plan isn't a list of restaurants — it's an *occasion*: Friday, four people, somewhere on this list, 7 to 9. That's how people actually think about dinner, so it became the product's only concept.
+1. **Discover** — Maya finds the place on Infatuation or TikTok. *Feeling: excited.*
+2. **Share** — into the group chat; the "omg yes"s roll in. *Feeling: hopeful.*
+3. **Attempt** — she opens Resy. Booked out for six weeks. *Feeling: deflated.*
+4. **The vigil** — days of checking four apps at random moments, including midnight "just in case." *Feeling: anxious, then resentful — the plan is now a chore she owns alone.*
+5. **Give up** — the group ends up at the same three places again. *Feeling: resigned, slightly embarrassed.*
 
-Along the way I deleted things I loved: the feed, the voting, a whole social layer (comments, likes, presence — shared plans are *collaborative, not social*), and at one point plan names and emoji, cut on a tidy principle — "a plan is identified by its criteria" — then brought back when real use proved the principle wrong. Criteria describe a plan; they don't help you *recognize* yours in a list. Admitting that reversal taught me more than either decision.
+The product opportunity is stages 3–5. Nothing on the market touches them: discovery tools end at stage 2, booking tools only work if stage 3 succeeds.
+
+## The journey with Snagr
+
+1. **Declare** (~60 seconds) — browse a trusted guide, tick the places you'd actually go, set nights and party size. The list becomes one live plan. *Feeling: done — it's off my plate.*
+2. **Wait** (hours to days, out of the app) — Snagr watches; the plan page whispers "Checked a minute ago · watching 18 places," so silence reads as diligence, not abandonment. *Feeling: calm. Someone's on it.*
+3. **Act** (~15 seconds) — push arrives: "Table for 4 just opened — Don Angie, Sat 8:00." Tap, book, share to the chat. *Feeling: relief, and a little heroism.*
+4. **Dinner.** The success metric isn't time in app — it's a short session that ends at a table.
+
+## Why this solution, and what I rejected
+
+The reframe that shaped everything: people aren't trying to *find* a restaurant — they're trying to *stop checking* one. So the answer had to start from what's bookable, be group-native, and interrupt rather than be browsed. Rejected on the way: a discovery app (a better Beli — but discovery isn't the bottleneck), a group-chat bot (no control of the notification surface, and bots get muted), and a web app (the product *is* a timely push; that lives on iOS).
+
+## How it evolved — four products, four lessons
+
+1. **A live drop feed** of every opening in the city. Fun, useless: a table you don't care about is noise. *Engagement is not value.*
+2. **A community hotlist** where users voted on what to watch. *People don't want jobs, they want outcomes* — editors already curate; borrow their work.
+3. **Watchlists, then shared watchlists.** Sharing exposed the truth: *dining is a group decision, and every tool out there is single-player.*
+4. **Plans.** Not a list — an *occasion*: Friday, four people, this list, 7 to 9. That's how people actually think about dinner, so it became the only concept in the app.
+
+I also deleted things I loved — the feed, the voting, a whole social layer (shared plans are collaborative, not social) — and reversed myself once: plan emoji were cut on principle ("a plan is identified by its criteria"), then reinstated when real use proved criteria don't help you *recognize* your plan in a list. The reversal taught me more than either decision.
 
 ## Empathy as design rules
 
-The product's spine came from taking one user moment seriously: tapping a "live" table that's already gone. That tap is a small betrayal — worse than silence, because the app *promised*. Everything followed from refusing to cause it:
+The spine of the product came from taking one moment seriously: tapping a "live" table that's already gone. That tap is a small betrayal — worse than silence, because the app promised. So:
 
-- **Never show false availability.** If we can't verify it, we don't show it.
-- **"We're not watching this spot yet" — never "No tables."** An absence of information is not a negative fact, and dressing one up as the other is lying to someone who trusted you.
-- **Specificity earns interruption.** A vague plan respects quiet hours. Only an exact ask — this night, this window, this party size — has permission to buzz you at 2am. And skipped pushes are never replayed at breakfast; a stale table with your coffee is exactly the burned trust we exist to prevent.
-- **Prove you're alive.** An app that's invisible for days must whisper, "Checked a minute ago, watching 18 places for you," so silence reads as diligence, not abandonment.
+- **Never show false availability.** Unverifiable means invisible.
+- **"We're not watching this spot yet" — never "No tables."** Absence of information is not a negative fact.
+- **Specificity earns interruption.** Vague plans respect quiet hours; only an exact ask may buzz you at 2am — and skipped pushes are never replayed at breakfast.
+- **Prove you're alive** while being invisible, so trust survives the silent days.
 
-## Listening, honestly
+## Research, honestly
 
-No formal interviews or usability tests ran before launch — I'd rather say that than invent research. What I had: living inside the product daily (every plan was a dinner I truly wanted), and beta testers who file bugs by shaking their phone. Their reports were the most humbling research of all: of the first five bugs, three were *trust* bugs — the app claiming something that wasn't true. Nobody reported a wrong corner radius. Users tell you exactly where it hurts, if the reporting costs them nothing.
-
-What I'd run next, in order: contextual interviews with people who fought for a table last month (the core hypothesis deserves real scrutiny), and a two-week notification diary — because the line between "helpful" and "muted" is the product's whole life, and I refuse to pretend I've found it already.
-
-## What I learned
-
-That empathy isn't a phase of the process — it's the spec. The honest empty state, the un-replayed notification, the deleted social feed: each one is just respect for the user's attention and trust, expressed as a decision. And that a solo builder's greatest risk is building for herself — which is why the next chapter of this product belongs to research.
+No interviews or usability tests ran pre-launch, and this case study won't pretend otherwise. What existed: daily dogfooding (every plan was a dinner I truly wanted) and beta testers filing bugs by shaking their phone — of the first five reports, three were *trust* bugs, not visual ones. Users tell you where it hurts when reporting costs them nothing. Next, in order: contextual interviews to pressure-test the personas and core hypothesis, then a two-week notification diary — the line between "helpful" and "muted" is the product's whole life.
 
 ## Where it landed
 
-TestFlight build 69, App Store review prepared, editorial guides across New York and Paris. Still open, and named out loud: notification fatigue doesn't have a design answer yet, and the catalog can't watch everything it shows. The journey continues — which is the most honest thing a 0 → 1 product can say.`;
+TestFlight build 69, App Store review prepared, guides across New York and Paris. Open and named: notification fatigue has no design answer yet, and the catalog can't watch everything it shows. The journey continues — the most honest thing a 0 → 1 product can say.`;
