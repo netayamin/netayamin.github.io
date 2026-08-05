@@ -78,8 +78,8 @@ No interviews or usability tests ran pre-launch — I'd rather say so than prete
 
 ## What I learned
 
-- **Engagement is not value.** The best Snagr session is fifteen seconds long and ends at a dinner table. Designing for absence — being trustworthy while invisible — is harder than designing for attention.
+- **Engagement is not value.** The best Snagr session is fifteen seconds long and ends at a dinner table.
 - **Trust is the actual product.** One tap on a dead table costs more than a week of silence. That's why nothing unverifiable is ever shown, why an empty state says "we're not watching this spot yet" instead of "no tables," and why only a specific ask earns a 2am interruption.
 - **People want outcomes, not jobs.** Every feature that asked users to work — voting, curating, configuring — died. Every feature that quietly did the work survived.
 - **Delete your darlings, and admit the reversals.** The feed, the voting, the social layer all went; the emoji came back. The reversal taught me more than either decision.
-- **A solo builder's biggest risk is building for herself.** Which is exactly why the next chapter of this product belongs to research.`;
+- **A solo builder's biggest risk is building for herself.** The next chapter of this product belongs to research.`;
