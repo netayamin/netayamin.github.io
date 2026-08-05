@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Mazal eye tracker demo</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #faf8f4; }
+  #stage { width: 320px; height: 320px; margin: 40px auto; display: block; }
+</style>
+</head>
+<body>
+<canvas id="stage" width="320" height="320"></canvas>
+
+<script src="https://unpkg.com/@rive-app/webgl2@2.38.5/rive.js"></script>
+<script>
+  const canvas = document.getElementById("stage");
+
+  // --- spring-follow state ---
+  // target = where the cursor currently points (-1..1), pos/vel are the
+  // smoothed, physically-animated values actually written to Rive.
+  const target = { x: 0, y: 0 };
+  const pos = { x: 0, y: 0 };
+  const vel = { x: 0, y: 0 };
+
+  const STIFFNESS = 90;   // higher = snaps to target faster
+  const DAMPING = 9;      // lower = more oscillation/overshoot before settling
+  const MAX_TRACK_DISTANCE = 350; // px from canvas center that maps to a full -1/1 target
+
+  let mouseXProp = null;
+  let mouseYProp = null;
+
+  const r = new rive.Rive({
+    src: "/rive/mazi-test.riv",
+    canvas: canvas,
+    autoplay: true,
+    autoBind: true,
+    stateMachines: "idle",
+    onLoad: () => {
+      r.resizeDrawingSurfaceToCanvas();
+      const vmi = r.viewModelInstance;
+      if (!vmi) {
+        console.error("No ViewModelInstance bound — check autoBind / default instance in Rive.");
+        return;
+      }
+      mouseXProp = vmi.number("mouseX");
+      mouseYProp = vmi.number("mouseY");
+      if (!mouseXProp || !mouseYProp) {
+        console.error("mouseX/mouseY properties not found on the bound ViewModelInstance.");
+      }
+      window.__r = r;
+      window.__vmi = vmi;
+      console.log("RIVE LOADED CONTENTS", JSON.stringify(r.contents, null, 2));
+    },
+  });
+
+  function updateTargetFromCursor(clientX, clientY) {
+    const rect = canvas.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+
+    let dx = (clientX - cx) / MAX_TRACK_DISTANCE;
+    let dy = (clientY - cy) / MAX_TRACK_DISTANCE;
+
+    // Clamp to a circle (not a square) so diagonals don't over-extend the pupils.
+    const mag = Math.sqrt(dx * dx + dy * dy);
+    if (mag > 1) {
+      dx /= mag;
+      dy /= mag;
+    }
+
+    target.x = dx;
+    target.y = dy;
+  }
+
+  window.addEventListener("mousemove", (e) => updateTargetFromCursor(e.clientX, e.clientY), {
+    passive: true,
+  });
+
+  // Pointer left the whole window -> ease back to center.
+  document.addEventListener("mouseleave", () => {
+    target.x = 0;
+    target.y = 0;
+  });
+
+  // --- spring integration loop, frame-rate independent via delta time ---
+  let lastTime = null;
+
+  function tick(now) {
+    if (lastTime === null) lastTime = now;
+    let dt = (now - lastTime) / 1000;
+    lastTime = now;
+    // Guard against huge dt spikes (tab backgrounded, etc.) destabilizing the spring.
+    dt = Math.min(dt, 1 / 30);
+
+    stepSpring("x");
+    stepSpring("y");
+
+    if (mouseXProp) mouseXProp.value = pos.x;
+    if (mouseYProp) mouseYProp.value = pos.y;
+
+    window.__debugPos = { pos: { ...pos }, target: { ...target } };
+
+    requestAnimationFrame(tick);
+
+    function stepSpring(axis) {
+      const displacement = pos[axis] - target[axis];
+      const springForce = -STIFFNESS * displacement;
+      const dampingForce = -DAMPING * vel[axis];
+      const accel = springForce + dampingForce;
+
+      vel[axis] += accel * dt;
+      pos[axis] += vel[axis] * dt;
+    }
+  }
+
+  requestAnimationFrame(tick);
+</script>
+</body>
+</html>
