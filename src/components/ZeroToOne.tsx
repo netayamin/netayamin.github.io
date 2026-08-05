@@ -164,7 +164,6 @@ export default function ZeroToOne() {
 
   useEffect(() => {
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    setRunning(true);
 
     let px: number | null = null;
     let ph: Phase = "grab";
@@ -199,8 +198,6 @@ export default function ZeroToOne() {
       lastInput = Date.now();
     };
     const onKeyUp = (e: KeyboardEvent) => keys.delete(e.key);
-    window.addEventListener("keydown", onKeyDown);
-    window.addEventListener("keyup", onKeyUp);
 
     const sceneW = () => sceneRef.current?.offsetWidth ?? 900;
     const imX = () => {
@@ -301,7 +298,16 @@ export default function ZeroToOne() {
       setFaceLeft(lastDir < 0);
     };
 
-    const id = setInterval(() => {
+    let id: ReturnType<typeof setInterval> | undefined;
+    // Let the page land before the game starts — a beat to orient.
+    const startTimer = setTimeout(() => {
+      setRunning(true);
+      window.addEventListener("keydown", onKeyDown);
+      window.addEventListener("keyup", onKeyUp);
+      id = setInterval(tick, TICK_MS);
+    }, 2800);
+
+    const tick = () => {
       if (px === null) px = imX();
 
       // nature calls, at random, no matter whose turn it is
@@ -381,10 +387,11 @@ export default function ZeroToOne() {
       setJumpY(jumpT >= 0 && jumpT < arc.length ? arc[jumpT] : 0);
       setFaceLeft(ph === "back");
       setPhase(ph);
-    }, TICK_MS);
+    };
 
     return () => {
-      clearInterval(id);
+      clearTimeout(startTimer);
+      if (id) clearInterval(id);
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
     };
