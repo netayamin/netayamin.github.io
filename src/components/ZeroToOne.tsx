@@ -257,8 +257,27 @@ export default function ZeroToOne() {
     };
 
     let airDir = 0;
+    let autoReturn = false;
     const manualTick = () => {
       const dir = (keys.has("ArrowRight") ? 1 : 0) - (keys.has("ArrowLeft") ? 1 : 0);
+
+      // round complete: walk her home automatically (any input takes over)
+      if (autoReturn) {
+        if (dir !== 0 || jumpQueued) {
+          autoReturn = false;
+        } else {
+          lastDir = -1;
+          move(-1);
+          if (px! <= imX()) {
+            px = imX();
+            jumpT = -1;
+            autoReturn = false;
+            lastDir = 1;
+          }
+          setFaceLeft(lastDir < 0);
+          return;
+        }
+      }
       if (jumpQueued && jumpT < 0) {
         // Jump assist: tapping anywhere near an object always clears it —
         // the arc sizes itself to whatever is ahead. Only a clearly-late
@@ -314,6 +333,7 @@ export default function ZeroToOne() {
         if (dunkWait === 0) {
           setDunking(false);
           setImTaken(false);
+          autoReturn = true; // and back to the start mark
         }
       } else if (imTakenRef.current && px! + RUNNER_W >= trashX() + 8) {
         setDunking(true);
