@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 // trash can at the far right. The im respawns (they always do), and she
 // goes again. Score ticks up with every im disposed of.
 const TICK_MS = 70;
-const STEP = 3;
+const STEP = 4.5;
 const RUNNER_W = 24;
 const GRAB_TICKS = 7; // one jump's worth — she leaps up to grab the tile
 const DUNK_TICKS = 9;
@@ -150,8 +150,17 @@ export default function ZeroToOne() {
   const [jumpY, setJumpY] = useState(0);
   const [phase, setPhase] = useState<Phase>("grab");
   const [imTaken, setImTaken] = useState(false);
+  const imTakenRef = useRef(false);
+  useEffect(() => {
+    imTakenRef.current = imTaken;
+  }, [imTaken]);
   const [dunking, setDunking] = useState(false);
   const [coins, setCoins] = useState(0);
+  const [faceLeft, setFaceLeft] = useState(false);
+  const [manual, setManual] = useState(false);
+  const [hurt, setHurt] = useState(false);
+  const [poops, setPoops] = useState<Array<{ id: number; x: number }>>([]);
+  const [bubble, setBubble] = useState(false);
 
   useEffect(() => {
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -162,6 +171,36 @@ export default function ZeroToOne() {
     let wait = GRAB_TICKS;
     let jumpT = -1;
     let arc: number[] = JUMP_ARC;
+    let mode: "auto" | "manual" = "auto";
+    let lastInput = 0;
+    let jumpQueued = false;
+    let invuln = 0;
+    let dunkWait = 0;
+    let lastDir = 1;
+    let poopIn = 260 + Math.floor(Math.random() * 340);
+    let pooping = 0;
+    let poopId = 0;
+    const keys = new Set<string>();
+
+    const isTyping = () => {
+      const el = document.activeElement;
+      return !!el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA");
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (isTyping()) return;
+      if (!["ArrowLeft", "ArrowRight", "ArrowUp", " "].includes(e.key)) return;
+      e.preventDefault();
+      keys.add(e.key);
+      if (e.key === "ArrowUp" || e.key === " ") jumpQueued = true;
+      if (mode === "auto") {
+        mode = "manual";
+        setManual(true);
+      }
+      lastInput = Date.now();
+    };
+    const onKeyUp = (e: KeyboardEvent) => keys.delete(e.key);
+    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("keyup", onKeyUp);
 
     const sceneW = () => sceneRef.current?.offsetWidth ?? 900;
     const imX = () => {
@@ -195,8 +234,94 @@ export default function ZeroToOne() {
       }
     };
 
+    const manualTick = () => {
+      const dir = (keys.has("ArrowRight") ? 1 : 0) - (keys.has("ArrowLeft") ? 1 : 0);
+      if (jumpQueued && jumpT < 0) {
+        arc = JUMP_ARC;
+        jumpT = 0;
+      }
+      jumpQueued = false;
+      progressJump();
+      if (dir !== 0) {
+        lastDir = dir;
+        px = Math.max(0, Math.min(sceneW() - RUNNER_W, px! + STEP * 1.5 * dir));
+      }
+      if (invuln > 0) {
+        invuln -= 1;
+        if (invuln === 0) setHurt(false);
+      }
+
+      const h = jumpT >= 0 && jumpT < arc.length ? arc[jumpT] : 0;
+
+      // ouch: hazards knock the tile loose
+      if (invuln === 0 && h < 11) {
+        for (const ob of obstacleXs()) {
+          if (px! + RUNNER_W - 5 > ob.x && px! + 5 < ob.x + ob.w) {
+            invuln = 14;
+            setHurt(true);
+            if (imTakenRef.current && dunkWait === 0) setImTaken(false);
+            px = Math.max(0, px! + (lastDir > 0 ? -16 : 16));
+            break;
+          }
+        }
+      }
+
+      // jump-grab the tile from the sentence
+      if (!imTakenRef.current && dunkWait === 0 && h >= 8) {
+        if (Math.abs(px! - imX()) < 16) setImTaken(true);
+      }
+
+      // dunk at the trash
+      if (dunkWait > 0) {
+        dunkWait -= 1;
+        if (dunkWait === 0) {
+          setDunking(false);
+          setImTaken(false);
+        }
+      } else if (imTakenRef.current && px! + RUNNER_W >= trashX() + 8) {
+        setDunking(true);
+        setCoins((c) => c + 1);
+        dunkWait = DUNK_TICKS;
+      }
+      setFaceLeft(lastDir < 0);
+    };
+
     const id = setInterval(() => {
       if (px === null) px = imX();
+
+      // nature calls, at random, no matter whose turn it is
+      if (pooping > 0) {
+        pooping -= 1;
+        if (pooping === 0) setBubble(false);
+        return;
+      }
+      if (--poopIn <= 0 && jumpT < 0 && dunkWait === 0 && ph !== "dunk") {
+        poopIn = 260 + Math.floor(Math.random() * 340);
+        pooping = 18;
+        setBubble(true);
+        const poopX = px + (lastDir > 0 ? -6 : RUNNER_W - 2);
+        poopId += 1;
+        const nid = poopId;
+        setPoops((list) => [...list.slice(-2), { id: nid, x: poopX }]);
+        return;
+      }
+
+      if (mode === "manual" && Date.now() - lastInput > 8000) {
+        mode = "auto";
+        setManual(false);
+        setHurt(false);
+        invuln = 0;
+        ph = imTakenRef.current ? "carry" : "back";
+        wait = 0;
+      }
+
+      if (mode === "manual") {
+        manualTick();
+        setX(px);
+        setJumpY(jumpT >= 0 && jumpT < arc.length ? arc[jumpT] : 0);
+        setPhase(ph);
+        return;
+      }
 
       if (ph === "grab") {
         if (wait === GRAB_TICKS) { arc = JUMP_ARC; jumpT = 0; } // leap for the tile
@@ -239,15 +364,20 @@ export default function ZeroToOne() {
 
       setX(px);
       setJumpY(jumpT >= 0 && jumpT < arc.length ? arc[jumpT] : 0);
+      setFaceLeft(ph === "back");
       setPhase(ph);
     }, TICK_MS);
 
-    return () => clearInterval(id);
+    return () => {
+      clearInterval(id);
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("keyup", onKeyUp);
+    };
   }, []);
 
   const frame = (running ? Math.floor(x / 6) % 2 : 0) as 0 | 1;
-  const carrying = phase === "carry" && imTaken;
-  const facingLeft = phase === "back";
+  const carrying = imTaken && !dunking;
+  const facingLeft = faceLeft;
 
   return (
     <div
@@ -267,7 +397,7 @@ export default function ZeroToOne() {
             {imTaken ? (
               <span className="zto-hole">▯</span>
             ) : (
-              <span className={phase === "back" ? "zto-im-tile zto-pop" : "zto-im-tile"}>
+              <span key={coins} className="zto-im-tile zto-pop">
                 im
               </span>
             )}
@@ -287,23 +417,40 @@ export default function ZeroToOne() {
           </span>
         ))}
 
+        {/* the aftermath */}
+        {poops.map((poop) => (
+          <span
+            key={poop.id}
+            className="zto-pop absolute bottom-[4px] text-[10px]"
+            style={{ left: poop.x }}
+          >
+            💩
+          </span>
+        ))}
+
         {/* the trash can */}
         <span className="absolute bottom-[5px] right-[30px]">
           <TrashCan open={dunking} />
           {dunking && <span className="zto-im-tile zto-toss">im</span>}
         </span>
 
-        {/* HUD */}
-        {coins > 0 && (
-          <span className="absolute right-4 top-1.5 text-[10px] font-semibold text-muted">
-            🗑️×{coins}
+        {/* HUD — score + chrome-dino-style controls legend */}
+        <span className="absolute right-4 top-1.5 flex items-center gap-3 text-[9px] text-muted">
+          {coins > 0 && <span className="text-[10px] font-semibold">🗑️×{coins}</span>}
+          <span className="flex items-center gap-1">
+            <kbd className="rounded border border-line bg-card/70 px-1 leading-[1.5]">←</kbd>
+            <kbd className="rounded border border-line bg-card/70 px-1 leading-[1.5]">→</kbd>
+            <span className="mr-1">run</span>
+            <kbd className="rounded border border-line bg-card/70 px-1 leading-[1.5]">↑</kbd>
+            <span>jump</span>
+            {!manual && <span className="ml-1 opacity-70">— take over</span>}
           </span>
-        )}
+        </span>
 
         {/* runner */}
         {running && (
           <span
-            className="zto-player"
+            className={hurt ? "zto-player animate-pulse opacity-50" : "zto-player"}
             style={{
               left: x,
               bottom: 5 + jumpY,
@@ -311,6 +458,9 @@ export default function ZeroToOne() {
             }}
           >
             {carrying && <span className="zto-loot">im</span>}
+            {bubble && (
+              <span className="zto-bubble">oops… poop time 💩</span>
+            )}
             <PixelMazi frame={frame} />
           </span>
         )}

@@ -161,6 +161,37 @@ body {
   56%, 100% { opacity: 0.12; }
 }
 
+/* Mazi's speech bubble */
+.zto-bubble {
+  position: absolute;
+  bottom: 20px;
+  left: -12px;
+  white-space: nowrap;
+  padding: 2px 7px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--fg);
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1.5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  animation: zto-pop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.zto-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 18px;
+  width: 7px;
+  height: 7px;
+  transform: rotate(45deg);
+  background: var(--card);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
 /* Obstacle personalities */
 .ob-jitter {
   animation: ob-jitter 0.5s steps(2) infinite;
