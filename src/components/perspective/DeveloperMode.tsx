@@ -40,7 +40,7 @@ export default function DeveloperMode() {
       
       <div className="w-1/2">
         <div className="mx-auto w-[94%] max-w-[560px] pt-10">
-          <MarkdownDoc source={RESUME} />
+          <MarkdownDoc source={RESUME} icon="🧑‍🎨" />
         </div>
       </div>
     </div>

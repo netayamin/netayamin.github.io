@@ -88,6 +88,10 @@ function Formatted({ source }: { source: string }) {
     }
     flushList();
     if (!t) return;
+    if (t === "---") {
+      blocks.push(<hr key={blocks.length} className="border-line dark:border-white/10" />);
+      return;
+    }
     if (t.startsWith("# ")) {
       blocks.push(
         <h1 key={blocks.length} className="text-[22px] font-bold leading-tight tracking-tight">
@@ -110,9 +114,10 @@ function Formatted({ source }: { source: string }) {
       blocks.push(
         <blockquote
           key={blocks.length}
-          className="border-l-2 border-accent pl-3 text-[13.5px] italic leading-relaxed text-neutral-600 dark:text-neutral-400"
+          className="flex gap-2.5 rounded-lg bg-fg/[0.04] px-3.5 py-2.5 text-[13.5px] leading-relaxed text-fg/85 dark:bg-white/[0.06]"
         >
-          {inline(t.slice(2))}
+          <span aria-hidden>\ud83d\udca1</span>
+          <span>{inline(t.slice(2))}</span>
         </blockquote>,
       );
     } else {
@@ -143,12 +148,23 @@ function Raw({ source }: { source: string }) {
   );
 }
 
-export default function MarkdownDoc({ source }: { source: string }) {
+export default function MarkdownDoc({
+  source,
+  icon = "\ud83d\udcc4",
+}: {
+  source: string;
+  icon?: string;
+}) {
   const [raw, setRaw] = useState(false);
+  const lines = source.split("\n");
+  const titleLine = lines.find((l) => l.startsWith("# "));
+  const title = titleLine ? titleLine.slice(2) : "Untitled";
+  const body = lines.filter((l) => l !== titleLine).join("\n");
 
   return (
-    <div className="rounded-lg border border-line bg-bg p-5 dark:border-white/10 dark:bg-[#191920]">
-      <div className="-mt-1 mb-4 flex justify-end">
+    <div className="rounded-xl bg-card px-9 py-8 shadow-sm ring-1 ring-black/5 dark:bg-[#1f1f22] dark:ring-white/10">
+      <div className="mb-4 flex items-start justify-between">
+        <span className="text-[40px] leading-none">{icon}</span>
         <div className="flex overflow-hidden rounded-md border border-line text-[10px] dark:border-white/15">
           <button
             type="button"
@@ -166,7 +182,8 @@ export default function MarkdownDoc({ source }: { source: string }) {
           </button>
         </div>
       </div>
-      {raw ? <Raw source={source} /> : <Formatted source={source} />}
+      <h1 className="mb-5 text-[26px] font-bold leading-tight tracking-tight">{title}</h1>
+      {raw ? <Raw source={source} /> : <Formatted source={body} />}
     </div>
   );
 }
