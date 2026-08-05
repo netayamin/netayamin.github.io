@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import AnchoredFrame from "./AnchoredFrame";
 import Draggable from "./Draggable";
 import FigmaCanvas from "./FigmaCanvas";
 import ZoomFrame from "./ZoomFrame";
@@ -129,9 +128,10 @@ export default function DesignerMode() {
 
   return (
     <FigmaCanvas className="min-h-full bg-[#f0f0f3] pb-16 dark:bg-[#2c2c2e]">
-      <div className="relative min-h-full">
+      <div className="ml-auto w-1/2">
+        <div className="mx-auto flex w-[92%] max-w-[560px] flex-col gap-10 pt-6">
           {/* Me — component set with variants */}
-          <AnchoredFrame anchor="summary" offset={0}><Draggable><ZoomFrame label="❖ Me" scale={1.4}>
+          <Draggable className="mx-auto w-max max-w-full"><ZoomFrame label="❖ Me" scale={1.4}>
             <p className="mb-1.5 flex items-center gap-1.5 text-[12px] font-medium text-accent">
               <span className="text-[10px]">❖</span> Me
             </p>
@@ -152,10 +152,10 @@ export default function DesignerMode() {
                 ))}
               </div>
             </div>
-          </ZoomFrame></Draggable></AnchoredFrame>
+          </ZoomFrame></Draggable>
 
           {/* Journey — visual map: monogram tiles on a path */}
-          <AnchoredFrame anchor="experience" offset={10}><Draggable><ZoomFrame label="Journey" scale={1.6}>
+          <Draggable className="mx-auto w-max max-w-full"><ZoomFrame label="Journey" scale={1.6}>
             <p className="mb-1.5 flex items-center gap-1.5 text-[12px] font-medium text-accent">
               <span className="text-[10px]">❖</span> Journey
             </p>
@@ -191,10 +191,10 @@ export default function DesignerMode() {
                 ))}
               </div>
             </div>
-          </ZoomFrame></Draggable></AnchoredFrame>
+          </ZoomFrame></Draggable>
 
           {/* Mazi — component set with variants */}
-          <AnchoredFrame anchor="sidekick" offset={10}><Draggable><ZoomFrame label="❖ My dog Mazi" scale={1.4}>
+          <Draggable className="mx-auto w-max max-w-full"><ZoomFrame label="❖ My dog Mazi" scale={1.4}>
             <p className="mb-1.5 flex items-center gap-1.5 text-[12px] font-medium text-accent">
               <span className="text-[10px]">❖</span> My dog Mazi
             </p>
@@ -260,8 +260,10 @@ export default function DesignerMode() {
                 </div>
               </div>
             </div>
-          </ZoomFrame></Draggable></AnchoredFrame>
+          </ZoomFrame></Draggable>
+        </div>
       </div>
+
     </FigmaCanvas>
   );
 }
