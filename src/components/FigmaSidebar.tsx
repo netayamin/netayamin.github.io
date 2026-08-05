@@ -123,7 +123,7 @@ const LINKS = [
     href: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/resume.pdf`,
     icon: <FileText size={15} />,
   },
-  { label: "LinkedIn", href: "https://www.linkedin.com/", icon: <LinkedInIcon size={15} /> },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/neta-y/", icon: <LinkedInIcon size={15} /> },
   { label: "Email", href: "mailto:netayamin@gmail.com", icon: <Mail size={15} /> },
 ];
 

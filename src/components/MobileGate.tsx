@@ -27,7 +27,7 @@ export default function MobileGate() {
         <a href={`${base}/resume.pdf`} className="flex items-center gap-1.5">
           <FileText size={15} /> Resume
         </a>
-        <a href="https://www.linkedin.com/" className="flex items-center gap-1.5">
+        <a href="https://www.linkedin.com/in/neta-y/" className="flex items-center gap-1.5">
           <LinkedInIcon size={15} /> LinkedIn
         </a>
         <a href="mailto:netayamin@gmail.com" className="flex items-center gap-1.5">
