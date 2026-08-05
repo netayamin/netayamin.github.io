@@ -48,19 +48,18 @@ The product opportunity is stages 3–5. Nothing on the market touches them: dis
 
 The reframe that shaped everything: people aren't trying to *find* a restaurant — they're trying to *stop checking* one. So the answer had to start from what's bookable, be group-native, and interrupt rather than be browsed. Rejected on the way: a discovery app (a better Beli — but discovery isn't the bottleneck), a group-chat bot (no control of the notification surface, and bots get muted), and a web app (the product *is* a timely push; that lives on iOS).
 
-## The hardest screen: reservations in bulk
+## Designing for a question reservation apps were never built to answer
 
-Until now, a reservation was a one-shot question: one restaurant, one date, one time, one party size — four dropdowns, one answer. A Snagr plan breaks that contract on purpose. "Paris trip: Aug 17–18, 6 to 9pm, 3 to 5 people, anywhere on this list" is *one* human thought — but underneath it's fifteen restaurants times two dates times a time window times three party sizes, across different booking platforms. Hundreds of real, live openings, all true at once. Shown raw, it's a spreadsheet; the plan page had to make it feel like an answer.
+Until now, every reservation product has been built around the same interaction: **one restaurant, one date, one time, one party size.** The interface is simple because the question is simple. Snagr intentionally breaks that model. A user isn't asking *"Can I book Carbone on Friday at 7?"* They're asking *"We're in Paris Aug 17–18, anytime between 6 and 9 PM, for 3–5 people — which restaurants from this list can actually work?"* That's a completely different problem.
 
-The decisions that got it there:
+Behind that seemingly simple request is an explosion of combinations: 15 restaurants, 2 dates, a 3-hour window, multiple party sizes, multiple reservation platforms — hundreds of live slots, every one of them valid. Showing all of them would be technically correct and completely unusable. The challenge wasn't retrieving the data. It was turning hundreds of possible answers into one understandable answer.
 
-- **The unit of decision is the restaurant, not the slot.** People pick a *place* first and a time second — so results group by venue, never as a giant chronological slot list.
-- **Two slots per venue, then "+10 more times."** Enough to prove it's real and bookable, little enough to stay scannable. Depth is one tap away instead of on the page.
-- **Every line is a complete sentence.** "Tue, Aug 18 · 8:15 PM · for 3 · Resy" — day, time, party size, platform. Any single row is bookable on sight, with zero cross-referencing.
-- **The header restates the ask.** Date range, time window, party size sit as chips above the results, so every row below is implicitly filtered by them — context carried once, not repeated a hundred times.
-- **One number up top.** "9 restaurants available" answers the emotional question — *is this trip going to work?* — before a single row is read.
+1. **The restaurant became the unit of decision.** People choose a restaurant first and a reservation second — so the interface groups everything by venue, letting users compare restaurants instead of timestamps.
+2. **Show confidence, not completeness.** Users don't need twenty reservation times; they need confidence that a place is available. Each card surfaces the first few slots plus "+10 more" — proof of availability without the noise. Depth lives one tap later.
+3. **Context belongs in the header.** The plan itself defines the search: date range, time window, and party size appear once at the top, and every row below inherits that context instead of repeating it dozens of times.
+4. **Answer the emotional question first.** Before scanning a single option, users want to know: *is this trip actually going to work?* One summary — "9 restaurants available" — answers immediately. Exploration comes after.
 
-The lesson: when you change the shape of the question, you inherit the duty of redesigning the shape of the answer. Bulk asking is Snagr's power; making bulk *readable* was the design work.
+Changing the shape of the user's question means redesigning the shape of the answer. Traditional apps optimize for finding one reservation; Snagr optimizes for planning across many restaurants, dates, times, and party sizes simultaneously. The hardest part wasn't the search engine — it was making an inherently exponential problem feel as effortless as asking a single question.
 
 ## How it evolved — four products, four lessons
 

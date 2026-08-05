@@ -85,7 +85,7 @@ export default function SnagrDesigner() {
           </ZoomFrame></Draggable></AnchoredFrame>
 
           {/* App screen */}
-          <AnchoredFrame anchor="the-hardest-screen-reservations-in-bulk" offset={10}><Draggable><ZoomFrame label="My Plans · iPhone 16" scale={1.25}>
+          <AnchoredFrame anchor="designing-for-a-question-reservation-apps-were-never-built-to-answer" offset={10}><Draggable><ZoomFrame label="My Plans · iPhone 16" scale={1.25}>
             <FrameLabel>My Plans · iPhone 16</FrameLabel>
             <div className="flex justify-center rounded-2xl bg-gradient-to-br from-[#efeaff] to-[#e3dbfd] py-6 dark:from-[#221d38] dark:to-[#1b1730]">
               <Phone />
