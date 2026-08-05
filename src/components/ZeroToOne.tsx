@@ -16,7 +16,7 @@ const BOOTS = "#5d4023";
 const TICK_MS = 70;
 const STEP = 3;
 const RUNNER_W = 18;
-const GRAB_TICKS = 5;
+const GRAB_TICKS = 7; // one jump's worth — he leaps up to grab the tile
 const DUNK_TICKS = 9;
 const RESPAWN_TICKS = 8;
 const JUMP_ARC = [5, 9, 12, 12, 9, 5];
@@ -125,11 +125,17 @@ export default function ZeroToOne() {
     const trashX = () => sceneW() - 52;
     const obstacleXs = () => OBSTACLES.map((f) => f * sceneW());
 
-    const move = (dir: 1 | -1) => {
-      px! += STEP * dir;
+    const progressJump = () => {
       if (jumpT >= 0) {
         jumpT += 1;
         if (jumpT >= JUMP_ARC.length) jumpT = -1;
+      }
+    };
+
+    const move = (dir: 1 | -1) => {
+      px! += STEP * dir;
+      if (jumpT >= 0) {
+        progressJump();
       } else {
         for (const obX of obstacleXs()) {
           const gap = dir > 0 ? obX - (px! + RUNNER_W) : px! - (obX + OB_W);
@@ -145,8 +151,11 @@ export default function ZeroToOne() {
       if (px === null) px = imX();
 
       if (ph === "grab") {
+        if (wait === GRAB_TICKS) jumpT = 0; // leap for the tile
+        progressJump();
+        if (wait === GRAB_TICKS - 3) setImTaken(true); // snatched at the apex
         if (--wait <= 0) {
-          setImTaken(true);
+          jumpT = -1;
           ph = "carry";
         }
       } else if (ph === "carry") {
@@ -200,10 +209,10 @@ export default function ZeroToOne() {
       className="absolute inset-0"
     >
       <div aria-hidden className="absolute inset-0">
-        {/* the sentence, standing on the grass */}
+        {/* the sentence, floating mid-left — he jumps to grab the tile */}
         <span
           ref={sentenceRef}
-          className="absolute bottom-[5px] left-5 whitespace-nowrap text-[13px] font-medium text-muted"
+          className="absolute left-5 top-1/2 -translate-y-1/2 whitespace-nowrap text-[13px] font-medium text-muted"
         >
           Everything is{" "}
           <span ref={imRef}>
