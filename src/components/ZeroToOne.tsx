@@ -436,7 +436,7 @@ export default function ZeroToOne() {
         <span className="zto-witch absolute bottom-[5px] left-3">
           <PixelWitch />
         </span>
-        <div className="absolute left-2 top-[3px] flex items-center gap-4">
+        <div className="absolute left-2 top-[10px] flex items-center gap-4">
           <span className="zto-witch-bubble relative whitespace-nowrap text-[12.5px] font-medium text-fg/85">
             Everything is{" "}
             <span ref={imRef}>

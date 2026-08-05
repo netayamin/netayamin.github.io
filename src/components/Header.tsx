@@ -83,7 +83,7 @@ function Backdrop() {
 
 export default function Header() {
   return (
-    <header className="relative h-14 shrink-0 overflow-hidden border-b border-line">
+    <header className="relative h-20 shrink-0 overflow-hidden border-b border-line">
       <Backdrop />
       <ZeroToOne />
     </header>
