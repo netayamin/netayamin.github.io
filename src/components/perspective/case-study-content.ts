@@ -1,55 +1,70 @@
-// Condensed (~954 words) from /Users/netayamin/Desktop/snagr/docs/snagr-case-study.md
-// — every fact and number comes from that doc. Edit freely.
+// Product-design case study (~1609 words) for a design audience,
+// condensed from /Users/netayamin/Desktop/snagr/docs/snagr-case-study.md — all facts from that doc.
 export const CASE_STUDY = `# Snagr — Product Design Case Study
 
-**A reservation-watching app for iOS.** Founder-designed, founder-built, shipped to TestFlight. Solo product design + engineering, April–August 2026 — 17 weeks, 1,030 commits, ~47k LOC Swift and ~45k LOC TypeScript.
+*A reservation-watching app for iOS. Solo: product strategy, design, and build — 17 weeks from blank repo to TestFlight build 69.*
 
 ## The problem
 
-Getting a table at a restaurant people actually want is not a discovery problem. You know where you want to go. The problem is that inventory is released unpredictably and consumed within minutes — someone cancels a Saturday 8pm at Carbone, and it's gone before you'd have thought to look. The behavior Snagr replaces is a person opening four apps in rotation, several times a day, for a week. It's a polling task, and humans are structurally bad at polling.
+Discovery is the easy part — Infatuation lists, Google Maps saves, TikTok finds. The real workflow is what happens next: you find places, send them to the group chat, and then spend hours over days bouncing between reservation apps trying to get into *any* of them. Discovery tools end at a list. Booking tools expect you to already know exactly what to track. In the gap between them, plans die — because inventory at the places on those lists appears unpredictably and vanishes within minutes. Two truths shaped every decision that follows:
 
-Two consequences shaped everything:
+- **Latency is the product.** A table that opened 40 minutes ago is worthless information.
+- **A false positive is catastrophic.** Tapping a "live" slot that's already gone is worse than silence.
 
-- **Latency is the product.** If Snagr is 15 minutes slow, it's a worse version of refreshing Resy yourself.
-- **A false positive is catastrophic.** Tapping a "live" slot that's already gone is worse than saying nothing. A missed notification is recoverable; a burned one is not.
+## Hypothesis
 
-## The solution
+Discovery should end in a live object, not a screenshot. The lists people already trust are static — so Snagr makes them selectable: new collections from top sources show up in the app, you tick the places you'd actually go, scope it to your occasion (these nights, this party size), and the whole list becomes one live, watchable thing. Instead of checking ten restaurants back and forth, you see them all in one place and get interrupted the moment any of them opens. Snagr turns discovery into a live event. The falsifiable part: engagement should look low and spiky (push → open → book → close).
 
-You make a **plan** — these restaurants, these nights, this party size, this time range — and Snagr polls the reservation platforms (Resy, OpenTable, SevenRooms, Zenchef) and pushes you the moment a matching table opens. That's the whole product.
+## Research — an honest inventory
 
-"Plans" is an architecture decision as much as a product one: polling cost scales as venues × dates × party sizes, which is financially impossible at full-catalog cadence. If a plan is a declaration of demand, then demand is also the polling schedule — we only check what someone actually asked for. The free-tier limits (3 plans, 15 restaurants each) are the infrastructure limits, exposed honestly.
+No user interviews, surveys, or usability tests were run pre-launch. I'd rather say that plainly than invent metrics. What I did have:
 
-## What it took to get there
+- **Dogfooding.** Every plan in the app was one I genuinely wanted a table for. Real signal — and the weakest kind, because it fits the product to one person.
+- **Ground-truth measurement instead of assumption.** Before committing Paris to the "obvious" platform, I counted what Paris restaurants actually book on: of ~50 venues with booking links, **21 used Zenchef and only 3 used TheFork**. One afternoon of counting reversed the entire market strategy.
+- **The catalog as a research subject.** Queries against live data changed designs more often than any spec: only **23 of 252** Paris venues and **292 of 1,008** NYC venues could actually be watched.
+- **Real tester feedback.** Beta testers file bugs by shaking their phone. Of the first five reports, **three were trust bugs, not cosmetic ones**.
 
-Snagr was four products before it was Snagr, and each transition deleted the prior model:
+**What I'd run next, in order:** contextual interviews (the core hypothesis is still unfalsified, and everything inherits its error), a two-week notification diary study (fatigue is the #1 unmitigated risk), the already-specced activation funnel, and a first-run test against my stated target — *a new user is watching something within 20 seconds.*
 
-1. **The drop feed** — a live firehose of newly-opened tables. Fun, and useless: a drop at a restaurant you don't care about is noise.
-2. **The community hotlist** — users vote on which venues get polled. Died of cold-start, and it solved curation, which was never the user's problem.
-3. **Watchlists → shared watchlists** — where the product got good, and where three overlapping ways to express the same intent accreted.
-4. **Plans** — one flat table, one concept, all polling derived from it.
+## Insights
 
-The IA collapsed alongside: four tabs became two, because the median user has ~2 plans and a tab bar is organizational debt. Creation was eventually absorbed into browsing — ticking restaurants inside an editorial guide *is* creating a plan — which deleted six separate entry points.
+1. **Users want to stop checking, not discover.** V1 was a live feed of every table drop in NYC — genuinely fun to watch, and useless, because a drop at a restaurant you don't care about is noise. The principle that replaced it: **"Inventory, not news."** Only live, bookable openings; an opening that gets booked elsewhere disappears silently.
+2. **"We don't know" and "there's nothing" look identical — and we were shipping the wrong one.** Venues we weren't watching said "No open tables"; venues we couldn't watch said "Walk-in only" when they book fine elsewhere; two data bugs quietly showed availability that wasn't real. All four are one mistake: *an absence of information rendered as a negative fact.* Recognizing it as one pattern gave the product its spine: **never show false availability.**
+3. **Specificity is what grants permission to interrupt.** An early notification design was a filter matrix. The replacement has exactly two modes: **vague** (zero config, respects quiet hours) or **specific** (these nights, this window, this party size — and it *bypasses* quiet hours). If you don't know which night you want, you haven't earned a 2am push.
+4. **Navigation should scale with the number of objects it organizes.** The median user has about two plans; the app had four tabs. It's two tabs now.
+5. **Editorial guides are a selection accelerator, not a browse destination.** The win is "add 18 vetted spots to a plan in three taps," not "scroll editorial forever."
 
-## Research, honestly
+## Jobs to be done
 
-No interviews, no surveys, no usability tests were run pre-launch; the case study says so instead of inventing metrics. The real research inputs were dogfooding (every plan in the app is one I actually wanted), technical reconnaissance with teeth (TheFork measured as Datadome-blocked and browse-only; counting real Paris booking links showed Zenchef beating TheFork 21-to-3, which reversed the whole Paris strategy), live catalog measurement (Paris: 23 of 252 venues pollable; NYC: 292 of 1,008), and TestFlight testers filing bugs via shake-to-report. Three of the first five user-reported bugs were trust bugs, not cosmetic ones — a genuinely useful signal about where the risk lives.
+- **Primary:** when the restaurant I want is booked out, tell me the instant a matching table appears, so I can book it and stop thinking about it.
+- **Secondary:** when I haven't picked a place, let me cast a net across restaurants I'd be happy with and take whatever opens first.
+- **Anti-job:** "help me decide where to eat." That's Infatuation's job; Snagr consumes their editorial as an input. This is why there are no ratings, no reviews, and a copy rule that bans "recommended for you".
 
-The biggest unvalidated risk is named, not hidden: unbounded pushes on a hot week → mute → dead product. The next research to run is a notification diary study, before anything else.
+## The user journey
 
-## The design spine
+**Declare → Wait → Act.** Sixty seconds of setup; hours-to-days out of the app; fifteen seconds from push to booked. The middle phase is where the entire product lives, and it has no UI — so the lock screen is the primary surface, and the app's job is to prove it's alive without demanding attention: *"Checked 1 minute ago · Watching 18 restaurants across 3 watches."*
 
-The recurring realization: **"we don't know" and "there's nothing" look identical, and we were shipping the wrong one.** Untracked venues said "No open tables." Paris venues said "Walk-in only" when they book fine on platforms we don't poll. Every one of these is the same bug — an absence of information rendered as a negative fact.
+## Ideation — four products before the product
 
-The rule that fixed it became the product's spine: **never show false availability.** Discovery only shows venues Snagr can actually watch. Empty states say "We're not watching this spot yet," never "No tables." A degraded provider suppresses pushes entirely rather than sending late ones, and quiet-hours skips are never replayed at 8am — stale tables at breakfast is exactly the burned-trust failure. Specificity earns interruption: a vague plan honors quiet hours; an enumerated night with one time window bypasses them.
+1. **The drop feed** — killed: engaging is not the same as useful.
+2. **The community hotlist** — users vote on which venues get watched. Killed: needs a crowd I didn't have, and it solved curation, which was never the user's problem. Editorial guides do that job on day one, for free.
+3. **Watchlists, then shared watchlists** — where the product got genuinely good.
+4. **Plans** — one concept, everything derived from it. This is where product and economics fused: watching everything for everyone is unaffordable, but *a plan is a declaration of demand — so demand itself becomes the watching schedule.* The free-tier limits are the real capacity limits, exposed honestly.
+
+Ideas deliberately killed: email alerts (too slow for a five-minute window); the social layer on shared plans — comments, likes, chat (*collaborative, not social*); claim/hold on a shared table ("first to book wins" is honest; a hold we can't enforce is a lie); and plan names + emoji — cut on the principle that "a plan is identified by its criteria," then **reinstated** when the principle proved over-applied. Criteria identify a plan logically; they're a terrible way to *recognize* one in a list. Admitting that reversal mattered more than either decision.
+
+## Structure & interaction
+
+The home screen is one fixed skeleton across three states — **"state changes content, never structure."** Anything new sits in a top slot that is *absent*, not empty, when there's nothing new. New-opening cards cap at two plus "N more" — at nine cards it becomes a feed, and Snagr becomes a browsing app again. Eventually creation was absorbed into browsing: ticking restaurants inside a guide *is* creating a plan, which let me delete six separate "create" entry points.
+
+Notifications are the most designed system in the product, and the design is mostly *suppression*: if data quality degrades, pushes stop entirely and are never replayed late — late is worse than never; one opening that matches three of your plans is one push, not three; quiet-hour skips are never replayed at 8am, because a batch of stale tables at breakfast is exactly the burned-trust failure. The copy system is mostly a NEVER list: never "polling," never "AI," never "recommended for you." And one gap named honestly: notification fatigue has no design solution yet. Naming it beats pretending it's handled.
 
 ## Iteration under fire
 
-Three favorites, each of which changed a principle:
-
-- **One plan froze the device.** An empty plan legitimately watches the whole city — 1,008 venues, all shipped to the client, all eagerly decoding images. Fixed with response caps that can't lie (true counts preserved), a 64MB decoded-image cache bound by byte cost, and a "Watching" card capped at 10 chips — which was a better card anyway; the crash just forced me to notice.
-- **The false-availability arc.** Separating "takes no reservations" from "we never resolved this venue" cut NYC's flagship rail from 234 venues to 64 — an overreach, reverted in a commit that states the damage, then re-decided on a self-correcting principle and attacked at the cause: widget-detection took Paris from 23 to ~53 pollable venues, with every scraped id live-validated (0 of 30 failed).
-- **The 0.34-point bug.** The whole home page could be dragged sideways. Measured instead of theorized: contentSize 402.67pt vs 402.33pt bounds — sub-pixel rounding, and UIScrollView pans on any overflow. "It feels wrong" is a measurable claim.
+- **One plan froze the phone.** An empty plan legitimately watches the whole city — 1,008 venues rendered at once. The fixes were technical, but the design lesson wasn't: the "Watching" card now shows 10 chips + "N more," and that was *always* the better card. Seventy-eight chips was never good design; the crash just forced me to see it.
+- **The false-availability arc.** My first honesty rule over-applied to New York and gutted the flagship rail from 234 venues to 64 — publicly reverted, damage stated in the commit. The re-decision used a better principle: don't classify *why* a venue can't be watched (the user doesn't care); show only what *can* be, and let every newly-resolved venue return automatically.
+- **The page that felt broken.** The home screen could be dragged sideways by a third of a point of layout slack. The fix that held: measure the actual layout, find the real mechanism, verify the number. *"It feels wrong" is a measurable claim* — that's the difference between guessing and knowing.
 
 ## Where it landed
 
-TestFlight build 69, App Store review prepared, Snagr Pro live in sandbox, 552 backend tests passing, 73 guides across New York and Paris. Still open, and named: notification fatigue has no design solution yet, and a watch app that can only watch 29% of its catalog is lying by omission — closing that gap is the live tension the next cycle owns.`;
+TestFlight build 69, App Store review prepared, subscription live in sandbox, 73 editorial guides across New York and Paris. Open and named: fatigue is unsolved, and an app that can only watch 29% of its catalog is lying by omission. Closing that gap owns the next cycle.`;

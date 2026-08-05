@@ -1,5 +1,5 @@
 import { Mail } from "lucide-react";
-import { GitHubIcon, LinkedInIcon } from "./BrandIcons";
+import { LinkedInIcon } from "./BrandIcons";
 
 // Phones get a wink instead of a squished workspace.
 export default function MobileGate() {
@@ -30,9 +30,6 @@ export default function MobileGate() {
       <div className="flex items-center gap-6 text-sm text-fg/80">
         <a href="https://www.linkedin.com/" className="flex items-center gap-1.5">
           <LinkedInIcon size={15} /> LinkedIn
-        </a>
-        <a href="https://github.com/netayamin" className="flex items-center gap-1.5">
-          <GitHubIcon size={15} /> GitHub
         </a>
         <a href="mailto:netayamin@gmail.com" className="flex items-center gap-1.5">
           <Mail size={15} /> Email

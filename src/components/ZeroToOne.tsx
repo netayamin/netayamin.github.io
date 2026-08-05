@@ -85,6 +85,7 @@ export default function ZeroToOne() {
   const [imTaken, setImTaken] = useState(false);
   const [built, setBuilt] = useState(false);
   const [wordIdx, setWordIdx] = useState(0);
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -114,6 +115,7 @@ export default function ZeroToOne() {
         if (px >= siteX()) {
           px = siteX();
           setBuilt(true);
+          setScore((s) => s + 1);
           ph = "build";
           wait = BUILT_TICKS;
         }
@@ -166,14 +168,23 @@ export default function ZeroToOne() {
         possible.
       </span>
 
-      {/* the build site */}
+      {/* the build site: a word missing its prefix, waiting in a slot */}
       <span className="zto-site" ref={siteRef}>
-        {built ? (
-          <span className="zto-built zto-pop">im{word}</span>
-        ) : (
-          <span className="zto-site-word">{word}</span>
+        <span className={built ? "zto-slotbox zto-slotbox-built" : "zto-slotbox"}>
+          {built ? (
+            <span className="zto-built zto-pop">im</span>
+          ) : (
+            <span className="zto-gap">▯</span>
+          )}
+          <span className={built ? "zto-built" : "zto-site-word"}>{word}</span>
+        </span>
+        {built && (
+          <span key={score} className="zto-plus">
+            +1
+          </span>
         )}
       </span>
+      {score > 0 && <span className="zto-coins">🪙×{score}</span>}
 
       {running && (
         <span

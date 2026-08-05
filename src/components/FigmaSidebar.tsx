@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronDown, Mail, Plus, Search, SquarePen } from "lucide-react";
-import { GitHubIcon, LinkedInIcon } from "./BrandIcons";
+import { LinkedInIcon } from "./BrandIcons";
 import ThemeToggle from "./ThemeToggle";
 import { usePage, type PageId } from "@/context/PageContext";
 
@@ -20,7 +20,6 @@ const PROJECTS: Array<{
 
 const LINKS = [
   { label: "LinkedIn", href: "https://www.linkedin.com/", icon: <LinkedInIcon size={15} /> },
-  { label: "GitHub", href: "https://github.com/netayamin", icon: <GitHubIcon size={15} /> },
   { label: "Email", href: "mailto:netayamin@gmail.com", icon: <Mail size={15} /> },
 ];
 
