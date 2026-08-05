@@ -110,10 +110,11 @@ const PROJECTS: Array<{
   name: string;
   page?: PageId;
   href?: string;
+  soon?: boolean;
 }> = [
   { emoji: "🍽️", name: "Snagr", page: "snagr" },
-  { emoji: "📋", name: "Peel", href: "https://getpeel.co/" },
-  { emoji: "🧪", name: "Experiments", href: "#" },
+  { emoji: "📋", name: "Peel", soon: true },
+  { emoji: "🧪", name: "Experiments", soon: true },
 ];
 
 const LINKS = [
@@ -192,6 +193,20 @@ export default function FigmaSidebar() {
               ? "bg-accent-soft font-medium text-fg"
               : "text-fg/80 hover:bg-fg/5"
           }`;
+          if (project.soon) {
+            return (
+              <div
+                key={project.name}
+                className="mb-0.5 flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-[13px] text-muted/70"
+              >
+                <span className="text-[15px] leading-none opacity-60">{project.emoji}</span>
+                {project.name}
+                <span className="ml-auto rounded-full bg-fg/[0.05] px-1.5 py-0.5 text-[9px] font-medium text-muted dark:bg-white/[0.08]">
+                  coming soon
+                </span>
+              </div>
+            );
+          }
           return project.page ? (
             <button
               key={project.name}

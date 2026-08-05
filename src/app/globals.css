@@ -161,6 +161,40 @@ body {
   56%, 100% { opacity: 0.12; }
 }
 
+/* The witch: slow menacing sway */
+.zto-witch {
+  animation: witch-sway 3.6s ease-in-out infinite alternate;
+  transform-origin: bottom center;
+}
+
+@keyframes witch-sway {
+  from { transform: rotate(-2deg); }
+  to { transform: rotate(2.5deg); }
+}
+
+/* Her speech bubble, tail pointing down at her */
+.zto-witch-bubble {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.zto-witch-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 12px;
+  width: 8px;
+  height: 8px;
+  transform: rotate(45deg);
+  background: var(--card);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
 /* Mazi's speech bubble */
 .zto-bubble {
   position: absolute;

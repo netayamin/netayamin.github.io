@@ -139,11 +139,33 @@ function TrashCan({ open }: { open: boolean }) {
   );
 }
 
-type Phase = "grab" | "carry" | "dunk" | "back" | "respawn";
+// The villain: a pixel witch who insists everything is impossible.
+function PixelWitch() {
+  return (
+    <svg width="21" height="24" viewBox="0 0 12 16" shapeRendering="crispEdges" aria-hidden>
+      <rect x="5" y="0" width="2" height="1" fill="#1f1430" />
+      <rect x="4" y="1" width="4" height="2" fill="#1f1430" />
+      <rect x="3" y="3" width="6" height="1" fill="#1f1430" />
+      <rect x="1" y="4" width="10" height="1" fill="#1f1430" />
+      <rect x="3" y="5" width="1" height="3" fill="#2c2c34" />
+      <rect x="8" y="5" width="1" height="3" fill="#2c2c34" />
+      <rect x="4" y="5" width="4" height="3" fill="#8fbf6a" />
+      <rect x="5" y="6" width="1" height="1" fill="#1f1430" />
+      <rect x="7" y="6" width="1" height="1" fill="#6da24f" />
+      <rect x="3" y="8" width="6" height="5" fill="#4a2a6b" />
+      <rect x="2" y="9" width="1" height="3" fill="#4a2a6b" />
+      <rect x="9" y="9" width="1" height="3" fill="#4a2a6b" />
+      <rect x="2" y="13" width="8" height="2" fill="#3a2054" />
+      <rect x="3" y="15" width="2" height="1" fill="#1f1430" />
+      <rect x="7" y="15" width="2" height="1" fill="#1f1430" />
+    </svg>
+  );
+}
+
+type Phase = "grab" | "carry" | "dunk" | "back" | "respawn" | "idle";
 
 export default function ZeroToOne() {
   const sceneRef = useRef<HTMLDivElement>(null);
-  const sentenceRef = useRef<HTMLSpanElement>(null);
   const imRef = useRef<HTMLSpanElement>(null);
   const [running, setRunning] = useState(false);
   const [x, setX] = useState(0);
@@ -201,9 +223,12 @@ export default function ZeroToOne() {
 
     const sceneW = () => sceneRef.current?.offsetWidth ?? 900;
     const imX = () => {
-      const s = sentenceRef.current;
+      const scene = sceneRef.current;
       const im = imRef.current;
-      return s && im ? s.offsetLeft + im.offsetLeft - RUNNER_W + 6 : 60;
+      if (!scene || !im) return 60;
+      return (
+        im.getBoundingClientRect().left - scene.getBoundingClientRect().left - RUNNER_W + 6
+      );
     };
     const trashX = () => sceneW() - 52;
     const obstacleXs = () => OBSTACLES.map((ob) => ({ x: ob.f * sceneW(), w: ob.w }));
@@ -327,13 +352,12 @@ export default function ZeroToOne() {
         return;
       }
 
-      if (mode === "manual" && Date.now() - lastInput > 8000) {
+      if (mode === "manual" && Date.now() - lastInput > 12000) {
         mode = "auto";
         setManual(false);
         setHurt(false);
         invuln = 0;
-        ph = imTakenRef.current ? "carry" : "back";
-        wait = 0;
+        ph = "idle"; // she's done demoing; your turn
       }
 
       if (mode === "manual") {
@@ -376,10 +400,9 @@ export default function ZeroToOne() {
           ph = "respawn";
           wait = RESPAWN_TICKS;
         }
-      } else {
+      } else if (ph === "respawn") {
         if (--wait <= 0) {
-          ph = "grab";
-          wait = GRAB_TICKS;
+          ph = "idle"; // demo round complete — Mazi rests until you play
         }
       }
 
@@ -409,25 +432,36 @@ export default function ZeroToOne() {
       className="absolute inset-0"
     >
       <div aria-hidden className="absolute inset-0">
-        {/* the sentence, floating mid-left — he jumps to grab the tile */}
-        <span
-          ref={sentenceRef}
-          className="absolute left-5 top-1/2 -translate-y-1/2 whitespace-nowrap text-[13px] font-medium text-muted"
-        >
-          Everything is{" "}
-          <span ref={imRef}>
-            {imTaken ? (
-              <span className="zto-hole">▯</span>
-            ) : (
-              <span key={coins} className="zto-im-tile zto-pop">
-                im
-              </span>
-            )}
-          </span>
-          <span className={imTaken ? "zto-possible zto-possible-on" : "zto-possible"}>
-            possible.
-          </span>
+        {/* the witch and her claim — Mazi steals the im out of her bubble */}
+        <span className="zto-witch absolute bottom-[5px] left-3">
+          <PixelWitch />
         </span>
+        <div className="absolute left-11 top-[5px] flex items-center gap-4">
+          <span className="zto-witch-bubble relative whitespace-nowrap text-[12.5px] font-medium text-fg/85">
+            Everything is{" "}
+            <span ref={imRef}>
+              {imTaken ? (
+                <span className="zto-hole">▯</span>
+              ) : (
+                <span key={coins} className="zto-im-tile zto-pop">
+                  im
+                </span>
+              )}
+            </span>
+            <span className={imTaken ? "zto-possible zto-possible-on" : "zto-possible"}>
+              possible.
+            </span>
+          </span>
+          <span className="flex items-center gap-1.5 text-[10px] font-medium text-muted">
+            <span aria-hidden>🎮</span>
+            <kbd className="rounded-md border border-line bg-card px-1.5 py-px shadow-sm">←</kbd>
+            <kbd className="rounded-md border border-line bg-card px-1.5 py-px shadow-sm">→</kbd>
+            <span>move</span>
+            <kbd className="ml-1 rounded-md border border-line bg-card px-1.5 py-px shadow-sm">↑</kbd>
+            <span>jump</span>
+            {!manual && <span className="ml-1 text-accent">— help Mazi!</span>}
+          </span>
+        </div>
 
         {/* obstacles — the hazards of shipping */}
         {OBSTACLES.map((ob) => (
@@ -456,16 +490,6 @@ export default function ZeroToOne() {
           {dunking && <span className="zto-im-tile zto-toss">im</span>}
         </span>
 
-        {/* HUD — controls top-left where they're seen, score top-right */}
-        <span className="absolute left-5 top-1 flex items-center gap-1.5 text-[10px] font-medium text-muted">
-          <span aria-hidden>🎮</span>
-          <kbd className="rounded-md border border-line bg-card px-1.5 py-px shadow-sm">←</kbd>
-          <kbd className="rounded-md border border-line bg-card px-1.5 py-px shadow-sm">→</kbd>
-          <span>move</span>
-          <kbd className="ml-1 rounded-md border border-line bg-card px-1.5 py-px shadow-sm">↑</kbd>
-          <span>jump</span>
-          {!manual && <span className="ml-1 text-accent">— help Mazi!</span>}
-        </span>
         {coins > 0 && (
           <span className="absolute right-4 top-1.5 text-[10px] font-semibold text-muted">
             🗑️×{coins}
