@@ -94,11 +94,11 @@ function Backdrop() {
 
 export default function Header() {
   return (
-    <header className="relative flex h-14 shrink-0 items-center overflow-hidden border-b border-line px-5">
+    <header className="relative flex h-14 shrink-0 items-end overflow-hidden border-b border-line px-5">
       <Backdrop />
       <span
-        className="relative z-10 text-[13px] font-medium text-muted"
-        aria-label="Everything is possible — the im was just misallocated. Reallocating: improve, impress, impact."
+        className="relative z-10 pb-[6px] text-[13px] font-medium text-muted"
+        aria-label="Everything is possible: improve, impress, impact."
       >
         <ZeroToOne />
       </span>

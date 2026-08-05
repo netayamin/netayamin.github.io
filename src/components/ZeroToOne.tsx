@@ -171,16 +171,15 @@ export default function ZeroToOne() {
         </span>
       )}
       <span className={imTaken ? "zto-possible zto-possible-on" : "zto-possible"}>
-        possible
-      </span>{" "}
-      — the im is just misallocated.
-      <span className="zto-soi"> Reallocating:</span>
+        possible.
+      </span>
       {WORDS.map((word, i) => (
         <span
           key={word}
           ref={(el) => {
             slotRefs.current[i] = el;
           }}
+          style={i === 0 ? { marginLeft: 18 } : undefined}
           className={builtSlots[i] ? "zto-slotbox zto-slotbox-built" : "zto-slotbox"}
         >
           {builtSlots[i] ? (
