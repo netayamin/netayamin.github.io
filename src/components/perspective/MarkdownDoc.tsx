@@ -116,7 +116,7 @@ function Formatted({ source }: { source: string }) {
           key={blocks.length}
           className="flex gap-2.5 rounded-lg bg-fg/[0.04] px-3.5 py-2.5 text-[13.5px] leading-relaxed text-fg/85 dark:bg-white/[0.06]"
         >
-          <span aria-hidden>\ud83d\udca1</span>
+          <span aria-hidden>{"\ud83d\udca1"}</span>
           <span>{inline(t.slice(2))}</span>
         </blockquote>,
       );
