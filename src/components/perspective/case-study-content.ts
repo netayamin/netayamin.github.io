@@ -5,7 +5,7 @@ export const CASE_STUDY = `# Designing for a question reservation apps were neve
 
 *Snagr — Product Design Case Study*
 
-**Tools:** Figma · SwiftUI · Xcode + XcodeGen · StoreKit 2 · APNs · TestFlight · Claude (AI-assisted dev) · Node.js + TypeScript · Fastify · PostgreSQL + Drizzle · Redis · Playwright + Python (availability) · Meilisearch · Render · GitHub Actions CI/CD
+**Tools:** Figma · Mobbin (inspo) · SwiftUI · Xcode + XcodeGen · StoreKit 2 · APNs · TestFlight · Claude (AI-assisted dev) · Node.js + TypeScript · Fastify · PostgreSQL + Drizzle · Redis · Playwright + Python (availability) · Meilisearch · Render · GitHub Actions CI/CD
 
 ## Who, what, when, where, why, how
 
