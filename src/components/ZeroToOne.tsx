@@ -19,9 +19,60 @@ const RUNNER_W = 18;
 const GRAB_TICKS = 7; // one jump's worth — he leaps up to grab the tile
 const DUNK_TICKS = 9;
 const RESPAWN_TICKS = 8;
-const JUMP_ARC = [5, 9, 12, 12, 9, 5];
-const OBSTACLES = [0.5, 0.66, 0.82]; // fractions of the level width
-const OB_W = 12;
+const JUMP_ARC = [5, 9, 13, 13, 9, 5];
+const OB_W = 13;
+
+function PixelBug() {
+  return (
+    <svg width="13" height="8" viewBox="0 0 13 8" shapeRendering="crispEdges" aria-hidden>
+      <rect x="1" y="6" width="2" height="2" fill="#3f2a1d" />
+      <rect x="5" y="6" width="2" height="2" fill="#3f2a1d" />
+      <rect x="8" y="6" width="2" height="2" fill="#3f2a1d" />
+      <rect x="1" y="2" width="9" height="4" fill="#c0392b" />
+      <rect x="2" y="1" width="7" height="1" fill="#c0392b" />
+      <rect x="3" y="3" width="1" height="1" fill="#3f2a1d" />
+      <rect x="6" y="4" width="1" height="1" fill="#3f2a1d" />
+      <rect x="10" y="2" width="2" height="3" fill="#7b241c" />
+      <rect x="11" y="0" width="1" height="2" fill="#7b241c" />
+    </svg>
+  );
+}
+
+function PixelMeeting() {
+  return (
+    <svg width="12" height="10" viewBox="0 0 12 10" shapeRendering="crispEdges" aria-hidden>
+      <rect x="0" y="1" width="12" height="9" fill="#e8e8ee" />
+      <rect x="0" y="1" width="12" height="3" fill="#e74c3c" />
+      <rect x="2" y="0" width="1" height="2" fill="#6d6d76" />
+      <rect x="9" y="0" width="1" height="2" fill="#6d6d76" />
+      <rect x="2" y="5" width="2" height="1" fill="#9a9aa2" />
+      <rect x="5" y="5" width="2" height="1" fill="#9a9aa2" />
+      <rect x="8" y="5" width="2" height="1" fill="#9a9aa2" />
+      <rect x="2" y="7" width="2" height="1" fill="#9a9aa2" />
+      <rect x="5" y="7" width="2" height="1" fill="#9a9aa2" />
+    </svg>
+  );
+}
+
+function PixelStar() {
+  return (
+    <svg width="11" height="10" viewBox="0 0 11 10" shapeRendering="crispEdges" aria-hidden>
+      <rect x="5" y="0" width="1" height="2" fill="#f1c40f" />
+      <rect x="4" y="2" width="3" height="2" fill="#f1c40f" />
+      <rect x="0" y="3" width="11" height="2" fill="#f1c40f" />
+      <rect x="2" y="5" width="7" height="2" fill="#f1c40f" />
+      <rect x="1" y="7" width="3" height="2" fill="#f1c40f" />
+      <rect x="7" y="7" width="3" height="2" fill="#f1c40f" />
+    </svg>
+  );
+}
+
+// The hazards of shipping a product, in order of appearance.
+const OBSTACLES: Array<{ f: number; label: string; sprite: React.ReactNode }> = [
+  { f: 0.5, label: "bug", sprite: <PixelBug /> },
+  { f: 0.66, label: "standup", sprite: <PixelMeeting /> },
+  { f: 0.82, label: "1★ review", sprite: <PixelStar /> },
+];
 
 function Body() {
   return (
@@ -68,15 +119,6 @@ function PixelRunner({ frame }: { frame: 0 | 1 }) {
   );
 }
 
-function Rock() {
-  return (
-    <svg width="12" height="8" viewBox="0 0 6 4" shapeRendering="crispEdges" aria-hidden>
-      <rect x="1" y="1" width="4" height="3" fill="#9a9aa2" />
-      <rect x="0" y="2" width="6" height="2" fill="#83838c" />
-      <rect x="2" y="0" width="2" height="1" fill="#b0b0b8" />
-    </svg>
-  );
-}
 
 function TrashCan({ open }: { open: boolean }) {
   return (
@@ -123,7 +165,7 @@ export default function ZeroToOne() {
       return s && im ? s.offsetLeft + im.offsetLeft - RUNNER_W + 6 : 60;
     };
     const trashX = () => sceneW() - 52;
-    const obstacleXs = () => OBSTACLES.map((f) => f * sceneW());
+    const obstacleXs = () => OBSTACLES.map((ob) => ob.f * sceneW());
 
     const progressJump = () => {
       if (jumpT >= 0) {
@@ -229,10 +271,13 @@ export default function ZeroToOne() {
           </span>
         </span>
 
-        {/* obstacles */}
-        {OBSTACLES.map((f) => (
-          <span key={f} className="absolute bottom-[5px]" style={{ left: `${f * 100}%` }}>
-            <Rock />
+        {/* obstacles — the hazards of shipping */}
+        {OBSTACLES.map((ob) => (
+          <span key={ob.label} className="absolute bottom-[5px]" style={{ left: `${ob.f * 100}%` }}>
+            <span className="absolute -top-[13px] left-1/2 -translate-x-1/2 whitespace-nowrap text-[8px] font-medium text-muted/80">
+              {ob.label}
+            </span>
+            {ob.sprite}
           </span>
         ))}
 

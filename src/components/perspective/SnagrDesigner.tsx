@@ -1,5 +1,6 @@
 import Draggable from "./Draggable";
 import FigmaCanvas from "./FigmaCanvas";
+import ZoomFrame from "./ZoomFrame";
 
 const FIGMA_BLUE = "#0d99ff";
 
@@ -63,7 +64,7 @@ export default function SnagrDesigner() {
       <div className="ml-auto w-1/2">
         <div className="mx-auto flex w-[86%] max-w-[420px] flex-col gap-10 pt-10">
           {/* Brand */}
-          <Draggable>
+          <Draggable><ZoomFrame label="Brand" scale={1.6}>
             <FrameLabel>Brand</FrameLabel>
             <div className="flex items-center gap-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-[#1f1f22]">
               <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#9d7bff] to-[#6a45f0] text-2xl font-bold text-white">
@@ -81,18 +82,18 @@ export default function SnagrDesigner() {
                 </a>
               </div>
             </div>
-          </Draggable>
+          </ZoomFrame></Draggable>
 
           {/* App screen */}
-          <Draggable>
+          <Draggable><ZoomFrame label="My Plans · iPhone 16" scale={1.25}>
             <FrameLabel>My Plans · iPhone 16</FrameLabel>
             <div className="flex justify-center rounded-2xl bg-gradient-to-br from-[#efeaff] to-[#e3dbfd] py-6 dark:from-[#221d38] dark:to-[#1b1730]">
               <Phone />
             </div>
-          </Draggable>
+          </ZoomFrame></Draggable>
 
           {/* Drop alert */}
-          <Draggable>
+          <Draggable><ZoomFrame label="Drop alert" scale={1.7}>
             <FrameLabel>Drop alert</FrameLabel>
             <div className="rounded-2xl bg-white p-3.5 shadow-sm dark:bg-[#1f1f22]">
               <p className="text-[10px] font-semibold text-accent">SNAGR · now</p>
@@ -103,10 +104,10 @@ export default function SnagrDesigner() {
                 Don Angie · Sat 8:00 PM
               </p>
             </div>
-          </Draggable>
+          </ZoomFrame></Draggable>
 
           {/* Watchlist */}
-          <Draggable>
+          <Draggable><ZoomFrame label="Watchlist" scale={1.6}>
             <FrameLabel>Watchlist</FrameLabel>
             <div className="flex flex-col gap-1.5 rounded-2xl bg-white p-3.5 shadow-sm dark:bg-[#1f1f22]">
               {["Via Carota", "Don Angie", "4 Charles Prime Rib"].map((r) => (
@@ -116,10 +117,10 @@ export default function SnagrDesigner() {
                 </div>
               ))}
             </div>
-          </Draggable>
+          </ZoomFrame></Draggable>
 
           {/* Plan card */}
-          <Draggable>
+          <Draggable><ZoomFrame label="Group plan" scale={1.7}>
             <FrameLabel>Group plan</FrameLabel>
             <div className="flex items-center justify-between rounded-2xl bg-white p-3.5 shadow-sm dark:bg-[#1f1f22]">
               <div className="flex -space-x-2">
@@ -131,7 +132,7 @@ export default function SnagrDesigner() {
                 Sat, May 24 · everyone&rsquo;s in
               </span>
             </div>
-          </Draggable>
+          </ZoomFrame></Draggable>
         </div>
       </div>
     </FigmaCanvas>
