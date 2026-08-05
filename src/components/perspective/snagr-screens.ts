@@ -11,12 +11,12 @@ export type SnagrScreen = {
 };
 
 export const SNAGR_SCREENS: SnagrScreen[] = [
-  // Example (uncomment when the file exists):
-  // {
-  //   file: "plan-paris.png",
-  //   title: "Plan · Paris Trip",
-  //   caption: "One ask, hundreds of live openings, one readable answer.",
-  //   anchor: "breaking-the-one-reservation-model",
-  //   offset: 60,
-  // },
+  {
+    file: "home.png",
+    title: "Home · Plans",
+    caption:
+      "The real home screen: two plans quietly watching (15 and 26 tables live), and editorial collections ready to become the next plan.",
+    anchor: "the-journey-with-snagr",
+    offset: 130,
+  },
 ];
