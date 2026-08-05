@@ -48,6 +48,20 @@ The product opportunity is stages 3–5. Nothing on the market touches them: dis
 
 The reframe that shaped everything: people aren't trying to *find* a restaurant — they're trying to *stop checking* one. So the answer had to start from what's bookable, be group-native, and interrupt rather than be browsed. Rejected on the way: a discovery app (a better Beli — but discovery isn't the bottleneck), a group-chat bot (no control of the notification surface, and bots get muted), and a web app (the product *is* a timely push; that lives on iOS).
 
+## The hardest screen: reservations in bulk
+
+Until now, a reservation was a one-shot question: one restaurant, one date, one time, one party size — four dropdowns, one answer. A Snagr plan breaks that contract on purpose. "Paris trip: Aug 17–18, 6 to 9pm, 3 to 5 people, anywhere on this list" is *one* human thought — but underneath it's fifteen restaurants times two dates times a time window times three party sizes, across different booking platforms. Hundreds of real, live openings, all true at once. Shown raw, it's a spreadsheet; the plan page had to make it feel like an answer.
+
+The decisions that got it there:
+
+- **The unit of decision is the restaurant, not the slot.** People pick a *place* first and a time second — so results group by venue, never as a giant chronological slot list.
+- **Two slots per venue, then "+10 more times."** Enough to prove it's real and bookable, little enough to stay scannable. Depth is one tap away instead of on the page.
+- **Every line is a complete sentence.** "Tue, Aug 18 · 8:15 PM · for 3 · Resy" — day, time, party size, platform. Any single row is bookable on sight, with zero cross-referencing.
+- **The header restates the ask.** Date range, time window, party size sit as chips above the results, so every row below is implicitly filtered by them — context carried once, not repeated a hundred times.
+- **One number up top.** "9 restaurants available" answers the emotional question — *is this trip going to work?* — before a single row is read.
+
+The lesson: when you change the shape of the question, you inherit the duty of redesigning the shape of the answer. Bulk asking is Snagr's power; making bulk *readable* was the design work.
+
 ## How it evolved — four products, four lessons
 
 1. **A live drop feed** of every opening in the city. Fun, useless: a table you don't care about is noise. *Engagement is not value.*
