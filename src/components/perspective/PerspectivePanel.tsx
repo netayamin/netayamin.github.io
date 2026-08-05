@@ -22,10 +22,11 @@ const THINKING = [
 ];
 
 // `reveal` is the % of the panel showing Designer Mode: 100 = all designer,
-// 0 = all developer. The segmented control snaps it; the center handle
-// drags it anywhere in between (the mockup's before/after divider).
+// 0 = all developer, and the resting state is an even 50/50 split. The
+// segmented control snaps it; the center handle drags it anywhere in
+// between (the mockup's before/after divider).
 export default function PerspectivePanel() {
-  const [reveal, setReveal] = useState(100);
+  const [reveal, setReveal] = useState(50);
   const [dragging, setDragging] = useState(false);
   const stageRef = useRef<HTMLDivElement>(null);
 
