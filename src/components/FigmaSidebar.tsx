@@ -51,7 +51,7 @@ function SearchBox({ onGo }: { onGo: (page: PageId) => void }) {
           onChange={(e) => setQ(e.target.value)}
           onFocus={() => setOpen(true)}
           onBlur={() => setTimeout(() => setOpen(false), 150)}
-          placeholder="Search"
+          placeholder="Search (results may be predictable)"
           className="w-full flex-1 bg-transparent text-fg outline-none placeholder:text-muted"
         />
         <kbd className="font-sans text-[11px] text-muted/70">⌘ /</kbd>
@@ -60,7 +60,7 @@ function SearchBox({ onGo }: { onGo: (page: PageId) => void }) {
       {open && q.trim() && (
         <div className="absolute inset-x-4 top-full z-30 mt-1 rounded-xl border border-line bg-card p-1.5 shadow-lg">
           <p className="px-2 pb-1 pt-0.5 text-[10px] text-muted">
-            Results for &ldquo;{q}&rdquo;
+            Pretending to search for &ldquo;{q}&rdquo;&hellip; found the usual:
           </p>
           {results.map((r) => {
             const inner = (
@@ -95,7 +95,8 @@ function SearchBox({ onGo }: { onGo: (page: PageId) => void }) {
             );
           })}
           <p className="border-t border-line px-2 pb-1 pt-1.5 text-[10px] leading-relaxed text-muted">
-            That&rsquo;s the whole portfolio. Quality over quantity. 🤷‍♀️
+            Not a real search — the portfolio has like five things and you
+            just saw all of them. Quality over quantity.
           </p>
         </div>
       )}
