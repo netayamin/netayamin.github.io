@@ -7,19 +7,9 @@ import {
   ChevronRight,
   Code,
   Command,
-  Layers,
-  Smartphone,
-  Sparkles,
 } from "lucide-react";
 import DesignerMode from "./DesignerMode";
 import DeveloperMode from "./DeveloperMode";
-
-const THINKING = [
-  { label: "AI Interfaces", icon: <Sparkles size={14} /> },
-  { label: "Design Systems", icon: <Layers size={14} /> },
-  { label: "SwiftUI", icon: <Smartphone size={14} /> },
-  { label: "Frontend Architecture", icon: <Code size={14} /> },
-];
 
 // `reveal` is the % of the panel showing Designer Mode: 100 = all designer,
 // 0 = all developer, and the resting state is an even 50/50 split. The
@@ -137,20 +127,6 @@ export default function PerspectivePanel() {
         </button>
       </div>
 
-      <div className="mt-3 shrink-0">
-        <p className="text-[13px] text-muted">Currently thinking about</p>
-        <div className="mt-2 flex flex-wrap gap-2">
-          {THINKING.map((chip) => (
-            <span
-              key={chip.label}
-              className="flex items-center gap-2 rounded-xl border border-line bg-card px-3.5 py-2 text-[13px] font-medium text-fg/85"
-            >
-              {chip.icon}
-              {chip.label}
-            </span>
-          ))}
-        </div>
-      </div>
     </section>
   );
 }
