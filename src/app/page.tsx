@@ -1,15 +1,20 @@
 import Header from "@/components/Header";
-import IntroColumn from "@/components/IntroColumn";
+import FigmaSidebar from "@/components/FigmaSidebar";
+import MobileGate from "@/components/MobileGate";
 import PerspectivePanel from "@/components/perspective/PerspectivePanel";
+import { PageProvider } from "@/context/PageContext";
 
 export default function Home() {
   return (
-    <div className="flex min-h-dvh flex-col lg:h-dvh lg:overflow-hidden">
-      <Header />
-      <main className="grid flex-1 gap-10 px-8 pb-7 pt-2 lg:min-h-0 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:px-12">
-        <IntroColumn />
-        <PerspectivePanel />
-      </main>
-    </div>
+    <PageProvider>
+      <MobileGate />
+      <div className="hidden h-dvh flex-col overflow-hidden lg:flex">
+        <Header />
+        <div className="flex min-h-0 flex-1">
+          <FigmaSidebar />
+          <PerspectivePanel />
+        </div>
+      </div>
+    </PageProvider>
   );
 }
