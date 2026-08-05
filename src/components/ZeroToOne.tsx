@@ -164,16 +164,17 @@ export default function ZeroToOne() {
 
   return (
     <span className="zto-scene zto-ground" aria-hidden>
-      Going from 0 to 1 is{" "}
+      &ldquo;
       {!imTaken && (
         <span ref={imRef} className={phase === "respawn" ? "zto-im zto-pop" : "zto-im"}>
-          im
+          Im
         </span>
       )}
       <span className={imTaken ? "zto-possible zto-possible-on" : "zto-possible"}>
-        possible.
-      </span>
-      <span className="zto-soi"> So I</span>
+        possible&rdquo;
+      </span>{" "}
+      is just possible holding an im.
+      <span className="zto-soi"> I put the im to work:</span>
       {WORDS.map((word, i) => (
         <span
           key={word}
