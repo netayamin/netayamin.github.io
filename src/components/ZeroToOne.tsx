@@ -453,7 +453,6 @@ export default function ZeroToOne() {
             </span>
           </span>
           <span className="flex items-center gap-1.5 text-[10px] font-medium text-muted">
-            <span aria-hidden>🎮</span>
             <kbd className="rounded-md border border-line bg-card px-1.5 py-px shadow-sm">←</kbd>
             <kbd className="rounded-md border border-line bg-card px-1.5 py-px shadow-sm">→</kbd>
             <span>move</span>

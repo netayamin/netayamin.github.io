@@ -31,7 +31,7 @@ Design-minded software engineer with 5+ years building intuitive products across
 - **Peel** — AI-powered commercial real estate · getpeel.co
 
 ## Sidekick
-- Mazi 🐶 — Chief Morale Officer, barks at bugs`;
+- Mazi — Chief Morale Officer, barks at bugs`;
 
 // The developer lens of Me: the actual resume as Resume.md.
 export default function DeveloperMode() {

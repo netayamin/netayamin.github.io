@@ -116,7 +116,6 @@ function Formatted({ source }: { source: string }) {
           key={blocks.length}
           className="flex gap-2.5 rounded-lg bg-fg/[0.04] px-3.5 py-2.5 text-[13.5px] leading-relaxed text-fg/85 dark:bg-white/[0.06]"
         >
-          <span aria-hidden>{"\ud83d\udca1"}</span>
           <span>{inline(t.slice(2))}</span>
         </blockquote>,
       );
@@ -150,10 +149,9 @@ function Raw({ source }: { source: string }) {
 
 export default function MarkdownDoc({
   source,
-  icon = "\ud83d\udcc4",
 }: {
   source: string;
-  icon?: string;
+  icon?: string; // accepted but unused — docs are emoji-free
 }) {
   const [raw, setRaw] = useState(false);
   const lines = source.split("\n");
@@ -163,8 +161,7 @@ export default function MarkdownDoc({
 
   return (
     <div className="rounded-xl border border-black/5 bg-white/60 px-9 py-8 dark:border-white/10 dark:bg-white/[0.04]">
-      <div className="mb-4 flex items-start justify-between">
-        <span className="text-[40px] leading-none">{icon}</span>
+      <div className="mb-2 flex items-start justify-end">
         <div className="flex overflow-hidden rounded-md border border-line text-[10px] dark:border-white/15">
           <button
             type="button"
