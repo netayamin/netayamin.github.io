@@ -1,4 +1,5 @@
 import AnchoredFrame from "./AnchoredFrame";
+import { SNAGR_SCREENS } from "./snagr-screens";
 import Draggable from "./Draggable";
 import FigmaCanvas from "./FigmaCanvas";
 import ZoomFrame from "./ZoomFrame";
@@ -133,6 +134,28 @@ export default function SnagrDesigner() {
               </span>
             </div>
           </ZoomFrame></Draggable></AnchoredFrame>
+
+          {/* Real app screens, straight from the simulator */}
+          {SNAGR_SCREENS.map((screen) => (
+            <AnchoredFrame key={screen.file} anchor={screen.anchor} offset={screen.offset ?? 20}>
+              <Draggable><ZoomFrame label={screen.title} scale={1.4}>
+                <FrameLabel>{screen.title}</FrameLabel>
+                <div className="w-[230px] overflow-hidden rounded-[2rem] border-[5px] border-neutral-900 bg-neutral-900 shadow-xl">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/snagr/screens/${screen.file}`}
+                    alt={screen.title}
+                    className="w-full rounded-[1.7rem]"
+                  />
+                </div>
+                {screen.caption && (
+                  <p className="mt-1.5 max-w-[230px] text-[10px] leading-snug text-neutral-500 dark:text-neutral-400">
+                    {screen.caption}
+                  </p>
+                )}
+              </ZoomFrame></Draggable>
+            </AnchoredFrame>
+          ))}
       </div>
     </FigmaCanvas>
   );
