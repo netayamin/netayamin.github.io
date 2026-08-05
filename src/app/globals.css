@@ -1,98 +1,59 @@
 @import "tailwindcss";
 
+@custom-variant dark ([data-theme="dark"] &);
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #fafafa;
+  --card: #ffffff;
+  --line: #e7e7e4;
+  --fg: #141414;
+  --muted: #6f6f76;
+  --accent: #7c5cfc;
+  --accent-soft: #f1edff;
+  --ink: #17171b;
+  --ink-card: #1f1f26;
+  --ink-line: #2c2c34;
+}
+
+[data-theme="dark"] {
+  --bg: #0f0f12;
+  --card: #17171b;
+  --line: #26262c;
+  --fg: #f2f2f2;
+  --muted: #9b9ba3;
+  --accent: #8f75ff;
+  --accent-soft: #241f3d;
+  --ink: #101014;
+  --ink-card: #1a1a21;
+  --ink-line: #2c2c34;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-bg: var(--bg);
+  --color-card: var(--card);
+  --color-line: var(--line);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-ink: var(--ink);
+  --color-ink-card: var(--ink-card);
+  --color-ink-line: var(--ink-line);
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
     var(--font-geist-sans), "Helvetica Neue", Arial, sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg);
+  color: var(--fg);
 }
 
-@keyframes wag {
-  0%,
-  100% {
-    transform: rotate(0deg);
-  }
-  50% {
-    transform: rotate(-18deg);
-  }
-}
-
-/* Intentionally, laughably obnoxious — this is the joke "bad hover state" demo. */
-@keyframes bad-hover-jitter {
-  0% {
-    transform: translate(0, 0) rotate(0deg) scale(1.05, 0.97);
-  }
-  10% {
-    transform: translate(-3px, 2px) rotate(-4deg) scale(1.08, 0.95);
-  }
-  20% {
-    transform: translate(3px, -2px) rotate(4deg) scale(0.95, 1.08);
-  }
-  30% {
-    transform: translate(-3px, 3px) rotate(-3deg) scale(1.06, 0.96);
-  }
-  40% {
-    transform: translate(3px, -3px) rotate(3deg) scale(0.96, 1.06);
-  }
-  50% {
-    transform: translate(-2px, 2px) rotate(-4deg) scale(1.08, 0.95);
-  }
-  60% {
-    transform: translate(2px, -2px) rotate(3deg) scale(0.95, 1.06);
-  }
-  70% {
-    transform: translate(-2px, 2px) rotate(-3deg) scale(1.05, 0.97);
-  }
-  80% {
-    transform: translate(2px, -2px) rotate(4deg) scale(0.97, 1.05);
-  }
-  90% {
-    transform: translate(-1px, 1px) rotate(-2deg) scale(1.04, 0.98);
-  }
-  100% {
-    transform: translate(0, 0) rotate(0deg) scale(1.05, 0.97);
-  }
-}
-
-@keyframes bad-hover-bg {
-  0% {
-    background-color: #ff00ff;
-  }
-  20% {
-    background-color: #ffff00;
-  }
-  40% {
-    background-color: #00ffff;
-  }
-  60% {
-    background-color: #ff0000;
-  }
-  80% {
-    background-color: #00ff00;
-  }
-  100% {
-    background-color: #ff00ff;
-  }
-}
-
-@keyframes bad-hover-blink {
-  0%,
-  49% {
-    opacity: 1;
-  }
-  50%,
-  100% {
-    opacity: 0.15;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
   }
 }
