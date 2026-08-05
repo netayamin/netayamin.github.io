@@ -20,7 +20,7 @@ export default function MobileGate() {
         </p>
         <p className="mx-auto mt-4 max-w-[330px] text-[15px] leading-relaxed text-fg/85">
           Responsive UI is my specialty — which is exactly how I know this
-          page deserves a bigger screen. Mazi will be waiting.
+          page deserves a bigger screen. Mazi (my dog) will be waiting.
         </p>
       </div>
       <div className="flex items-center gap-6 text-sm font-medium text-fg/85">
