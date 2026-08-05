@@ -161,6 +161,44 @@ body {
   56%, 100% { opacity: 0.12; }
 }
 
+/* Obstacle personalities */
+.ob-jitter {
+  animation: ob-jitter 0.5s steps(2) infinite;
+}
+
+.ob-creep {
+  transform-origin: left bottom;
+  animation: ob-creep 3.2s ease-in-out infinite alternate;
+}
+
+.ob-bob {
+  animation: ob-bob 2.4s ease-in-out infinite;
+}
+
+.ob-blink {
+  animation: ob-blink 1.6s steps(1) infinite;
+}
+
+@keyframes ob-jitter {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(1.5px); }
+}
+
+@keyframes ob-creep {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(1.18); }
+}
+
+@keyframes ob-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+@keyframes ob-blink {
+  0%, 70% { opacity: 1; }
+  71%, 100% { opacity: 0.35; }
+}
+
 @keyframes zto-pop {
   0% { transform: scale(0.3); }
   100% { transform: scale(1); }

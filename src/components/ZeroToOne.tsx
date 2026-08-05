@@ -20,6 +20,7 @@ const GRAB_TICKS = 7; // one jump's worth — he leaps up to grab the tile
 const DUNK_TICKS = 9;
 const RESPAWN_TICKS = 8;
 const JUMP_ARC = [5, 9, 13, 13, 9, 5];
+const LONG_JUMP_ARC = [5, 9, 12, 14, 14, 14, 12, 9, 5]; // for wide hazards (scope creep)
 
 function PixelBug() {
   return (
@@ -79,11 +80,11 @@ function PixelBlob() {
 }
 
 // The hazards of shipping a product, in order of appearance.
-const OBSTACLES: Array<{ f: number; w: number; label: string; sprite: React.ReactNode }> = [
-  { f: 0.42, w: 13, label: "P0 bug", sprite: <PixelBug /> },
-  { f: 0.56, w: 22, label: "scope creep", sprite: <PixelBlob /> },
-  { f: 0.7, w: 12, label: "\u201cquick sync\u201d (45 min)", sprite: <PixelMeeting /> },
-  { f: 0.84, w: 11, label: "1\u2605 \u201capp no work\u201d", sprite: <PixelStar /> },
+const OBSTACLES: Array<{ f: number; w: number; label: string; anim: string; sprite: React.ReactNode }> = [
+  { f: 0.42, w: 13, label: "P0 bug", anim: "ob-jitter", sprite: <PixelBug /> },
+  { f: 0.56, w: 22, label: "scope creep", anim: "ob-creep", sprite: <PixelBlob /> },
+  { f: 0.7, w: 12, label: "\u201cquick sync\u201d (45 min)", anim: "ob-bob", sprite: <PixelMeeting /> },
+  { f: 0.84, w: 11, label: "1\u2605 \u201capp no work\u201d", anim: "ob-blink", sprite: <PixelStar /> },
 ];
 
 function Body() {
@@ -169,6 +170,7 @@ export default function ZeroToOne() {
     let ph: Phase = "grab";
     let wait = GRAB_TICKS;
     let jumpT = -1;
+    let arc: number[] = JUMP_ARC;
 
     const sceneW = () => sceneRef.current?.offsetWidth ?? 900;
     const imX = () => {
@@ -182,7 +184,7 @@ export default function ZeroToOne() {
     const progressJump = () => {
       if (jumpT >= 0) {
         jumpT += 1;
-        if (jumpT >= JUMP_ARC.length) jumpT = -1;
+        if (jumpT >= arc.length) jumpT = -1;
       }
     };
 
@@ -193,7 +195,8 @@ export default function ZeroToOne() {
       } else {
         for (const ob of obstacleXs()) {
           const gap = dir > 0 ? ob.x - (px! + RUNNER_W) : px! - (ob.x + ob.w);
-          if (gap >= 0 && gap <= 6) {
+          if (gap >= 0 && gap <= 3) {
+            arc = ob.w > 16 ? LONG_JUMP_ARC : JUMP_ARC;
             jumpT = 0;
             break;
           }
@@ -205,7 +208,7 @@ export default function ZeroToOne() {
       if (px === null) px = imX();
 
       if (ph === "grab") {
-        if (wait === GRAB_TICKS) jumpT = 0; // leap for the tile
+        if (wait === GRAB_TICKS) { arc = JUMP_ARC; jumpT = 0; } // leap for the tile
         progressJump();
         if (wait === GRAB_TICKS - 3) setImTaken(true); // snatched at the apex
         if (--wait <= 0) {
@@ -244,7 +247,7 @@ export default function ZeroToOne() {
       }
 
       setX(px);
-      setJumpY(jumpT >= 0 && jumpT < JUMP_ARC.length ? JUMP_ARC[jumpT] : 0);
+      setJumpY(jumpT >= 0 && jumpT < arc.length ? arc[jumpT] : 0);
       setPhase(ph);
     }, TICK_MS);
 
@@ -289,7 +292,7 @@ export default function ZeroToOne() {
             <span className="absolute -top-[13px] left-1/2 -translate-x-1/2 whitespace-nowrap text-[8px] font-medium text-muted/80">
               {ob.label}
             </span>
-            {ob.sprite}
+            <span className={`block ${ob.anim}`}>{ob.sprite}</span>
           </span>
         ))}
 
