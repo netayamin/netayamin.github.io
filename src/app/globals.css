@@ -103,13 +103,28 @@ body {
   animation: zto-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.zto-site {
-  position: relative;
-  display: inline-block;
-  margin-left: 28px;
+.zto-ground {
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--line);
+}
+
+.zto-soi {
+  margin-right: 4px;
+}
+
+.zto-clear {
+  position: absolute;
+  top: -13px;
+  left: 58%;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  animation: zto-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .zto-slotbox {
+  margin-left: 8px;
   display: inline-block;
   padding: 0 4px;
   border: 1px dashed color-mix(in srgb, var(--accent) 45%, transparent);
@@ -136,16 +151,6 @@ body {
   display: inline-block;
   font-weight: 600;
   color: var(--accent);
-}
-
-.zto-plus {
-  position: absolute;
-  left: 50%;
-  top: -4px;
-  font-size: 9px;
-  font-weight: 700;
-  color: var(--accent);
-  animation: zto-float 0.9s ease-out forwards;
 }
 
 .zto-coins {

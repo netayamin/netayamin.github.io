@@ -6,7 +6,7 @@ export const CASE_STUDY = `# Snagr — Product Design Case Study
 
 ## The problem
 
-Discovery is the easy part — Infatuation lists, Google Maps saves, TikTok finds. The real workflow is what happens next: you find places, send them to the group chat, and then spend hours over days bouncing between reservation apps trying to get into *any* of them. Discovery tools end at a list. Booking tools expect you to already know exactly what to track. In the gap between them, plans die — because inventory at the places on those lists appears unpredictably and vanishes within minutes. Two truths shaped every decision that follows:
+Discovery is the easy part — Infatuation lists, Google Maps saves, TikTok finds. The real workflow is what happens next: you find places, send them to the group chat, and then spend hours bouncing between reservation apps trying to get into *any* of them. Discovery tools end at a list. Booking tools expect you to already know exactly what to track. In the gap between them, plans die — because inventory at the places on those lists appears unpredictably and vanishes within minutes. Two truths shaped every decision that follows:
 
 - **Latency is the product.** A table that opened 40 minutes ago is worthless information.
 - **A false positive is catastrophic.** Tapping a "live" slot that's already gone is worse than silence.
@@ -29,7 +29,7 @@ No user interviews, surveys, or usability tests were run pre-launch. I'd rather 
 ## Insights
 
 1. **Users want to stop checking, not discover.** V1 was a live feed of every table drop in NYC — genuinely fun to watch, and useless, because a drop at a restaurant you don't care about is noise. The principle that replaced it: **"Inventory, not news."** Only live, bookable openings; an opening that gets booked elsewhere disappears silently.
-2. **"We don't know" and "there's nothing" look identical — and we were shipping the wrong one.** Venues we weren't watching said "No open tables"; venues we couldn't watch said "Walk-in only" when they book fine elsewhere; two data bugs quietly showed availability that wasn't real. All four are one mistake: *an absence of information rendered as a negative fact.* Recognizing it as one pattern gave the product its spine: **never show false availability.**
+2. **"We don't know" and "there's nothing" look identical — and we were shipping the wrong one.** Venues we weren't watching said "No open tables"; venues we couldn't watch said "Walk-in only" when they book fine elsewhere; two data bugs quietly showed availability that wasn't real. All four are one mistake: *an absence of information rendered as a negative fact.* That recognition became the product's spine: **never show false availability.**
 3. **Specificity is what grants permission to interrupt.** An early notification design was a filter matrix. The replacement has exactly two modes: **vague** (zero config, respects quiet hours) or **specific** (these nights, this window, this party size — and it *bypasses* quiet hours). If you don't know which night you want, you haven't earned a 2am push.
 4. **Navigation should scale with the number of objects it organizes.** The median user has about two plans; the app had four tabs. It's two tabs now.
 5. **Editorial guides are a selection accelerator, not a browse destination.** The win is "add 18 vetted spots to a plan in three taps," not "scroll editorial forever."
