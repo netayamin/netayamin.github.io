@@ -25,7 +25,7 @@ export const CASE_STUDY = `# Snagr — Product Design Case Study
 
 **Dan, 31 — The Flexible Friend.** Would happily eat at any of six places. *Goal:* minimum effort between "I'm in" and dinner. *Frustrations:* sixty-message threads that end nowhere; being asked to have opinions about time slots. *"Just tell me where and when. I'll be there."*
 
-*(Honesty note: these personas are drawn from lived observation and dogfooding, not interviews — they're provisional by design, and validating them is the first study on the research roadmap below.)*
+*(Provisional — drawn from lived observation, to be validated by the interviews on the research roadmap below.)*
 
 ## The journey before Snagr
 
