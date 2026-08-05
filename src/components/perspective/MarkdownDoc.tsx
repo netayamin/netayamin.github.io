@@ -162,7 +162,7 @@ export default function MarkdownDoc({
   const body = lines.filter((l) => l !== titleLine).join("\n");
 
   return (
-    <div className="rounded-xl border border-neutral-300 px-9 py-8 dark:border-white/15">
+    <div className="rounded-xl border border-black/5 bg-white/60 px-9 py-8 dark:border-white/10 dark:bg-white/[0.04]">
       <div className="mb-4 flex items-start justify-between">
         <span className="text-[40px] leading-none">{icon}</span>
         <div className="flex overflow-hidden rounded-md border border-line text-[10px] dark:border-white/15">
