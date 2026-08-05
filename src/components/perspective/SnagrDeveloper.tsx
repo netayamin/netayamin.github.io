@@ -6,7 +6,7 @@ export default function SnagrDeveloper() {
   return (
     <div className="min-h-full bg-[#f0f0f3] pb-16 dark:bg-[#2c2c2e]">
       
-      <div className="w-1/2">
+      <div className="w-full">
         <div className="mx-auto w-[94%] max-w-[560px] pt-6">
           <MarkdownDoc source={CASE_STUDY} icon="🍽️" />
         </div>
