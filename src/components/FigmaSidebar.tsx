@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown, Mail, Plus, Search, SquarePen } from "lucide-react";
+import { ChevronDown, FileText, Mail, Plus, Search, SquarePen } from "lucide-react";
 import { LinkedInIcon } from "./BrandIcons";
 import ThemeToggle from "./ThemeToggle";
 import { usePage, type PageId } from "@/context/PageContext";
@@ -118,6 +118,11 @@ const PROJECTS: Array<{
 ];
 
 const LINKS = [
+  {
+    label: "Resume",
+    href: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/resume.pdf`,
+    icon: <FileText size={15} />,
+  },
   { label: "LinkedIn", href: "https://www.linkedin.com/", icon: <LinkedInIcon size={15} /> },
   { label: "Email", href: "mailto:netayamin@gmail.com", icon: <Mail size={15} /> },
 ];
