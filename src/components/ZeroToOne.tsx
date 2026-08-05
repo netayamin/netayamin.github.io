@@ -234,10 +234,22 @@ export default function ZeroToOne() {
       }
     };
 
+    let airDir = 0;
     const manualTick = () => {
       const dir = (keys.has("ArrowRight") ? 1 : 0) - (keys.has("ArrowLeft") ? 1 : 0);
       if (jumpQueued && jumpT < 0) {
+        // Jump assist: tapping anywhere near an object always clears it —
+        // the arc sizes itself to whatever is ahead. Only a clearly-late
+        // jump (already on top of it) can still get you clipped.
         arc = JUMP_ARC;
+        airDir = dir !== 0 ? dir : lastDir;
+        for (const ob of obstacleXs()) {
+          const gap = airDir > 0 ? ob.x - (px! + RUNNER_W) : px! - (ob.x + ob.w);
+          if (gap >= -4 && gap <= 34) {
+            arc = LONG_JUMP_ARC;
+            break;
+          }
+        }
         jumpT = 0;
       }
       jumpQueued = false;
@@ -245,6 +257,9 @@ export default function ZeroToOne() {
       if (dir !== 0) {
         lastDir = dir;
         px = Math.max(0, Math.min(sceneW() - RUNNER_W, px! + STEP * 1.5 * dir));
+      } else if (jumpT >= 0) {
+        // airborne momentum keeps the jump honest — no dead-stop mid-air
+        px = Math.max(0, Math.min(sceneW() - RUNNER_W, px! + STEP * 1.2 * airDir));
       }
       if (invuln > 0) {
         invuln -= 1;
