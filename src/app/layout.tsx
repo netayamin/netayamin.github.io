@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Caveat, Geist, Geist_Mono, Newsreader } from "next/font/google";
 import "./globals.css";
+import Analytics from "@/components/Analytics";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,6 +48,7 @@ export default function RootLayout({
     >
       <body className="h-full bg-bg text-fg">
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
+        <Analytics />
         {children}
       </body>
     </html>
