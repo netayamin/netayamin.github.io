@@ -36,6 +36,13 @@ const SECTION_TO_REGION: Record<string, string> = {
   "how-it-evolved-four-products-four-lessons": "overview",
   "research-honestly": "overview",
   "what-i-learned": "overview",
+  intro: "overview",
+  "stack-and-what-each-piece-bought": "brand",
+  backend: "watchlist",
+  "availability-acquisition-the-hard-part": "dropalert",
+  "demand-is-the-scheduler": "home",
+  "notifications-engineered-as-suppression": "groupplan",
+  infrastructure: "overview",
 };
 
 function FrameLabel({ children }: { children: React.ReactNode }) {
@@ -267,7 +274,7 @@ function Screen({ file, title, caption }: { file: string; title: string; caption
   );
 }
 
-export default function SnagrBoard() {
+export default function SnagrBoard({ section }: { section?: string }) {
   const viewportRef = useRef<HTMLDivElement>(null);
   const view = useRef({ s: 0.5, x: 0, y: 0 });
   const activeRef = useRef("overview");
@@ -291,28 +298,7 @@ export default function SnagrBoard() {
   useEffect(() => {
     const vp = viewportRef.current;
     if (!vp) return;
-    const scroller = vp.closest("[data-stage-scroll]") as HTMLElement | null;
-
     fit("overview", false);
-
-    const onScroll = () => {
-      if (!scroller) return;
-      let section = "overview";
-      if (scroller.scrollTop > 60) {
-        const sRect = scroller.getBoundingClientRect();
-        const threshold = scroller.clientHeight * 0.45;
-        scroller.querySelectorAll("[data-md-anchor]").forEach((el) => {
-          if (el.getBoundingClientRect().top - sRect.top < threshold) {
-            section = (el as HTMLElement).dataset.mdAnchor ?? section;
-          }
-        });
-      }
-      const region = SECTION_TO_REGION[section] ?? "overview";
-      if (region !== activeRef.current) {
-        activeRef.current = region;
-        fit(region);
-      }
-    };
 
     const onWheel = (e: WheelEvent) => {
       if (!e.ctrlKey && !e.metaKey) return;
@@ -331,15 +317,23 @@ export default function SnagrBoard() {
 
     const onResize = () => fit(activeRef.current, false);
 
-    scroller?.addEventListener("scroll", onScroll, { passive: true });
     vp.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("resize", onResize);
     return () => {
-      scroller?.removeEventListener("scroll", onScroll);
       vp.removeEventListener("wheel", onWheel);
       window.removeEventListener("resize", onResize);
     };
   }, []);
+
+  useEffect(() => {
+    if (!section) return;
+    const region = SECTION_TO_REGION[section] ?? "overview";
+    if (region !== activeRef.current) {
+      activeRef.current = region;
+      fit(region);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [section]);
 
   return (
     <div

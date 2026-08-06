@@ -54,7 +54,7 @@ function inline(text: string): React.ReactNode[] {
   });
 }
 
-function Formatted({ source }: { source: string }) {
+export function Formatted({ source }: { source: string }) {
   const lines = source.split("\n");
   const blocks: React.ReactNode[] = [];
   let list: string[] = [];
