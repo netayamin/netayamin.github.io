@@ -11,18 +11,15 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 // camera to its frame. Pinch (or Cmd/Ctrl + scroll) still zooms manually.
 type Region = { x: number; y: number; w: number; h: number };
 
-const CANVAS = { w: 1160, h: 1220 };
+const CANVAS = { w: 1120, h: 1080 };
 
 const REGIONS: Record<string, Region> = {
-  overview: { x: 10, y: 20, w: 1150, h: 1180 },
+  overview: { x: 10, y: 20, w: 1100, h: 1040 },
   brand: { x: 20, y: 20, w: 340, h: 190 },
-  watchlist: { x: 20, y: 210, w: 320, h: 220 },
-  dropalert: { x: 20, y: 460, w: 320, h: 180 },
-  groupplan: { x: 20, y: 640, w: 340, h: 150 },
-  personas: { x: 470, y: 680, w: 700, h: 400 },
-  journeymap: { x: 10, y: 850, w: 520, h: 360 },
-  home: { x: 410, y: 40, w: 290, h: 620 },
-  collection: { x: 720, y: 40, w: 290, h: 620 },
+  journeymap: { x: 20, y: 230, w: 520, h: 380 },
+  personas: { x: 410, y: 670, w: 700, h: 380 },
+  home: { x: 420, y: 40, w: 290, h: 610 },
+  collection: { x: 730, y: 40, w: 290, h: 610 },
 };
 
 // Which region each case-study section focuses.
@@ -31,7 +28,7 @@ const SECTION_TO_REGION: Record<string, string> = {
   personas: "personas",
   "the-journey-before-snagr": "journeymap",
   "the-journey-with-snagr": "collection",
-  "why-this-solution-and-what-i-rejected": "dropalert",
+  "why-this-solution-and-what-i-rejected": "overview",
   "breaking-the-one-reservation-model": "home",
   "how-it-evolved-four-products-four-lessons": "overview",
   "research-honestly": "overview",
@@ -378,53 +375,11 @@ export default function SnagrBoard() {
           </Draggable>
         </div>
 
-        {/* Watchlist */}
-        <div className="absolute" style={{ left: 40, top: 230 }}>
-          <Draggable>
-            <FrameLabel>Watchlist</FrameLabel>
-            <div className="flex w-[280px] flex-col gap-1.5 rounded-2xl bg-white p-3.5 shadow-sm dark:bg-[#1f1f22]">
-              {["Via Carota", "Don Angie", "4 Charles Prime Rib"].map((r) => (
-                <div key={r} className="flex items-center justify-between rounded-lg bg-neutral-100 px-3 py-2 dark:bg-white/10">
-                  <span className="text-[12px] font-medium text-neutral-800 dark:text-neutral-200">{r}</span>
-                  <span className="h-2 w-2 rounded-full bg-accent" />
-                </div>
-              ))}
-            </div>
-          </Draggable>
-        </div>
+        
 
-        {/* Drop alert */}
-        <div className="absolute" style={{ left: 40, top: 480 }}>
-          <Draggable>
-            <FrameLabel>Drop alert</FrameLabel>
-            <div className="w-[280px] rounded-2xl bg-white p-3.5 shadow-sm dark:bg-[#1f1f22]">
-              <p className="text-[10px] font-semibold text-accent">SNAGR · now</p>
-              <p className="mt-0.5 text-[13px] font-semibold text-neutral-900 dark:text-white">
-                Table for 4 just opened
-              </p>
-              <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
-                Don Angie · Sat 8:00 PM
-              </p>
-            </div>
-          </Draggable>
-        </div>
+        
 
-        {/* Group plan */}
-        <div className="absolute" style={{ left: 40, top: 660 }}>
-          <Draggable>
-            <FrameLabel>Group plan</FrameLabel>
-            <div className="flex w-[300px] items-center justify-between rounded-2xl bg-white p-3.5 shadow-sm dark:bg-[#1f1f22]">
-              <div className="flex -space-x-2">
-                {[0, 1, 2, 3].map((i) => (
-                  <span key={i} className="h-7 w-7 rounded-full border-2 border-white bg-gradient-to-br from-neutral-300 to-neutral-400 dark:border-neutral-800" />
-                ))}
-              </div>
-              <span className="rounded-full bg-accent-soft px-2.5 py-1 text-[11px] font-medium text-accent">
-                Sat, May 24 · everyone&rsquo;s in
-              </span>
-            </div>
-          </Draggable>
-        </div>
+        
 
         {/* Real screens */}
         <div className="absolute" style={{ left: 430, top: 60 }}>
@@ -443,12 +398,12 @@ export default function SnagrBoard() {
         </div>
 
         {/* Journey map, marker on whiteboard */}
-        <div className="absolute" style={{ left: 30, top: 870 }}>
+        <div className="absolute" style={{ left: 40, top: 250 }}>
           <JourneyMap />
         </div>
 
         {/* Personas, straight off the whiteboard */}
-        <div className="absolute" style={{ left: 490, top: 700 }}>
+        <div className="absolute" style={{ left: 430, top: 700 }}>
           <PersonaSketch
             variant="maya"
             name="Maya, 29"
@@ -462,7 +417,7 @@ export default function SnagrBoard() {
             rotate="rotate-[-1.5deg]"
           />
         </div>
-        <div className="absolute" style={{ left: 825, top: 730 }}>
+        <div className="absolute" style={{ left: 775, top: 710 }}>
           <PersonaSketch
             variant="dan"
             name="Dan, 31"
