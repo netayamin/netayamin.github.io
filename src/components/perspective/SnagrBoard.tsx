@@ -14,15 +14,15 @@ type Region = { x: number; y: number; w: number; h: number };
 const CANVAS = { w: 1160, h: 1220 };
 
 const REGIONS: Record<string, Region> = {
-  overview: { x: 0, y: 0, w: 1140, h: 1200 },
-  brand: { x: 10, y: 10, w: 380, h: 190 },
-  watchlist: { x: 10, y: 190, w: 360, h: 260 },
-  dropalert: { x: 10, y: 440, w: 360, h: 190 },
-  groupplan: { x: 10, y: 620, w: 400, h: 170 },
-  personas: { x: 445, y: 650, w: 700, h: 500 },
-  journeymap: { x: 10, y: 840, w: 520, h: 360 },
-  home: { x: 400, y: 30, w: 320, h: 600 },
-  collection: { x: 710, y: 30, w: 320, h: 600 },
+  overview: { x: 10, y: 20, w: 1150, h: 1180 },
+  brand: { x: 20, y: 20, w: 340, h: 190 },
+  watchlist: { x: 20, y: 210, w: 320, h: 220 },
+  dropalert: { x: 20, y: 460, w: 320, h: 180 },
+  groupplan: { x: 20, y: 640, w: 340, h: 150 },
+  personas: { x: 470, y: 680, w: 700, h: 400 },
+  journeymap: { x: 10, y: 850, w: 520, h: 360 },
+  home: { x: 410, y: 40, w: 290, h: 620 },
+  collection: { x: 720, y: 40, w: 290, h: 620 },
 };
 
 // Which region each case-study section focuses.
@@ -280,7 +280,7 @@ export default function SnagrBoard() {
     if (!vp || !region) return;
     const vw = vp.clientWidth;
     const vh = vp.clientHeight;
-    const s = Math.min(1.4, Math.min(vw / region.w, vh / region.h) * 0.88);
+    const s = Math.min(1.4, Math.min(vw / region.w, vh / region.h) * 0.96);
     const x = (vw - region.w * s) / 2 - region.x * s;
     const y = (vh - region.h * s) / 2 - region.y * s;
     view.current = { s, x, y };
