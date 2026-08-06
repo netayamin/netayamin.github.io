@@ -280,6 +280,7 @@ export default function SnagrBoard() {
   const activeRef = useRef("overview");
   const [transform, setTransform] = useState("");
   const [animate, setAnimate] = useState(true);
+  const [tag, setTag] = useState<{ x: number; y: number } | null>(null);
 
   const fit = (name: string, withAnimation = true) => {
     const vp = viewportRef.current;
@@ -352,11 +353,24 @@ export default function SnagrBoard() {
     <div
       ref={viewportRef}
       className="figma-cursor relative h-full w-full overflow-hidden bg-[#f0f0f3] dark:bg-[#2c2c2e]"
+      onPointerMove={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        setTag({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+      }}
+      onPointerLeave={() => setTag(null)}
       onDoubleClick={() => {
         activeRef.current = "overview";
         fit("overview");
       }}
     >
+      {tag && (
+        <span
+          className="pointer-events-none absolute z-30 rounded-md bg-accent px-1.5 py-0.5 text-[10px] font-medium text-white"
+          style={{ left: tag.x + 12, top: tag.y + 16 }}
+        >
+          Visitor
+        </span>
+      )}
       <div
         className={`absolute left-0 top-0 origin-top-left ${
           animate ? "transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]" : ""
