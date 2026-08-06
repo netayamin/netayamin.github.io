@@ -11,28 +11,38 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 // camera to its frame. Pinch (or Cmd/Ctrl + scroll) still zooms manually.
 type Region = { x: number; y: number; w: number; h: number };
 
-const CANVAS = { w: 1120, h: 1080 };
+const CANVAS = { w: 1300, h: 1310 };
 
 const REGIONS: Record<string, Region> = {
-  overview: { x: 10, y: 20, w: 1100, h: 1040 },
+  overview: { x: 10, y: 10, w: 1280, h: 1290 },
   brand: { x: 20, y: 20, w: 340, h: 190 },
-  journeymap: { x: 20, y: 230, w: 520, h: 380 },
-  personas: { x: 410, y: 670, w: 700, h: 380 },
-  home: { x: 420, y: 40, w: 290, h: 610 },
-  collection: { x: 730, y: 40, w: 290, h: 610 },
+  journeymap: { x: 20, y: 220, w: 520, h: 390 },
+  personas: { x: 980, y: 640, w: 370, h: 670 },
+  main: { x: 390, y: 20, w: 270, h: 620 },
+  missed: { x: 690, y: 20, w: 270, h: 620 },
+  collection: { x: 990, y: 20, w: 270, h: 620 },
+  plan: { x: 390, y: 640, w: 270, h: 640 },
+  planday: { x: 690, y: 640, w: 270, h: 640 },
 };
 
 // Which region each case-study section focuses.
 const SECTION_TO_REGION: Record<string, string> = {
+  intro: "overview",
   "who-what-when-where-why-how": "brand",
   personas: "personas",
   "the-journey-before-snagr": "journeymap",
   "the-journey-with-snagr": "collection",
-  "why-this-solution-and-what-i-rejected": "overview",
-  "breaking-the-one-reservation-model": "home",
+  "why-this-solution-and-what-i-rejected": "main",
+  "breaking-the-one-reservation-model": "plan",
   "how-it-evolved-four-products-four-lessons": "overview",
-  "research-honestly": "overview",
+  "research-honestly": "missed",
   "what-i-learned": "overview",
+  "stack-and-what-each-piece-bought": "brand",
+  backend: "overview",
+  "availability-acquisition-the-hard-part": "planday",
+  "demand-is-the-scheduler": "plan",
+  "notifications-engineered-as-suppression": "missed",
+  infrastructure: "overview",
 };
 
 function FrameLabel({ children }: { children: React.ReactNode }) {
@@ -381,19 +391,40 @@ export default function SnagrBoard() {
 
         
 
-        {/* Real screens */}
-        <div className="absolute" style={{ left: 430, top: 60 }}>
+        {/* Real screens, straight from the simulator */}
+        <div className="absolute" style={{ left: 400, top: 60 }}>
           <Screen
-            file="home.png"
+            file="main.png"
             title="Home · Plans"
-            caption="Two plans quietly watching: 15 and 26 tables live."
+            caption="Three plans quietly watching; 61 of 100 restaurants tracked."
           />
         </div>
-        <div className="absolute" style={{ left: 740, top: 60 }}>
+        <div className="absolute" style={{ left: 700, top: 60 }}>
+          <Screen
+            file="missed.png"
+            title="Home · Since your last visit"
+            caption="What opened while you were away, before anything else."
+          />
+        </div>
+        <div className="absolute" style={{ left: 1000, top: 60 }}>
           <Screen
             file="collection.png"
             title="Collection · Declare"
-            caption="Selection is creation: tick venues, three taps to a live plan."
+            caption="Selection is creation: tick venues straight from the guide."
+          />
+        </div>
+        <div className="absolute" style={{ left: 400, top: 680 }}>
+          <Screen
+            file="plan.png"
+            title="Plan · MUST TRY"
+            caption="One plan, seven dates, 2 to 4 people: every live table as one answer."
+          />
+        </div>
+        <div className="absolute" style={{ left: 700, top: 680 }}>
+          <Screen
+            file="plan-day.png"
+            title="Plan · picking a day"
+            caption="The date strip carries the counts: 12 open Thursday, none yet Sunday."
           />
         </div>
 
@@ -403,7 +434,7 @@ export default function SnagrBoard() {
         </div>
 
         {/* Personas, straight off the whiteboard */}
-        <div className="absolute" style={{ left: 430, top: 700 }}>
+        <div className="absolute" style={{ left: 1000, top: 680 }}>
           <PersonaSketch
             variant="maya"
             name="Maya, 29"
@@ -417,7 +448,7 @@ export default function SnagrBoard() {
             rotate="rotate-[-1.5deg]"
           />
         </div>
-        <div className="absolute" style={{ left: 775, top: 710 }}>
+        <div className="absolute" style={{ left: 1000, top: 1010 }}>
           <PersonaSketch
             variant="dan"
             name="Dan, 31"
