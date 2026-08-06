@@ -11,12 +11,13 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 // camera to its frame. Pinch (or Cmd/Ctrl + scroll) still zooms manually.
 type Region = { x: number; y: number; w: number; h: number };
 
-const CANVAS = { w: 1520, h: 1310 };
+const CANVAS = { w: 1520, h: 1360 };
 
 const REGIONS: Record<string, Region> = {
   overview: { x: 10, y: 10, w: 1500, h: 1290 },
   brand: { x: 20, y: 20, w: 340, h: 190 },
   journeymap: { x: 20, y: 220, w: 520, h: 390 },
+  designsystem: { x: 20, y: 640, w: 480, h: 700 },
   personas: { x: 1140, y: 640, w: 370, h: 670 },
   main: { x: 550, y: 20, w: 270, h: 620 },
   missed: { x: 850, y: 20, w: 270, h: 620 },
@@ -37,7 +38,7 @@ const SECTION_TO_REGION: Record<string, string> = {
   "how-it-evolved-four-products-four-lessons": "overview",
   "research-honestly": "missed",
   "what-i-learned": "overview",
-  "stack-and-what-each-piece-bought": "brand",
+  "stack-and-what-each-piece-bought": "designsystem",
   backend: "overview",
   "availability-acquisition-the-hard-part": "planday",
   "demand-is-the-scheduler": "plan",
@@ -257,6 +258,102 @@ function JourneyMap() {
   );
 }
 
+const DS_COLORS: Array<{ name: string; hex: string; note: string }> = [
+  { name: "accent", hex: "#B3202A", note: "live / new / selected / CTA" },
+  { name: "accentSurface", hex: "#FDE7E8", note: "active chips, selected day" },
+  { name: "canvas", hex: "#FAFAFA", note: "the ONE background" },
+  { name: "textPrimary", hex: "#14151A", note: "" },
+  { name: "textSecondary", hex: "#6B6F76", note: "metadata" },
+  { name: "available", hex: "#1FA463", note: "live tables" },
+  { name: "warning", hex: "#9A7209", note: "aging / watching" },
+];
+
+function DesignSystemFrame() {
+  return (
+    <Draggable>
+      <FrameLabel>Design system · SnagrColorPalette + SnagrTypography</FrameLabel>
+      <div className="w-[440px] rounded-2xl bg-white p-5 shadow-sm dark:bg-[#1f1f22]">
+        {/* color styles */}
+        <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+          {DS_COLORS.map((c) => (
+            <div key={c.name} className="flex items-center gap-2">
+              <span
+                className="h-3.5 w-3.5 shrink-0 rounded-full border border-black/10"
+                style={{ backgroundColor: c.hex }}
+              />
+              <span className="min-w-0">
+                <span className="block truncate font-mono text-[10px] font-semibold text-neutral-800 dark:text-neutral-200">
+                  {c.name}
+                </span>
+                <span className="block truncate font-mono text-[9px] text-neutral-400">
+                  {c.hex}{c.note ? ` · ${c.note}` : ""}
+                </span>
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {/* type scale */}
+        <div className="mt-4 border-t border-neutral-100 pt-3 dark:border-white/10">
+          <p className="text-[19px] font-bold leading-tight text-neutral-900 dark:text-white">
+            You&rsquo;re all set!
+            <span className="ml-2 font-mono text-[9px] font-normal text-neutral-400">xl 28 / l 20 · bold</span>
+          </p>
+          <p className="mt-0.5 text-[13px] text-neutral-700 dark:text-neutral-300">
+            We&rsquo;ll watch for openings and notify you.
+            <span className="ml-2 font-mono text-[9px] text-neutral-400">m 15 · s 13</span>
+          </p>
+          <p className="mt-1 text-[8px] font-semibold uppercase tracking-[0.08em] text-neutral-500">
+            Must try · 12 open <span className="ml-1 font-mono normal-case tracking-normal text-neutral-400">sm 9 · eyebrow</span>
+          </p>
+        </div>
+
+        {/* radii + components */}
+        <div className="mt-4 flex items-center gap-3 border-t border-neutral-100 pt-3 dark:border-white/10">
+          {[
+            ["10", "rounded-[10px]"],
+            ["12", "rounded-[12px]"],
+            ["14", "rounded-[14px]"],
+            ["16", "rounded-2xl"],
+          ].map(([r, cls]) => (
+            <span
+              key={r}
+              className={`flex h-9 w-11 items-center justify-center border-[1.5px] border-[#9747FF]/70 font-mono text-[9px] text-neutral-500 ${cls}`}
+            >
+              {r}
+            </span>
+          ))}
+          <span className="ml-auto font-mono text-[9px] text-neutral-400">radius: chip · thumb · button · card</span>
+        </div>
+        <div className="mt-3 flex items-center gap-2.5">
+          <span className="flex h-9 items-center rounded-[14px] bg-[#B3202A] px-4 text-[12.5px] font-semibold text-white">
+            View my plans
+          </span>
+          <span className="flex h-8 items-center rounded-[10px] bg-[#FDE7E8] px-3 text-[11.5px] font-semibold text-[#B3202A]">
+            Sat, Aug 8
+          </span>
+          <span className="text-[10px] font-semibold text-[#1FA463]">Just opened</span>
+        </div>
+
+        {/* the ruling + link */}
+        <div className="mt-4 flex items-center gap-3">
+          <span className="rotate-[-1.5deg] bg-[#FFF3B8] px-2.5 py-2 font-[family-name:var(--font-hand)] text-[13px] leading-tight text-[#5C4E00] shadow-sm">
+            red is a signal, not a paint
+          </span>
+          <a
+            href="https://claude.ai/code/artifact/d5a5dae1-5140-4873-a862-93766dda7000"
+            target="_blank"
+            rel="noreferrer"
+            className="ml-auto rounded-full bg-neutral-900 px-3 py-1 text-[10px] font-medium text-white hover:opacity-85 dark:bg-white dark:text-neutral-900"
+          >
+            Full library ↗
+          </a>
+        </div>
+      </div>
+    </Draggable>
+  );
+}
+
 function Screen({ file, title, caption }: { file: string; title: string; caption?: string }) {
   return (
     <Draggable>
@@ -440,6 +537,11 @@ export default function SnagrBoard() {
             title="Plan · picking a day"
             caption="The date strip carries the counts: 12 open Thursday, none yet Sunday."
           />
+        </div>
+
+        {/* Design system */}
+        <div className="absolute" style={{ left: 40, top: 680 }}>
+          <DesignSystemFrame />
         </div>
 
         {/* Journey map, marker on whiteboard */}
