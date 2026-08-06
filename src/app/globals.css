@@ -226,14 +226,14 @@ body {
   border-bottom: 1px solid var(--line);
 }
 
-/* Case-study steps ease in as you scroll */
-.story-step {
-  animation: step-in 0.45s ease;
+/* Reading spotlight: only the active section at full strength */
+.spotlight-doc [data-md-section] {
+  opacity: 0.35;
+  transition: opacity 0.45s ease;
 }
 
-@keyframes step-in {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
+.spotlight-doc [data-md-section][data-active="true"] {
+  opacity: 1;
 }
 
 /* Nap mode: the whole level goes black-and-white while asleep */

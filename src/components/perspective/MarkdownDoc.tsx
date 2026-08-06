@@ -56,7 +56,10 @@ function inline(text: string): React.ReactNode[] {
 
 export function Formatted({ source }: { source: string }) {
   const lines = source.split("\n");
-  const blocks: React.ReactNode[] = [];
+  const sections: Array<{ slug: string; blocks: React.ReactNode[] }> = [
+    { slug: "intro", blocks: [] },
+  ];
+  let blocks: React.ReactNode[] = sections[0].blocks;
   let list: string[] = [];
   let ordered = false;
 
@@ -143,7 +146,21 @@ export function Formatted({ source }: { source: string }) {
   });
   flushList();
 
-  return <div className="flex flex-col gap-3.5">{blocks}</div>;
+  return (
+    <div className="flex flex-col gap-3.5">
+      {sections
+        .filter((sec) => sec.blocks.length > 0)
+        .map((sec) => (
+          <section
+            key={sec.slug}
+            data-md-section={sec.slug}
+            className="flex scroll-mt-6 flex-col gap-3.5"
+          >
+            {sec.blocks}
+          </section>
+        ))}
+    </div>
+  );
 }
 
 function Raw({ source }: { source: string }) {
