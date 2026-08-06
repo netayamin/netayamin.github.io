@@ -11,14 +11,15 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 // camera to its frame. Pinch (or Cmd/Ctrl + scroll) still zooms manually.
 type Region = { x: number; y: number; w: number; h: number };
 
-const CANVAS = { w: 1080, h: 820 };
+const CANVAS = { w: 1080, h: 1180 };
 
 const REGIONS: Record<string, Region> = {
-  overview: { x: 0, y: 0, w: 1060, h: 800 },
+  overview: { x: 0, y: 0, w: 1060, h: 1160 },
   brand: { x: 10, y: 10, w: 380, h: 190 },
   watchlist: { x: 10, y: 190, w: 360, h: 260 },
   dropalert: { x: 10, y: 440, w: 360, h: 190 },
   groupplan: { x: 10, y: 620, w: 400, h: 170 },
+  personas: { x: 380, y: 650, w: 680, h: 500 },
   home: { x: 400, y: 30, w: 320, h: 600 },
   collection: { x: 710, y: 30, w: 320, h: 600 },
 };
@@ -26,7 +27,7 @@ const REGIONS: Record<string, Region> = {
 // Which region each case-study section focuses.
 const SECTION_TO_REGION: Record<string, string> = {
   "who-what-when-where-why-how": "brand",
-  personas: "groupplan",
+  personas: "personas",
   "the-journey-before-snagr": "watchlist",
   "the-journey-with-snagr": "collection",
   "why-this-solution-and-what-i-rejected": "dropalert",
@@ -41,6 +42,100 @@ function FrameLabel({ children }: { children: React.ReactNode }) {
     <p className="mb-1.5 text-[11px] font-medium" style={{ color: FIGMA_BLUE }}>
       {children}
     </p>
+  );
+}
+
+function DoodleAvatar({ variant }: { variant: "maya" | "dan" }) {
+  return (
+    <svg width="54" height="54" viewBox="0 0 54 54" fill="none" aria-hidden>
+      <circle cx="27" cy="29" r="16" stroke="#3a3a3a" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="21" cy="27" r="1.6" fill="#3a3a3a" />
+      <circle cx="33" cy="27" r="1.6" fill="#3a3a3a" />
+      {variant === "maya" ? (
+        <>
+          <path d="M20 35 Q27 40 34 35" stroke="#3a3a3a" strokeWidth="2" strokeLinecap="round" />
+          <circle cx="27" cy="10" r="6" stroke="#3a3a3a" strokeWidth="2" />
+          <path d="M12 24 Q14 14 22 12" stroke="#3a3a3a" strokeWidth="2" strokeLinecap="round" />
+          <path d="M42 24 Q40 14 32 12" stroke="#3a3a3a" strokeWidth="2" strokeLinecap="round" />
+        </>
+      ) : (
+        <>
+          <path d="M21 36 L33 36" stroke="#3a3a3a" strokeWidth="2" strokeLinecap="round" />
+          <path d="M11 22 Q27 8 43 22 L43 18 Q27 4 11 18 Z" stroke="#3a3a3a" strokeWidth="2" strokeLinejoin="round" />
+        </>
+      )}
+    </svg>
+  );
+}
+
+function StickyNote({
+  color,
+  title,
+  items,
+  rotate,
+}: {
+  color: string;
+  title: string;
+  items: string[];
+  rotate: string;
+}) {
+  return (
+    <div
+      className={`w-[135px] p-2.5 shadow-md ${rotate}`}
+      style={{ backgroundColor: color }}
+    >
+      <p className="font-[family-name:var(--font-hand)] text-[13px] font-bold text-neutral-800">
+        {title}
+      </p>
+      {items.map((item) => (
+        <p key={item} className="font-[family-name:var(--font-hand)] text-[13px] leading-[1.25] text-neutral-700">
+          · {item}
+        </p>
+      ))}
+    </div>
+  );
+}
+
+function PersonaSketch({
+  variant,
+  name,
+  role,
+  goals,
+  frustrations,
+  quote,
+  rotate,
+}: {
+  variant: "maya" | "dan";
+  name: string;
+  role: string;
+  goals: string[];
+  frustrations: string[];
+  quote: string;
+  rotate: string;
+}) {
+  return (
+    <Draggable>
+      <div className={`relative w-[300px] bg-white p-4 pb-5 shadow-lg dark:bg-[#ececec] ${rotate}`}>
+        {/* tape */}
+        <span className="absolute -top-2 left-1/2 h-5 w-16 -translate-x-1/2 rotate-[-3deg] bg-[#f7edc0]/80 shadow-sm" />
+        <div className="flex items-center gap-3">
+          <DoodleAvatar variant={variant} />
+          <div>
+            <p className="font-[family-name:var(--font-hand)] text-[22px] font-bold leading-none text-neutral-800">
+              {name}
+            </p>
+            <p className="font-[family-name:var(--font-hand)] text-[15px] text-neutral-500">{role}</p>
+          </div>
+        </div>
+        <div className="mt-3 flex gap-2.5">
+          <StickyNote color="#fff3a3" title="goals" items={goals} rotate="rotate-[-2deg]" />
+          <StickyNote color="#ffd6df" title="frustrations" items={frustrations} rotate="rotate-[1.5deg]" />
+        </div>
+        <p className="mt-3.5 font-[family-name:var(--font-hand)] text-[16px] leading-snug text-neutral-700">
+          &ldquo;{quote}&rdquo;
+        </p>
+      </div>
+    </Draggable>
   );
 }
 
@@ -233,6 +328,30 @@ export default function SnagrBoard() {
             file="collection.png"
             title="Collection · Declare"
             caption="Selection is creation: tick venues, three taps to a live plan."
+          />
+        </div>
+
+        {/* Personas, straight off the whiteboard */}
+        <div className="absolute" style={{ left: 410, top: 700 }}>
+          <PersonaSketch
+            variant="maya"
+            name="Maya, 29"
+            role="the planner"
+            goals={["get the group in", "be the hero"]}
+            frustrations={["4 apps on rotation", "tables gone by reply", "quiet blame"]}
+            quote="We always end up at the same three places."
+            rotate="rotate-[-1.5deg]"
+          />
+        </div>
+        <div className="absolute" style={{ left: 745, top: 720 }}>
+          <PersonaSketch
+            variant="dan"
+            name="Dan, 31"
+            role="the flexible friend"
+            goals={["minimum effort", "just tell me where"]}
+            frustrations={["60-message threads", "opinions about slots"]}
+            quote="Just tell me where and when. I'll be there."
+            rotate="rotate-[1.5deg]"
           />
         </div>
       </div>
