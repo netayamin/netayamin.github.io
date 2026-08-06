@@ -160,15 +160,19 @@ function Raw({ source }: { source: string }) {
 
 export default function MarkdownDoc({
   source,
+  rawSource,
 }: {
   source: string;
+  rawSource?: string; // an alternate story for the raw tab (e.g. the engineering cut)
   icon?: string; // accepted but unused — docs are emoji-free
 }) {
   const [raw, setRaw] = useState(false);
-  const lines = source.split("\n");
+  const activeSource = raw && rawSource ? rawSource : source;
+  const lines = activeSource.split("\n");
   const titleLine = lines.find((l) => l.startsWith("# "));
   const title = titleLine ? titleLine.slice(2) : "Untitled";
   const body = lines.filter((l) => l !== titleLine).join("\n");
+  const rawBody = rawSource ? rawSource.split("\n").filter((l) => !l.startsWith("# ")).join("\n") : source;
 
   return (
     <div className="rounded-xl border border-black/5 bg-white/60 px-9 py-8 dark:border-white/10 dark:bg-white/[0.04]">
@@ -179,19 +183,19 @@ export default function MarkdownDoc({
             onClick={() => setRaw(false)}
             className={`px-2 py-1 ${!raw ? "bg-accent-soft font-medium text-accent" : "text-muted hover:text-fg"}`}
           >
-            Preview
+            {rawSource ? "Design" : "Preview"}
           </button>
           <button
             type="button"
             onClick={() => setRaw(true)}
             className={`px-2 py-1 ${raw ? "bg-accent-soft font-medium text-accent" : "text-muted hover:text-fg"}`}
           >
-            Raw
+            {rawSource ? "Engineering" : "Raw"}
           </button>
         </div>
       </div>
       <h1 className="mb-5 font-[family-name:var(--font-serif)] text-[30px] font-semibold italic leading-[1.15] tracking-tight">{title}</h1>
-      {raw ? <Raw source={source} /> : <Formatted source={body} />}
+      {raw ? <Raw source={rawBody} /> : <Formatted source={body} />}
     </div>
   );
 }

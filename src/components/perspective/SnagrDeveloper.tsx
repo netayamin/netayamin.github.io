@@ -1,5 +1,6 @@
 import MarkdownDoc from "./MarkdownDoc";
 import { CASE_STUDY } from "./case-study-content";
+import { TECH_NOTES } from "./snagr-tech-content";
 
 // Snagr's text lens: the case study as a markdown document.
 export default function SnagrDeveloper() {
@@ -8,7 +9,7 @@ export default function SnagrDeveloper() {
       
       <div className="w-full">
         <div className="mx-auto w-[94%] max-w-[560px] pt-6">
-          <MarkdownDoc source={CASE_STUDY} icon="🍽️" />
+          <MarkdownDoc source={CASE_STUDY} rawSource={TECH_NOTES} icon="🍽️" />
         </div>
       </div>
     </div>
