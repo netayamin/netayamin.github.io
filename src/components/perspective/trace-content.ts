@@ -3,15 +3,15 @@ export const TRACE_STUDY = `# Reading an LLM's mind: the waterfall nobody had dr
 
 *Trace spans for LLM observability · Comet ML · Product Design Story*
 
-**Tools:** Figma · React + TypeScript · Redux · shipped inside Comet's LLM observability platform
+**Tools:** Figma · React + TypeScript · Redux · shipped in Opik, Comet's open source LLM evaluation platform
 
 ## The context
 
-2023 at Comet ML. Teams everywhere were suddenly shipping LLM features, and a single user request was no longer one call: it fanned out into chains of prompts, tool calls, and nested completions. Observability for classic ML training existed. Observability for *LLM applications* did not; it wasn't a product category yet and there were no established patterns to borrow. We were building the platform that became Comet's LLM offering, whose job was to let teams track LLM calls and traces, evaluate output quality, collect feedback signals, and monitor token consumption. I designed and built the heart of that: how a trace is read.
+2023 into 2024 at Comet ML. Teams everywhere were suddenly shipping LLM features, and a single user request was no longer one call: it fanned out into chains of prompts, tool calls, and nested completions. Observability for classic ML training existed. Observability for *LLM applications* did not; it wasn't a product category yet and there were no established patterns to borrow. We were building what launched in September 2024 as **Opik**, Comet's fully open source LLM evaluation platform, built on three components: observability (record, sort, search, and understand each step an LLM application takes to generate a response), model unit testing with built-in LLM judges, and scoring across datasets and experiments. I designed and built the heart of the observability piece: how a trace is read.
 
 ## Who it was for
 
-ML engineers and application developers debugging three questions, always the same three: why is it slow, why is it wrong, and what did it cost. They were not APM specialists. A Datadog or Jaeger flame graph was a foreign country to most of them, so borrowing enterprise APM wholesale would have answered the layout question while failing the audience.
+Opik positioned itself as a bridge between software engineering and data science, and the audience lived on that bridge: ML engineers and application developers shipping LLM features with a low tolerance for failure, debugging three questions, always the same three: why is it slow, why is it wrong, and what did it cost. They were not APM specialists. A Datadog or Jaeger flame graph was a foreign country to most of them, so borrowing enterprise APM wholesale would have answered the layout question while failing the audience.
 
 ## The problem
 
@@ -35,7 +35,7 @@ In this world, a **trace** is the complete story of one request, and **spans** a
 
 ## What happened
 
-It shipped, and it held. The pattern stayed the way traces read on the platform, and the screenshot on the board is the shipped product. LLM observability grew into a real category, and the tree-plus-proportional-bars-plus-tokens reading became the standard way the industry shows this data. We drew the waterfall before there was a name for it.
+It shipped, and it held. Opik launched in September 2024 as a true open source project, with tracing in both development and production, and the pattern became the way its traces read; the screenshot on the board is the shipped product. LLM observability grew into a real category, and the tree-plus-proportional-bars-plus-tokens reading became the standard way the industry shows this data. We drew the waterfall before there was a name for it.
 
 ## What I learned
 
