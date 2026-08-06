@@ -2,16 +2,20 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
-export type PageId = "me" | "snagr";
+export type PageId = "me" | "snagr" | "tracespans";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 function pathFor(page: PageId): string {
-  return page === "snagr" ? `${BASE}/projects/snagr/` : `${BASE}/`;
+  if (page === "snagr") return `${BASE}/projects/snagr/`;
+  if (page === "tracespans") return `${BASE}/projects/trace-spans/`;
+  return `${BASE}/`;
 }
 
 function pageFromPath(pathname: string): PageId {
-  return pathname.includes("/projects/snagr") ? "snagr" : "me";
+  if (pathname.includes("/projects/snagr")) return "snagr";
+  if (pathname.includes("/projects/trace-spans")) return "tracespans";
+  return "me";
 }
 
 const PageContext = createContext<{
