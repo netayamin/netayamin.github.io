@@ -340,14 +340,6 @@ function DesignSystemFrame() {
           <span className="rotate-[-1.5deg] bg-[#FFF3B8] px-2.5 py-2 font-[family-name:var(--font-hand)] text-[13px] leading-tight text-[#5C4E00] shadow-sm">
             red is a signal, not a paint
           </span>
-          <a
-            href="https://claude.ai/code/artifact/d5a5dae1-5140-4873-a862-93766dda7000"
-            target="_blank"
-            rel="noreferrer"
-            className="ml-auto rounded-full bg-neutral-900 px-3 py-1 text-[10px] font-medium text-white hover:opacity-85 dark:bg-white dark:text-neutral-900"
-          >
-            Full library ↗
-          </a>
         </div>
       </div>
     </Draggable>
