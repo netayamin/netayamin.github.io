@@ -226,6 +226,15 @@ body {
   border-bottom: 1px solid var(--line);
 }
 
+/* Nap mode: the whole level goes black-and-white while asleep */
+.game-header {
+  transition: filter 1.2s ease;
+}
+
+.game-header:has(.zto-calm) {
+  filter: grayscale(1);
+}
+
 /* Nap mode: pause the level's fidgeting so readers can read */
 .zto-calm .ob-jitter,
 .zto-calm .ob-creep,
