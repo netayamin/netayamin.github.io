@@ -378,6 +378,7 @@ export default function SnagrBoard() {
   const [transform, setTransform] = useState("");
   const [animate, setAnimate] = useState(true);
   const [tag, setTag] = useState<{ x: number; y: number } | null>(null);
+  const pan = useRef<{ sx: number; sy: number; x: number; y: number } | null>(null);
 
   const fit = (name: string, withAnimation = true) => {
     const vp = viewportRef.current;
@@ -450,9 +451,28 @@ export default function SnagrBoard() {
     <div
       ref={viewportRef}
       className="figma-cursor relative h-full w-full overflow-hidden bg-[#f0f0f3] dark:bg-[#2c2c2e]"
+      onPointerDown={(e) => {
+        if (e.button !== 0) return;
+        if ((e.target as HTMLElement).closest("[data-draggable],a,button")) return;
+        pan.current = { sx: e.clientX, sy: e.clientY, x: view.current.x, y: view.current.y };
+        e.currentTarget.setPointerCapture(e.pointerId);
+      }}
       onPointerMove={(e) => {
         const rect = e.currentTarget.getBoundingClientRect();
         setTag({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+        if (pan.current) {
+          const x = pan.current.x + (e.clientX - pan.current.sx);
+          const y = pan.current.y + (e.clientY - pan.current.sy);
+          view.current = { ...view.current, x, y };
+          setAnimate(false);
+          setTransform(`translate(${x}px, ${y}px) scale(${view.current.s})`);
+        }
+      }}
+      onPointerUp={() => {
+        pan.current = null;
+      }}
+      onPointerCancel={() => {
+        pan.current = null;
       }}
       onPointerLeave={() => setTag(null)}
       onDoubleClick={() => {

@@ -23,6 +23,7 @@ export default function Draggable({
 
   return (
     <div
+      data-draggable
       className={`touch-none select-none ${className}`}
       style={pos.x || pos.y ? { transform: `translate(${pos.x}px, ${pos.y}px)` } : undefined}
       onPointerDown={(e) => {
