@@ -9,17 +9,17 @@ export const CASE_STUDY = `# Designing for a question reservation apps were neve
 
 ## Who, what, when, where, why, how
 
-**Who.** The friend who carries the dinner: the group's planner, late 20s to 40s, living in a reservation-scarce city. Secondary: the rest of their group chat, who just want to be told where to show up.
+**Who.** The group's planner: the friend who carries the dinner, late 20s to 40s, in a reservation-scarce city. Around her, a group chat waiting to be told where to show up.
 
-**What.** An app that turns the restaurant lists people already trust into live, watchable plans, and interrupts them the moment a real table opens.
+**What.** Wanted restaurants are booked out, tables free up unpredictably and vanish in minutes, and keeping a plan alive means manually polling four apps for days. Snagr takes over the watching: trusted restaurant lists become live plans that alert the moment a matching table opens.
 
-**When.** In the gap between "we should go" and "we have a table": the days when a plan exists but no reservation does, and inventory appears at random hours and vanishes in minutes.
+**When.** In the days between "we should go" and the dinner itself: after a plan forms in the chat but before any table exists. The decisive moments arrive at random hours, exactly when nobody is looking: the midnight cancellation, the table that drops during a work meeting.
 
-**Where.** New York and Paris to start. Mostly on the lock screen, not in the app; the product lives in a push notification.
+**Where.** Wherever the user already is, not where the app is: in the group chat where plans are born, in bed doing one last Resy check, on the subway when the push lands. The product's real surface is the lock screen; the app is a landing pad.
 
-**Why.** Discovery is solved; editors do it beautifully. Booking tools assume you already know exactly what to track. In between, plans die, because keeping one alive means a human polling four apps for a week, and humans are bad at polling. It doesn't just fail; it *feels* bad.
+**Why.** Discovery is solved and booking is solved, but the gap between them isn't. Humans are structurally bad at polling, and every failed vigil costs a real dinner plus a little of the planner's social capital.
 
-**How.** Declare an occasion once (these places, these nights, this party size) and Snagr watches everything on the list at once, then pushes a booking link the second a matching table opens. Sixty seconds of setup, days of silence, fifteen seconds from push to booked.
+**How.** Declare an occasion once (these places, these nights, this party size). Snagr watches everything on the list at once and pushes a booking link the second a match opens.
 
 ## Personas
 
