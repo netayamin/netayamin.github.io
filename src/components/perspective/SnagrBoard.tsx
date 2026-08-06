@@ -11,18 +11,18 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 // camera to its frame. Pinch (or Cmd/Ctrl + scroll) still zooms manually.
 type Region = { x: number; y: number; w: number; h: number };
 
-const CANVAS = { w: 1300, h: 1310 };
+const CANVAS = { w: 1520, h: 1310 };
 
 const REGIONS: Record<string, Region> = {
-  overview: { x: 10, y: 10, w: 1280, h: 1290 },
+  overview: { x: 10, y: 10, w: 1500, h: 1290 },
   brand: { x: 20, y: 20, w: 340, h: 190 },
   journeymap: { x: 20, y: 220, w: 520, h: 390 },
-  personas: { x: 980, y: 640, w: 370, h: 670 },
-  main: { x: 390, y: 20, w: 270, h: 620 },
-  missed: { x: 690, y: 20, w: 270, h: 620 },
-  collection: { x: 990, y: 20, w: 270, h: 620 },
-  plan: { x: 390, y: 640, w: 270, h: 640 },
-  planday: { x: 690, y: 640, w: 270, h: 640 },
+  personas: { x: 1140, y: 640, w: 370, h: 670 },
+  main: { x: 550, y: 20, w: 270, h: 620 },
+  missed: { x: 850, y: 20, w: 270, h: 620 },
+  collection: { x: 1150, y: 20, w: 270, h: 620 },
+  plan: { x: 550, y: 640, w: 270, h: 650 },
+  planday: { x: 850, y: 640, w: 270, h: 650 },
 };
 
 // Which region each case-study section focuses.
@@ -392,35 +392,35 @@ export default function SnagrBoard() {
         
 
         {/* Real screens, straight from the simulator */}
-        <div className="absolute" style={{ left: 400, top: 60 }}>
+        <div className="absolute" style={{ left: 560, top: 60 }}>
           <Screen
             file="main.png"
             title="Home · Plans"
             caption="Three plans quietly watching; 61 of 100 restaurants tracked."
           />
         </div>
-        <div className="absolute" style={{ left: 700, top: 60 }}>
+        <div className="absolute" style={{ left: 860, top: 60 }}>
           <Screen
             file="missed.png"
             title="Home · Since your last visit"
             caption="What opened while you were away, before anything else."
           />
         </div>
-        <div className="absolute" style={{ left: 1000, top: 60 }}>
+        <div className="absolute" style={{ left: 1160, top: 60 }}>
           <Screen
             file="collection.png"
             title="Collection · Declare"
             caption="Selection is creation: tick venues straight from the guide."
           />
         </div>
-        <div className="absolute" style={{ left: 400, top: 680 }}>
+        <div className="absolute" style={{ left: 560, top: 680 }}>
           <Screen
             file="plan.png"
             title="Plan · MUST TRY"
             caption="One plan, seven dates, 2 to 4 people: every live table as one answer."
           />
         </div>
-        <div className="absolute" style={{ left: 700, top: 680 }}>
+        <div className="absolute" style={{ left: 860, top: 680 }}>
           <Screen
             file="plan-day.png"
             title="Plan · picking a day"
@@ -434,7 +434,7 @@ export default function SnagrBoard() {
         </div>
 
         {/* Personas, straight off the whiteboard */}
-        <div className="absolute" style={{ left: 1000, top: 680 }}>
+        <div className="absolute" style={{ left: 1160, top: 680 }}>
           <PersonaSketch
             variant="maya"
             name="Maya, 29"
@@ -448,7 +448,7 @@ export default function SnagrBoard() {
             rotate="rotate-[-1.5deg]"
           />
         </div>
-        <div className="absolute" style={{ left: 1000, top: 1010 }}>
+        <div className="absolute" style={{ left: 1160, top: 1010 }}>
           <PersonaSketch
             variant="dan"
             name="Dan, 31"
