@@ -109,6 +109,8 @@ export function Formatted({ source }: { source: string }) {
         </h1>,
       );
     } else if (t.startsWith("## ")) {
+      sections.push({ slug: mdSlug(t.slice(3)), blocks: [] });
+      blocks = sections[sections.length - 1].blocks;
       blocks.push(
         <h2
           key={blocks.length}
