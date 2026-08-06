@@ -23,9 +23,9 @@ export const CASE_STUDY = `# Designing for a question reservation apps were neve
 
 ## Personas
 
-**Maya, 29. The Planner.** Plans occasions: the birthday, the Paris trip, Friday with the girls. Runs the group chat like a second job and wants the crew at spots worth the night. She casts a wide net across a trusted list and takes whatever opens. *"We have a whole list of places we want to try. We always end up at the same three."*
+**Maya, 29. The Planner (primary).** *"I don't care which restaurant, we just want a great dinner."* She books for the occasion: Wednesday Dinner, Girls Paris Trip, Parents Visiting NYC, Anniversary Weekend. She creates plans, watches many restaurants at once, stays flexible on venue, often spans several dates and party sizes, and shares the plan with friends. Success is simple: *we got a reservation.*
 
-**Dan, 31. The Chaser.** Keeps a short hit list of the city's hottest tables and hunts them specifically. Any night works; only *that* restaurant counts. He checks at odd hours and still loses tables to faster thumbs. *"I've been chasing the same reservation for a year."*
+**Dan, 31. The Chaser (secondary).** *"I want THIS restaurant."* He hunts one specific place: Torrisi, 4 Charles, Don Angie, Tatiana. He watches one to three spots, usually a single date and a very specific time, and checks constantly because the place is impossible to book. Success: *I got Bar Tizio at 7:30.*
 
 Their notification tolerance is exactly opposite: Maya wants calm and few, Dan wants to be woken at 2am. One system serving two contracts is the tension that shaped the vague-vs-specific alert modes.
 

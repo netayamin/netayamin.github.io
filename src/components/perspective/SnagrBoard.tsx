@@ -104,6 +104,7 @@ function PersonaSketch({
   frustrations,
   watches,
   quote,
+  success,
   alerts,
   rotate,
 }: {
@@ -114,6 +115,7 @@ function PersonaSketch({
   frustrations: string[];
   watches: string[];
   quote: string;
+  success: string;
   alerts: string;
   rotate: string;
 }) {
@@ -144,6 +146,9 @@ function PersonaSketch({
           &ldquo;{quote}&rdquo;
         </p>
         <p className="mt-1 font-[family-name:var(--font-hand)] text-[13px] text-neutral-500">
+          success = <span className="font-bold text-neutral-700 underline decoration-[#3fa860] decoration-2 underline-offset-2">{success}</span>
+        </p>
+        <p className="font-[family-name:var(--font-hand)] text-[13px] text-neutral-500">
           alerts: <span className="font-bold text-neutral-700 underline decoration-[#e8506a] decoration-2 underline-offset-2">{alerts}</span>
         </p>
       </div>
@@ -348,11 +353,12 @@ export default function SnagrBoard() {
           <PersonaSketch
             variant="maya"
             name="Maya, 29"
-            role="the planner"
-            goals={["the occasion, done right", "best spots, wide net"]}
+            role="the planner · primary"
+            goals={["fits the occasion", "flexible on venue"]}
             frustrations={["4 apps on rotation", "group goes quiet"]}
-            watches={["whole lists", "flexible nights"]}
-            quote="We always end up at the same three places."
+            watches={["many spots, wide net", "multi-date, shared"]}
+            quote="I don't care which restaurant, we just want a great dinner."
+            success="we got a reservation"
             alerts="gentle, please"
             rotate="rotate-[-1.5deg]"
           />
@@ -361,11 +367,12 @@ export default function SnagrBoard() {
           <PersonaSketch
             variant="dan"
             name="Dan, 31"
-            role="the chaser"
-            goals={["THAT table", "any night works"]}
-            frustrations={["3am drops missed", "sniped in seconds"]}
-            watches={["3 impossible spots", "specific dates"]}
-            quote="I've been chasing the same reservation for a year."
+            role="the chaser · secondary"
+            goals={["THIS restaurant", "one date, one time"]}
+            frustrations={["impossible to book", "checks constantly"]}
+            watches={["1–3 spots only", "Torrisi · 4 Charles"]}
+            quote="I want THIS restaurant."
+            success="Bar Tizio at 7:30"
             alerts="wake me at 2am. I mean it."
             rotate="rotate-[1.5deg]"
           />
