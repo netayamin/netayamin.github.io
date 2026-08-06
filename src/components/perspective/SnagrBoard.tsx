@@ -22,7 +22,6 @@ const REGIONS: Record<string, Region> = {
   main: { x: 550, y: 20, w: 270, h: 620 },
   missed: { x: 850, y: 20, w: 270, h: 620 },
   collection: { x: 1150, y: 20, w: 270, h: 620 },
-  plan: { x: 550, y: 640, w: 270, h: 650 },
   planday: { x: 850, y: 640, w: 270, h: 650 },
 };
 
@@ -34,14 +33,14 @@ const SECTION_TO_REGION: Record<string, string> = {
   "the-journey-before-snagr": "journeymap",
   "the-journey-with-snagr": "collection",
   "why-this-solution-and-what-i-rejected": "main",
-  "breaking-the-one-reservation-model": "plan",
+  "breaking-the-one-reservation-model": "planday",
   "how-it-evolved-four-products-four-lessons": "overview",
   "research-honestly": "missed",
   "what-i-learned": "overview",
   "stack-and-what-each-piece-bought": "designsystem",
   backend: "overview",
   "availability-acquisition-the-hard-part": "planday",
-  "demand-is-the-scheduler": "plan",
+  "demand-is-the-scheduler": "planday",
   "notifications-engineered-as-suppression": "missed",
   infrastructure: "overview",
 };
@@ -536,14 +535,7 @@ export default function SnagrBoard() {
             caption="Selection is creation: tick venues straight from the guide."
           />
         </div>
-        <div className="absolute" style={{ left: 560, top: 680 }}>
-          <Screen
-            file="plan.png"
-            title="Plan · MUST TRY"
-            caption="One plan, seven dates, 2 to 4 people: every live table as one answer."
-          />
-        </div>
-        <div className="absolute" style={{ left: 860, top: 680 }}>
+                <div className="absolute" style={{ left: 860, top: 680 }}>
           <Screen
             file="plan-day.png"
             title="Plan · picking a day"
