@@ -11,26 +11,25 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 // working interactive rebuild of the component, and the context wall.
 type Region = { x: number; y: number; w: number; h: number };
 
-const CANVAS = { w: 1180, h: 1480 };
+const CANVAS = { w: 1300, h: 1020 };
 
 const REGIONS: Record<string, Region> = {
-  overview: { x: 10, y: 10, w: 1160, h: 1460 },
+  overview: { x: 10, y: 10, w: 1280, h: 1000 },
   context: { x: 20, y: 30, w: 450, h: 300 },
-  screenshot: { x: 20, y: 320, w: 510, h: 420 },
-  flowtable: { x: 545, y: 30, w: 620, h: 440 },
-  workspace: { x: 545, y: 470, w: 620, h: 440 },
-  demo: { x: 20, y: 920, w: 660, h: 540 },
+  flowtable: { x: 670, y: 30, w: 620, h: 380 },
+  drawer: { x: 670, y: 430, w: 620, h: 440 },
+  demo: { x: 20, y: 380, w: 660, h: 560 },
 };
 
 const SECTION_TO_REGION: Record<string, string> = {
   intro: "overview",
   "the-context": "context",
   "who-it-was-for": "context",
-  "the-problem": "screenshot",
+  "the-problem": "demo",
   "the-user-flow": "flowtable",
   "the-design": "demo",
-  "what-made-it-hard": "workspace",
-  "what-happened": "screenshot",
+  "what-made-it-hard": "drawer",
+  "what-happened": "overview",
   "what-i-learned": "overview",
 };
 
@@ -168,6 +167,117 @@ function SpanRow({
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+// Lo-fi wireframe helpers
+function WireBar({ w, tone = "bg-neutral-200 dark:bg-white/15" }: { w: string; tone?: string }) {
+  return <span className={`block h-2 rounded ${tone} ${w}`} />;
+}
+
+function StepBadge({ n }: { n: number }) {
+  return (
+    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent text-[11px] font-bold text-white">
+      {n}
+    </span>
+  );
+}
+
+// Flow step 1: the traces table, as a sketch
+function TracesTableSketch() {
+  return (
+    <div className="w-[560px] rounded-2xl bg-white p-5 shadow-sm dark:bg-[#1f1f22]">
+      <div className="flex items-center gap-2">
+        <p className="text-[15px] font-bold text-neutral-900 dark:text-white">Traces</p>
+        <span className="ml-3 h-7 w-40 rounded-lg bg-neutral-100 dark:bg-white/10" />
+        <span className="h-7 w-20 rounded-lg bg-neutral-100 dark:bg-white/10" />
+        <span className="ml-auto font-mono text-[10px] text-neutral-400">334 requests</span>
+      </div>
+      <div className="mt-3 grid grid-cols-[80px_1fr_1fr_130px] gap-3 border-b border-neutral-100 pb-1.5 text-[10px] font-medium uppercase tracking-wide text-neutral-400 dark:border-white/10">
+        <span>Time</span><span>Input</span><span>Output</span><span>Feedback</span>
+      </div>
+      {[0, 1, 2, 3, 4].map((i) => (
+        <div
+          key={i}
+          className={`grid grid-cols-[80px_1fr_1fr_130px] items-center gap-3 border-b border-neutral-50 py-2.5 dark:border-white/5 ${
+            i === 1 ? "rounded-lg bg-accent-soft/60" : ""
+          }`}
+        >
+          <span className="font-mono text-[9px] text-neutral-400">08:49 AM</span>
+          <WireBar w={i % 2 ? "w-4/5" : "w-full"} />
+          <WireBar w={i % 2 ? "w-full" : "w-3/4"} />
+          <span className="flex gap-1">
+            <span className={`rounded-full px-2 py-0.5 text-[9px] font-medium ${i < 3 ? "bg-emerald-100 text-emerald-700" : "bg-violet-100 text-violet-700"}`}>
+              {i < 3 ? "correct" : "score 0.4"}
+            </span>
+          </span>
+        </div>
+      ))}
+      <div className="mt-2.5 flex items-center gap-2 text-[11px] text-neutral-500">
+        <StepBadge n={1} />
+        find the request that went wrong, then click the row
+      </div>
+    </div>
+  );
+}
+
+// Flow steps 2 and 3: the drawer over the table, as a sketch
+function DrawerFlowSketch() {
+  return (
+    <div className="relative w-[560px] overflow-hidden rounded-2xl bg-white shadow-sm dark:bg-[#1f1f22]">
+      {/* dimmed table behind */}
+      <div className="p-5 opacity-30">
+        {[0, 1, 2, 3, 4, 5].map((i) => (
+          <div key={i} className="mb-3 flex gap-3">
+            <WireBar w="w-14" /><WireBar w="w-1/3" /><WireBar w="w-1/4" />
+          </div>
+        ))}
+      </div>
+      {/* the drawer */}
+      <div className="absolute inset-y-3 right-3 flex w-[440px] overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-2xl dark:border-white/10 dark:bg-[#26262b]">
+        {/* spans tree */}
+        <div className="w-[190px] border-r border-neutral-100 p-3 dark:border-white/10">
+          <div className="mb-2 flex items-center gap-1.5">
+            <StepBadge n={2} />
+            <span className="text-[10px] font-semibold text-neutral-700 dark:text-neutral-200">spans</span>
+          </div>
+          {[
+            { pad: 0, color: "#8b5cf6", w: "w-16" },
+            { pad: 10, color: "#10b981", w: "w-16" },
+            { pad: 20, color: "#10b981", w: "w-6" },
+            { pad: 30, color: "#3b82f6", w: "w-5" },
+            { pad: 20, color: "#3b82f6", w: "w-14" },
+          ].map((row, i) => (
+            <div key={i} className={`mb-2 flex items-center gap-1.5 ${i === 4 ? "rounded bg-accent-soft/60 py-0.5" : ""}`} style={{ paddingLeft: row.pad }}>
+              <span className="h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: row.color }} />
+              <WireBar w="w-12" />
+              <span className={`ml-auto block h-1.5 rounded-full ${row.w}`} style={{ backgroundColor: row.color }} />
+            </div>
+          ))}
+        </div>
+        {/* detail pane */}
+        <div className="flex-1 p-3">
+          <div className="mb-2 flex items-center gap-1.5">
+            <StepBadge n={3} />
+            <span className="text-[10px] font-semibold text-neutral-700 dark:text-neutral-200">span detail</span>
+          </div>
+          <WireBar w="w-2/3" tone="bg-neutral-300 dark:bg-white/25" />
+          <div className="mt-2 flex gap-2 text-[9px] text-neutral-400">
+            <span className="border-b-2 border-accent pb-0.5 font-medium text-accent">Input/Output</span>
+            <span>Feedback</span>
+            <span>Metadata</span>
+          </div>
+          <div className="mt-2 space-y-1.5 rounded-lg bg-neutral-50 p-2.5 dark:bg-white/5">
+            {["w-full", "w-11/12", "w-full", "w-4/5", "w-full", "w-2/3"].map((w, i) => (
+              <WireBar key={i} w={w} />
+            ))}
+          </div>
+        </div>
+      </div>
+      <p className="px-5 pb-4 pt-1 text-[11px] text-neutral-500">
+        the drawer slides over the table: tree in the middle, evidence on the right
+      </p>
     </div>
   );
 }
@@ -351,47 +461,24 @@ export default function TraceBoard() {
           </Draggable>
         </div>
 
-        {/* the shipped component, close up */}
-        <div className="absolute" style={{ left: 40, top: 360 }}>
+        {/* flow step 1: the traces table, sketched */}
+        <div className="absolute" style={{ left: 690, top: 60 }}>
           <Draggable>
-            <FrameLabel>Trace spans in Opik · close up</FrameLabel>
-            <div className="w-[460px] overflow-hidden rounded-xl border border-black/5 bg-white shadow-lg dark:border-white/10">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`${BASE}/comet/trace-spans.png`} alt="Trace spans in Opik" className="w-full" />
-            </div>
+            <FrameLabel>Flow · 1. the traces table</FrameLabel>
+            <TracesTableSketch />
           </Draggable>
         </div>
 
-        {/* flow step 1: the traces table */}
-        <div className="absolute" style={{ left: 560, top: 50 }}>
+        {/* flow steps 2 and 3: the drawer, sketched */}
+        <div className="absolute" style={{ left: 690, top: 470 }}>
           <Draggable>
-            <FrameLabel>Flow · 1. the traces table: one row per request</FrameLabel>
-            <div className="w-[580px] overflow-hidden rounded-xl border border-black/5 bg-white shadow-lg dark:border-white/10">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`${BASE}/comet/traces-table.png`} alt="The Opik traces table" className="w-full" />
-            </div>
-            <p className="mt-1.5 max-w-[580px] text-[10px] leading-snug text-neutral-500 dark:text-neutral-400">
-              Debugging starts wide: start time, input, output, feedback scores. 334 requests; find the one that went wrong.
-            </p>
-          </Draggable>
-        </div>
-
-        {/* flow steps 2 and 3: the drawer */}
-        <div className="absolute" style={{ left: 560, top: 500 }}>
-          <Draggable>
-            <FrameLabel>Flow · 2. click a trace: spans in a drawer · 3. click a span: the detail</FrameLabel>
-            <div className="w-[580px] overflow-hidden rounded-xl border border-black/5 bg-white shadow-lg dark:border-white/10">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`${BASE}/comet/trace-context.png`} alt="Trace spans inside the drawer over the traces table" className="w-full" />
-            </div>
-            <p className="mt-1.5 max-w-[580px] text-[10px] leading-snug text-neutral-500 dark:text-neutral-400">
-              The drawer slides over the table: spans tree in the middle, span detail on the right. The component does its whole job in a few hundred pixels, mid-drill-down.
-            </p>
+            <FrameLabel>Flow · 2. the spans drawer · 3. the detail pane</FrameLabel>
+            <DrawerFlowSketch />
           </Draggable>
         </div>
 
         {/* the live rebuild */}
-        <div className="absolute" style={{ left: 40, top: 950 }}>
+        <div className="absolute" style={{ left: 40, top: 420 }}>
           <Draggable>
             <FrameLabel>The component · rebuilt live, interactive</FrameLabel>
             <TraceSpansDemo />
