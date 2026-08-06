@@ -352,7 +352,7 @@ export default function TraceBoard() {
         {/* the shipped screenshot */}
         <div className="absolute" style={{ left: 560, top: 50 }}>
           <Draggable>
-            <FrameLabel>Shipped · trace spans in Opik</FrameLabel>
+            <FrameLabel>Trace spans in Opik</FrameLabel>
             <div className="w-[460px] overflow-hidden rounded-xl border border-black/5 bg-white shadow-lg dark:border-white/10">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={`${BASE}/comet/trace-spans.png`} alt="Trace spans in Opik" className="w-full" />
