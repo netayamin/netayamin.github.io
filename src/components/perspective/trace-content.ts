@@ -22,7 +22,7 @@ A trace is three things at once: a **tree** (what called what), a **timeline** (
 1. **Structure on the left, cost on the right.** Indentation and guide lines carry causality; right-aligned duration bars carry time. Your eye reads the tree downward and the expense sideways, and neither fights the other.
 2. **Color means type, always.** Purple for the trace root, green for chains, blue for LLM calls. A glance tells you what kind of work each row is before you read a word. The palette never decorates; it classifies.
 3. **Bars are proportional to the trace root.** No log scales, no per-row normalization. When one completion takes 4.3s of a 4.9s trace, its bar says so at full length and the bottleneck identifies itself. The 0.7s sibling barely registers, which is exactly the truth.
-4. **Metadata lives under the bar, not in the row.** Duration and token count sit in a quiet line beneath each bar. Rows stay one line tall, names stay scannable, and spans without tokens (chains, tools) simply show less, no empty columns.
+4. **Metadata lives under the bar, not in the row.** Duration and token count sit in a quiet line beneath each bar. Rows stay one line tall, names stay scannable, and spans without tokens (chains, tools) simply show less, no empty columns. At the width this component actually got, a metadata column would have been fatal.
 5. **Built to collapse.** Agent frameworks produce deep, repetitive trees. Chevrons per parent plus a collapse-all keep a fifty-span trace navigable, and guide lines keep your place when it's open.
 
 ## What made it hard
@@ -30,6 +30,7 @@ A trace is three things at once: a **tree** (what called what), a **timeline** (
 - **Durations spanning three orders of magnitude** in one trace: a 40ms tool call next to a 4-second completion, both needing an honest bar.
 - **Legitimate duplicate names.** A wrapper chain and its root can share a name (you can see generate_opik_story twice in the shipped screen). The type icon, not the label, is what disambiguates, which is why color-as-type had to be strict.
 - **Ragged metadata.** Tokens exist only on LLM spans. The under-bar line had to degrade gracefully instead of forcing a grid of empty cells.
+- **A sliver of screen.** The component never got a page of its own. It lived as the middle column of a three-pane workspace (trace list on the left, span detail with inputs and outputs on the right), routinely squeezed to a few hundred pixels. That killed every APM convention that assumes width: no time axis, no column grid, no room for labels to breathe. Everything had to stack vertically: bar under name, metadata under bar, type carried by an icon so the label could truncate without losing meaning.
 - **No prior art to lean on.** Users had never seen an "LLM trace" before. Every choice had to be self-explanatory on first contact, because there was no convention to fall back on.
 
 ## What happened
