@@ -19,7 +19,7 @@ const REGIONS: Record<string, Region> = {
   watchlist: { x: 10, y: 190, w: 360, h: 260 },
   dropalert: { x: 10, y: 440, w: 360, h: 190 },
   groupplan: { x: 10, y: 620, w: 400, h: 170 },
-  personas: { x: 380, y: 650, w: 680, h: 500 },
+  personas: { x: 370, y: 650, w: 710, h: 480 },
   home: { x: 400, y: 30, w: 320, h: 600 },
   collection: { x: 710, y: 30, w: 320, h: 600 },
 };
@@ -102,7 +102,9 @@ function PersonaSketch({
   role,
   goals,
   frustrations,
+  watches,
   quote,
+  alerts,
   rotate,
 }: {
   variant: "maya" | "dan";
@@ -110,29 +112,39 @@ function PersonaSketch({
   role: string;
   goals: string[];
   frustrations: string[];
+  watches: string[];
   quote: string;
+  alerts: string;
   rotate: string;
 }) {
   return (
     <Draggable>
-      <div className={`relative w-[300px] bg-white p-4 pb-5 shadow-lg dark:bg-[#ececec] ${rotate}`}>
+      <div className={`relative w-[330px] bg-white p-4 pb-4 shadow-lg dark:bg-[#ececec] ${rotate}`}>
         {/* tape */}
         <span className="absolute -top-2 left-1/2 h-5 w-16 -translate-x-1/2 rotate-[-3deg] bg-[#f7edc0]/80 shadow-sm" />
         <div className="flex items-center gap-3">
           <DoodleAvatar variant={variant} />
           <div>
-            <p className="font-[family-name:var(--font-hand)] text-[22px] font-bold leading-none text-neutral-800">
-              {name}
+            <p className="font-[family-name:var(--font-hand)] text-[23px] font-bold leading-none text-neutral-800">
+              <span className="bg-gradient-to-t from-[#fff3a3] from-45% to-transparent to-45% px-0.5">
+                {name}
+              </span>
             </p>
-            <p className="font-[family-name:var(--font-hand)] text-[15px] text-neutral-500">{role}</p>
+            <p className="mt-0.5 font-[family-name:var(--font-hand)] text-[16px] uppercase tracking-wide text-neutral-500">
+              {role}
+            </p>
           </div>
         </div>
-        <div className="mt-3 flex gap-2.5">
+        <div className="mt-3 flex gap-2">
           <StickyNote color="#fff3a3" title="goals" items={goals} rotate="rotate-[-2deg]" />
-          <StickyNote color="#ffd6df" title="frustrations" items={frustrations} rotate="rotate-[1.5deg]" />
+          <StickyNote color="#ffd6df" title="pains" items={frustrations} rotate="rotate-[1.5deg]" />
+          <StickyNote color="#cfe8ff" title="watches" items={watches} rotate="rotate-[-1deg]" />
         </div>
-        <p className="mt-3.5 font-[family-name:var(--font-hand)] text-[16px] leading-snug text-neutral-700">
+        <p className="mt-3 font-[family-name:var(--font-hand)] text-[16px] leading-snug text-neutral-700">
           &ldquo;{quote}&rdquo;
+        </p>
+        <p className="mt-1 font-[family-name:var(--font-hand)] text-[13px] text-neutral-500">
+          alerts: <span className="font-bold text-neutral-700 underline decoration-[#e8506a] decoration-2 underline-offset-2">{alerts}</span>
         </p>
       </div>
     </Draggable>
@@ -337,9 +349,11 @@ export default function SnagrBoard() {
             variant="maya"
             name="Maya, 29"
             role="the planner"
-            goals={["get the group in", "be the hero"]}
-            frustrations={["4 apps on rotation", "tables gone by reply", "quiet blame"]}
+            goals={["the occasion, done right", "best spots, wide net"]}
+            frustrations={["4 apps on rotation", "group goes quiet"]}
+            watches={["whole lists", "flexible nights"]}
             quote="We always end up at the same three places."
+            alerts="gentle, please"
             rotate="rotate-[-1.5deg]"
           />
         </div>
@@ -347,10 +361,12 @@ export default function SnagrBoard() {
           <PersonaSketch
             variant="dan"
             name="Dan, 31"
-            role="the flexible friend"
-            goals={["minimum effort", "just tell me where"]}
-            frustrations={["60-message threads", "opinions about slots"]}
-            quote="Just tell me where and when. I'll be there."
+            role="the chaser"
+            goals={["THAT table", "any night works"]}
+            frustrations={["3am drops missed", "sniped in seconds"]}
+            watches={["3 impossible spots", "specific dates"]}
+            quote="I've been chasing the same reservation for a year."
+            alerts="wake me at 2am. I mean it."
             rotate="rotate-[1.5deg]"
           />
         </div>

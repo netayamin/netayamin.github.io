@@ -23,9 +23,11 @@ export const CASE_STUDY = `# Designing for a question reservation apps were neve
 
 ## Personas
 
-**Maya, 29. The Planner.** Runs the group chat like a second job. Saves Infatuation lists, screenshots menus, sets phone reminders to check Resy at odd hours. *Goal:* get her people into places worth the night, and honestly, be the hero who pulled it off. *Frustrations:* four apps on rotation, tables gone by the time anyone answers the thread, quiet blame when the plan fizzles. *"We have a whole list of places we want to try. We always end up at the same three."*
+**Maya, 29. The Planner.** Plans occasions: the birthday, the Paris trip, Friday with the girls. Runs the group chat like a second job and wants the crew at spots worth the night. She casts a wide net across a trusted list and takes whatever opens. *"We have a whole list of places we want to try. We always end up at the same three."*
 
-**Dan, 31. The Flexible Friend.** Would happily eat at any of six places. *Goal:* minimum effort between "I'm in" and dinner. *Frustrations:* sixty-message threads that end nowhere; being asked to have opinions about time slots. *"Just tell me where and when. I'll be there."*
+**Dan, 31. The Chaser.** Keeps a short hit list of the city's hottest tables and hunts them specifically. Any night works; only *that* restaurant counts. He checks at odd hours and still loses tables to faster thumbs. *"I've been chasing the same reservation for a year."*
+
+Their notification tolerance is exactly opposite: Maya wants calm and few, Dan wants to be woken at 2am. One system serving two contracts is the tension that shaped the vague-vs-specific alert modes.
 
 *(Provisional: drawn from lived observation, to be validated by the interviews on the research roadmap below.)*
 
