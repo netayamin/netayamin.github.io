@@ -11,14 +11,15 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 // working interactive rebuild of the component, and the context wall.
 type Region = { x: number; y: number; w: number; h: number };
 
-const CANVAS = { w: 1260, h: 1000 };
+const CANVAS = { w: 1180, h: 1480 };
 
 const REGIONS: Record<string, Region> = {
-  overview: { x: 10, y: 10, w: 1240, h: 980 },
-  context: { x: 20, y: 20, w: 440, h: 330 },
-  screenshot: { x: 540, y: 20, w: 500, h: 440 },
-  demo: { x: 20, y: 400, w: 640, h: 560 },
-  workspace: { x: 670, y: 490, w: 570, h: 460 },
+  overview: { x: 10, y: 10, w: 1160, h: 1460 },
+  context: { x: 20, y: 30, w: 450, h: 300 },
+  screenshot: { x: 20, y: 320, w: 510, h: 420 },
+  flowtable: { x: 545, y: 30, w: 620, h: 440 },
+  workspace: { x: 545, y: 470, w: 620, h: 440 },
+  demo: { x: 20, y: 920, w: 660, h: 540 },
 };
 
 const SECTION_TO_REGION: Record<string, string> = {
@@ -26,6 +27,7 @@ const SECTION_TO_REGION: Record<string, string> = {
   "the-context": "context",
   "who-it-was-for": "context",
   "the-problem": "screenshot",
+  "the-user-flow": "flowtable",
   "the-design": "demo",
   "what-made-it-hard": "workspace",
   "what-happened": "screenshot",
@@ -349,10 +351,10 @@ export default function TraceBoard() {
           </Draggable>
         </div>
 
-        {/* the shipped screenshot */}
-        <div className="absolute" style={{ left: 560, top: 50 }}>
+        {/* the shipped component, close up */}
+        <div className="absolute" style={{ left: 40, top: 360 }}>
           <Draggable>
-            <FrameLabel>Trace spans in Opik</FrameLabel>
+            <FrameLabel>Trace spans in Opik · close up</FrameLabel>
             <div className="w-[460px] overflow-hidden rounded-xl border border-black/5 bg-white shadow-lg dark:border-white/10">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={`${BASE}/comet/trace-spans.png`} alt="Trace spans in Opik" className="w-full" />
@@ -360,22 +362,36 @@ export default function TraceBoard() {
           </Draggable>
         </div>
 
-        {/* the component in its real habitat */}
-        <div className="absolute" style={{ left: 690, top: 520 }}>
+        {/* flow step 1: the traces table */}
+        <div className="absolute" style={{ left: 560, top: 50 }}>
           <Draggable>
-            <FrameLabel>In context · a sliver of a three-pane workspace</FrameLabel>
-            <div className="w-[530px] overflow-hidden rounded-xl border border-black/5 bg-white shadow-lg dark:border-white/10">
+            <FrameLabel>Flow · 1. the traces table: one row per request</FrameLabel>
+            <div className="w-[580px] overflow-hidden rounded-xl border border-black/5 bg-white shadow-lg dark:border-white/10">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`${BASE}/comet/trace-context.png`} alt="Trace spans inside the full Opik workspace" className="w-full" />
+              <img src={`${BASE}/comet/traces-table.png`} alt="The Opik traces table" className="w-full" />
             </div>
-            <p className="mt-1.5 max-w-[530px] text-[10px] leading-snug text-neutral-500 dark:text-neutral-400">
-              The spans column shares the screen with the trace list and the span detail pane. A few hundred pixels to show hierarchy, time, and cost.
+            <p className="mt-1.5 max-w-[580px] text-[10px] leading-snug text-neutral-500 dark:text-neutral-400">
+              Debugging starts wide: start time, input, output, feedback scores. 334 requests; find the one that went wrong.
+            </p>
+          </Draggable>
+        </div>
+
+        {/* flow steps 2 and 3: the drawer */}
+        <div className="absolute" style={{ left: 560, top: 500 }}>
+          <Draggable>
+            <FrameLabel>Flow · 2. click a trace: spans in a drawer · 3. click a span: the detail</FrameLabel>
+            <div className="w-[580px] overflow-hidden rounded-xl border border-black/5 bg-white shadow-lg dark:border-white/10">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`${BASE}/comet/trace-context.png`} alt="Trace spans inside the drawer over the traces table" className="w-full" />
+            </div>
+            <p className="mt-1.5 max-w-[580px] text-[10px] leading-snug text-neutral-500 dark:text-neutral-400">
+              The drawer slides over the table: spans tree in the middle, span detail on the right. The component does its whole job in a few hundred pixels, mid-drill-down.
             </p>
           </Draggable>
         </div>
 
         {/* the live rebuild */}
-        <div className="absolute" style={{ left: 40, top: 430 }}>
+        <div className="absolute" style={{ left: 40, top: 950 }}>
           <Draggable>
             <FrameLabel>The component · rebuilt live, interactive</FrameLabel>
             <TraceSpansDemo />
