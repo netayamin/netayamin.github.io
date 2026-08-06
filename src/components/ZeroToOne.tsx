@@ -187,7 +187,6 @@ export default function ZeroToOne() {
 
   useEffect(() => {
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    console.log("hello")
     let px: number | null = null;
     let ph: Phase = "grab";
     let wait = GRAB_TICKS;
