@@ -11,13 +11,13 @@ export const CASE_STUDY = `# Designing for a question reservation apps were neve
 
 **Who.** The group's planner: the friend who carries the dinner, late 20s to 40s, in a reservation-scarce city. Around her, a group chat waiting to be told where to show up.
 
-**What.** Wanted restaurants are booked out, tables free up unpredictably and vanish in minutes, and keeping a plan alive means manually polling four apps for days. Snagr takes over the watching: trusted restaurant lists become live plans that alert the moment a matching table opens.
+**What.** Wanted restaurants are booked out, and keeping a plan alive means manually polling four apps for days. Snagr takes over the watching: trusted restaurant lists become live plans that alert the moment a matching table opens.
 
 **When.** In the days between "we should go" and the dinner itself: after a plan forms in the chat but before any table exists. The decisive moments arrive at random hours, exactly when nobody is looking: the midnight cancellation, the table that drops during a work meeting.
 
 **Where.** Wherever the user already is, not where the app is: in the group chat where plans are born, in bed doing one last Resy check, on the subway when the push lands. The product's real surface is the lock screen; the app is a landing pad.
 
-**Why.** Discovery is solved and booking is solved, but the gap between them isn't. Humans are structurally bad at polling, and every failed vigil costs a real dinner plus a little of the planner's social capital.
+**Why.** Discovery is solved and booking is solved, but the gap between them isn't. Humans are structurally bad at polling, and every failed vigil costs a real dinner.
 
 **How.** Declare an occasion once (these places, these nights, this party size). Snagr watches everything on the list at once and pushes a booking link the second a match opens.
 
@@ -33,20 +33,20 @@ Their notification tolerance is exactly opposite: Maya wants calm and few, Dan w
 
 ## The journey before Snagr
 
-1. **Discover.** Google Maps saves, Infatuation, Eater NY, TikTok. Finding places is the fun part. *Feeling: excited.*
-2. **Send to friends.** Links into the group chat; the "omg yes"s roll in. *Feeling: hopeful.*
+1. **Discover.** Google Maps saves, Infatuation, Eater NY, TikTok. *Feeling: excited.*
+2. **Send to friends.** Links into the group chat; everyone is in. *Feeling: hopeful.*
 3. **Decide which.** Sixty messages to narrow it to a few contenders. *Feeling: fading.*
-4. **Try to get in.** Everything worth wanting is booked out. *Feeling: deflated.*
+4. **Try to get in.** Everything good is booked out. *Feeling: deflated.*
 5. **Check one by one.** Each restaurant, each date, each time, each app, individually. The group is flexible; the tools aren't, so flexibility means *more* checking, not less. *Feeling: anxious, then resigned. Back to the same three places.*
 
-The opportunity is stages 4 and 5. Nothing on the market touches them: discovery tools end at stage 2, and booking tools assume stage 4 succeeds on the first try.
+The opportunity is stages 4 and 5. Nothing on the market touches them: discovery tools end at stage 2, and booking tools assume stage 4 just works.
 
 ## The journey with Snagr
 
 1. **Declare** (~60 seconds). Browse a trusted guide, tick the places you'd actually go, set nights and party size. The list becomes one live plan. *Feeling: done. It's off my plate.*
 2. **Wait** (hours to days, out of the app). Snagr watches; the plan page whispers "Checked a minute ago · watching 18 places," so silence reads as diligence, not abandonment. *Feeling: calm. Someone's on it.*
 3. **Act** (~15 seconds). Push arrives: "Table for 4 just opened · Don Angie, Sat 8:00." Tap, book, share to the chat. *Feeling: relief, and a little heroism.*
-4. **Dinner.** The success metric isn't time in app. It's a short session that ends at a table.
+4. **Dinner.** Success is a short session that ends at a table.
 
 ## Why this solution, and what I rejected
 
