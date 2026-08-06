@@ -173,7 +173,7 @@ function Face({ cx, cy, happy }: { cx: number; cy: number; happy: boolean }) {
 }
 
 function JourneyMap() {
-  const stages = ["discover", "share", "attempt", "the vigil", "give up"];
+  const stages = ["discover", "send to friends", "decide which", "try to book", "one by one"];
   const beforeY = [46, 58, 116, 136, 146];
   const withY = [58, 62, 30, 18];
   const bx = [34, 130, 226, 322, 418];
@@ -191,7 +191,7 @@ function JourneyMap() {
           </span>{" "}
           <span className="text-[15px] font-normal text-neutral-500">(how it feels)</span>
         </p>
-        <svg width="448" height="196" viewBox="0 0 448 196" className="mt-2">
+        <svg width="448" height="200" viewBox="0 0 448 200" className="mt-2">
           {/* axis */}
           <line x1="20" y1="160" x2="436" y2="160" stroke="#c9c9c9" strokeWidth="1.5" strokeDasharray="4 4" />
           {/* before curve */}
@@ -215,11 +215,17 @@ function JourneyMap() {
               textAnchor="middle"
               className="fill-neutral-500"
               fontFamily="var(--font-hand)"
-              fontSize="15"
+              fontSize="14"
             >
               {stage}
             </text>
           ))}
+          <text x={bx[0]} y={192} textAnchor="middle" fill="#a3a3a3" fontFamily="var(--font-hand)" fontSize="11">
+            maps · infatuation · tiktok
+          </text>
+          <text x={bx[4]} y={192} textAnchor="middle" fill="#a3a3a3" fontFamily="var(--font-hand)" fontSize="11">
+            each spot × date × time
+          </text>
           {/* with labels */}
           {["declare", "wait", "act", "dinner!"].map((label, i) => (
             <text

@@ -33,13 +33,13 @@ Their notification tolerance is exactly opposite: Maya wants calm and few, Dan w
 
 ## The journey before Snagr
 
-1. **Discover.** Maya finds the place on Infatuation or TikTok. *Feeling: excited.*
-2. **Share.** Into the group chat; the "omg yes"s roll in. *Feeling: hopeful.*
-3. **Attempt.** She opens Resy. Booked out for six weeks. *Feeling: deflated.*
-4. **The vigil.** Days of checking four apps at random moments, including midnight "just in case." *Feeling: anxious, then resentful. The plan is now a chore she owns alone.*
-5. **Give up.** The group ends up at the same three places again. *Feeling: resigned, slightly embarrassed.*
+1. **Discover.** Google Maps saves, Infatuation, Eater NY, TikTok. Finding places is the fun part. *Feeling: excited.*
+2. **Send to friends.** Links into the group chat; the "omg yes"s roll in. *Feeling: hopeful.*
+3. **Decide which.** Sixty messages to narrow it to a few contenders. *Feeling: fading.*
+4. **Try to get in.** Everything worth wanting is booked out. *Feeling: deflated.*
+5. **Check one by one.** Each restaurant, each date, each time, each app, individually. The group is flexible; the tools aren't, so flexibility means *more* checking, not less. *Feeling: anxious, then resigned. Back to the same three places.*
 
-The product opportunity is stages 3–5. Nothing on the market touches them: discovery tools end at stage 2, booking tools only work if stage 3 succeeds.
+The opportunity is stages 4 and 5. Nothing on the market touches them: discovery tools end at stage 2, and booking tools assume stage 4 succeeds on the first try.
 
 ## The journey with Snagr
 
