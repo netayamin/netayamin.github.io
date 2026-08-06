@@ -11,13 +11,14 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 // working interactive rebuild of the component, and the context wall.
 type Region = { x: number; y: number; w: number; h: number };
 
-const CANVAS = { w: 1210, h: 980 };
+const CANVAS = { w: 1260, h: 1000 };
 
 const REGIONS: Record<string, Region> = {
-  overview: { x: 10, y: 10, w: 1190, h: 960 },
+  overview: { x: 10, y: 10, w: 1240, h: 980 },
   context: { x: 20, y: 20, w: 440, h: 330 },
   screenshot: { x: 540, y: 20, w: 500, h: 440 },
   demo: { x: 20, y: 400, w: 640, h: 560 },
+  workspace: { x: 670, y: 490, w: 570, h: 460 },
 };
 
 const SECTION_TO_REGION: Record<string, string> = {
@@ -26,7 +27,7 @@ const SECTION_TO_REGION: Record<string, string> = {
   "who-it-was-for": "context",
   "the-problem": "screenshot",
   "the-design": "demo",
-  "what-made-it-hard": "demo",
+  "what-made-it-hard": "workspace",
   "what-happened": "screenshot",
   "what-i-learned": "overview",
 };
@@ -356,6 +357,20 @@ export default function TraceBoard() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={`${BASE}/comet/trace-spans.png`} alt="Trace spans in Opik" className="w-full" />
             </div>
+          </Draggable>
+        </div>
+
+        {/* the component in its real habitat */}
+        <div className="absolute" style={{ left: 690, top: 520 }}>
+          <Draggable>
+            <FrameLabel>In context · a sliver of a three-pane workspace</FrameLabel>
+            <div className="w-[530px] overflow-hidden rounded-xl border border-black/5 bg-white shadow-lg dark:border-white/10">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`${BASE}/comet/trace-context.png`} alt="Trace spans inside the full Opik workspace" className="w-full" />
+            </div>
+            <p className="mt-1.5 max-w-[530px] text-[10px] leading-snug text-neutral-500 dark:text-neutral-400">
+              The spans column shares the screen with the trace list and the span detail pane. A few hundred pixels to show hierarchy, time, and cost.
+            </p>
           </Draggable>
         </div>
 
