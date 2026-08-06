@@ -226,6 +226,28 @@ body {
   border-bottom: 1px solid var(--line);
 }
 
+/* Nap mode: pause the level's fidgeting so readers can read */
+.zto-calm .ob-jitter,
+.zto-calm .ob-creep,
+.zto-calm .ob-bob,
+.zto-calm .ob-blink,
+.zto-calm .zto-witch {
+  animation-play-state: paused;
+}
+
+.zto-zzz {
+  position: absolute;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--muted);
+  animation: zzz-float 2.6s ease-in-out infinite;
+}
+
+@keyframes zzz-float {
+  0%, 100% { transform: translateY(0); opacity: 0.4; }
+  50% { transform: translateY(-4px); opacity: 0.85; }
+}
+
 /* Obstacle personalities */
 .ob-jitter {
   animation: ob-jitter 0.5s steps(2) infinite;

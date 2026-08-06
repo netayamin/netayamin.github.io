@@ -183,6 +183,7 @@ export default function ZeroToOne() {
   const [hurt, setHurt] = useState(false);
   const [poops, setPoops] = useState<Array<{ id: number; x: number }>>([]);
   const [bubble, setBubble] = useState(false);
+  const [calm, setCalm] = useState(false);
 
   useEffect(() => {
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -198,6 +199,7 @@ export default function ZeroToOne() {
     let invuln = 0;
     let dunkWait = 0;
     let lastDir = 1;
+    let idleAt = Date.now();
     let poopIn = 260 + Math.floor(Math.random() * 340);
     let pooping = 0;
     let poopId = 0;
@@ -218,6 +220,7 @@ export default function ZeroToOne() {
         setManual(true);
       }
       lastInput = Date.now();
+      idleAt = lastInput;
     };
     const onKeyUp = (e: KeyboardEvent) => keys.delete(e.key);
 
@@ -360,6 +363,10 @@ export default function ZeroToOne() {
     const tick = () => {
       if (px === null) px = imX();
 
+      // anything but resting counts as activity; 10 quiet seconds = nap time
+      if (!(mode === "auto" && ph === "idle")) idleAt = Date.now();
+      setCalm(Date.now() - idleAt > 10000);
+
       // nature calls, at random, no matter whose turn it is
       if (pooping > 0) {
         pooping -= 1;
@@ -456,7 +463,12 @@ export default function ZeroToOne() {
       aria-label="Everything is possible. (A tiny pixel builder keeps hauling the 'im' from 'impossible' to the trash.)"
       className="absolute inset-0"
     >
-      <div aria-hidden className="absolute inset-0">
+      <div
+        aria-hidden
+        className={`absolute inset-0 transition-opacity duration-1000 ${
+          calm ? "zto-calm opacity-60" : "opacity-100"
+        }`}
+      >
         {/* the witch and her claim — Mazi steals the im out of her bubble */}
         <span className="zto-witch absolute bottom-[5px] left-3">
           <PixelWitch />
@@ -517,6 +529,12 @@ export default function ZeroToOne() {
         {coins > 0 && (
           <span className="absolute right-4 top-1.5 text-[10px] font-semibold text-muted">
             🗑️×{coins}
+          </span>
+        )}
+
+        {calm && running && (
+          <span className="zto-zzz" style={{ left: x + 26, bottom: 26 }}>
+            z z
           </span>
         )}
 
