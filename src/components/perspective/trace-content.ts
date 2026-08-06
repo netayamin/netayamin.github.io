@@ -21,7 +21,7 @@ In this world, a **trace** is the complete story of one request, and **spans** a
 
 ## The user flow
 
-Opik's observability starts wide: a **traces table**, one row per request, with start time, input, output, and feedback scores side by side. That's where debugging begins, scanning hundreds of rows (the project on the board holds 334) for the one that scored badly or reads wrong. Click a row and a **drawer slides over the table**: the trace opens as its tree of spans. Click a span and a detail pane joins it: full inputs and outputs, feedback scores, metadata, annotate and add-to-dataset actions.
+Opik's observability starts wide: a **traces table**, one row per request, with start time, input, output, and feedback scores side by side. That's where debugging begins, scanning hundreds of rows for the one that scored badly or reads wrong. Click a row and a **drawer slides over the table**: the trace opens as its tree of spans. Click a span and a detail pane joins it: full inputs and outputs, feedback scores, metadata, annotate and add-to-dataset actions.
 
 Three levels, and each click narrows the scope. The table answers *which request*. The spans tree answers *where inside it*. The detail pane answers *what exactly happened*. The spans component is the spine of that drill-down, and it does its whole job inside a drawer, without a page transition, while the table waits underneath.
 
@@ -43,7 +43,7 @@ Three levels, and each click narrows the scope. The table answers *which request
 
 ## What happened
 
-It shipped, and it held. Opik launched in September 2024 as a true open source project, with tracing in both development and production, and the pattern became the way its traces read; the screenshot on the board is the shipped product. LLM observability grew into a real category, and the tree-plus-proportional-bars-plus-tokens reading became the standard way the industry shows this data. We adapted the waterfall for a world that didn't have one yet.
+It shipped, and it held. Opik launched in September 2024 as a true open source project, with tracing in both development and production, and the pattern became the way its traces read. LLM observability grew into a real category, and the tree-plus-proportional-bars-plus-tokens reading became the standard way the industry shows this data. We adapted the waterfall for a world that didn't have one yet.
 
 ## What I learned
 
