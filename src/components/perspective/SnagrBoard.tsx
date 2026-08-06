@@ -11,15 +11,16 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 // camera to its frame. Pinch (or Cmd/Ctrl + scroll) still zooms manually.
 type Region = { x: number; y: number; w: number; h: number };
 
-const CANVAS = { w: 1080, h: 1180 };
+const CANVAS = { w: 1160, h: 1220 };
 
 const REGIONS: Record<string, Region> = {
-  overview: { x: 0, y: 0, w: 1060, h: 1160 },
+  overview: { x: 0, y: 0, w: 1140, h: 1200 },
   brand: { x: 10, y: 10, w: 380, h: 190 },
   watchlist: { x: 10, y: 190, w: 360, h: 260 },
   dropalert: { x: 10, y: 440, w: 360, h: 190 },
   groupplan: { x: 10, y: 620, w: 400, h: 170 },
-  personas: { x: 370, y: 650, w: 710, h: 480 },
+  personas: { x: 445, y: 650, w: 700, h: 500 },
+  journeymap: { x: 10, y: 840, w: 520, h: 360 },
   home: { x: 400, y: 30, w: 320, h: 600 },
   collection: { x: 710, y: 30, w: 320, h: 600 },
 };
@@ -28,7 +29,7 @@ const REGIONS: Record<string, Region> = {
 const SECTION_TO_REGION: Record<string, string> = {
   "who-what-when-where-why-how": "brand",
   personas: "personas",
-  "the-journey-before-snagr": "watchlist",
+  "the-journey-before-snagr": "journeymap",
   "the-journey-with-snagr": "collection",
   "why-this-solution-and-what-i-rejected": "dropalert",
   "breaking-the-one-reservation-model": "home",
@@ -151,6 +152,93 @@ function PersonaSketch({
         <p className="font-[family-name:var(--font-hand)] text-[13px] text-neutral-500">
           alerts: <span className="font-bold text-neutral-700 underline decoration-[#e8506a] decoration-2 underline-offset-2">{alerts}</span>
         </p>
+      </div>
+    </Draggable>
+  );
+}
+
+function Face({ cx, cy, happy }: { cx: number; cy: number; happy: boolean }) {
+  return (
+    <g stroke="#3a3a3a" strokeWidth="1.8" fill="none" strokeLinecap="round">
+      <circle cx={cx} cy={cy} r="8" fill="#fff" />
+      <circle cx={cx - 2.8} cy={cy - 2} r="0.9" fill="#3a3a3a" stroke="none" />
+      <circle cx={cx + 2.8} cy={cy - 2} r="0.9" fill="#3a3a3a" stroke="none" />
+      {happy ? (
+        <path d={`M ${cx - 3.4} ${cy + 2} Q ${cx} ${cy + 5.4} ${cx + 3.4} ${cy + 2}`} />
+      ) : (
+        <path d={`M ${cx - 3.4} ${cy + 4.4} Q ${cx} ${cy + 1} ${cx + 3.4} ${cy + 4.4}`} />
+      )}
+    </g>
+  );
+}
+
+function JourneyMap() {
+  const stages = ["discover", "share", "attempt", "the vigil", "give up"];
+  const beforeY = [46, 58, 116, 136, 146];
+  const withY = [58, 62, 30, 18];
+  const bx = [34, 130, 226, 322, 418];
+  const wx = [34, 162, 290, 418];
+  const path = (xs: number[], ys: number[]) =>
+    xs.map((x, i) => (i === 0 ? `M ${x} ${ys[i]}` : `Q ${(xs[i - 1] + x) / 2} ${ys[i - 1]}, ${x} ${ys[i]}`)).join(" ");
+  return (
+    <Draggable>
+      <div className="relative w-[480px] rotate-[0.8deg] bg-white p-4 shadow-lg dark:bg-[#ececec]">
+        <span className="absolute -top-2 left-10 h-5 w-14 rotate-[3deg] bg-[#f7edc0]/80 shadow-sm" />
+        <span className="absolute -top-2 right-10 h-5 w-14 rotate-[-4deg] bg-[#f7edc0]/80 shadow-sm" />
+        <p className="font-[family-name:var(--font-hand)] text-[22px] font-bold leading-none text-neutral-800">
+          <span className="bg-gradient-to-t from-[#cfe8ff] from-45% to-transparent to-45% px-0.5">
+            journey map
+          </span>{" "}
+          <span className="text-[15px] font-normal text-neutral-500">(how it feels)</span>
+        </p>
+        <svg width="448" height="196" viewBox="0 0 448 196" className="mt-2">
+          {/* axis */}
+          <line x1="20" y1="160" x2="436" y2="160" stroke="#c9c9c9" strokeWidth="1.5" strokeDasharray="4 4" />
+          {/* before curve */}
+          <path d={path(bx, beforeY)} stroke="#e8506a" strokeWidth="3" fill="none" strokeLinecap="round" />
+          {bx.map((x, i) => (
+            <circle key={i} cx={x} cy={beforeY[i]} r="3.2" fill="#e8506a" />
+          ))}
+          {/* with curve */}
+          <path d={path(wx, withY)} stroke="#3fa860" strokeWidth="3" fill="none" strokeLinecap="round" strokeDasharray="1 0" />
+          {wx.map((x, i) => (
+            <circle key={i} cx={x} cy={withY[i]} r="3.2" fill="#3fa860" />
+          ))}
+          <Face cx={430} cy={146} happy={false} />
+          <Face cx={430} cy={18} happy={true} />
+          {/* stage labels */}
+          {stages.map((stage, i) => (
+            <text
+              key={stage}
+              x={bx[i]}
+              y={178}
+              textAnchor="middle"
+              className="fill-neutral-500"
+              fontFamily="var(--font-hand)"
+              fontSize="15"
+            >
+              {stage}
+            </text>
+          ))}
+          {/* with labels */}
+          {["declare", "wait", "act", "dinner!"].map((label, i) => (
+            <text
+              key={label}
+              x={wx[i]}
+              y={withY[i] - 10}
+              textAnchor="middle"
+              fill="#3fa860"
+              fontFamily="var(--font-hand)"
+              fontSize="14"
+            >
+              {label}
+            </text>
+          ))}
+        </svg>
+        <div className="mt-1 flex gap-5 font-[family-name:var(--font-hand)] text-[14px]">
+          <span className="text-[#e8506a]">— before snagr</span>
+          <span className="text-[#3fa860]">— with snagr</span>
+        </div>
       </div>
     </Draggable>
   );
@@ -348,8 +436,13 @@ export default function SnagrBoard() {
           />
         </div>
 
+        {/* Journey map, marker on whiteboard */}
+        <div className="absolute" style={{ left: 30, top: 870 }}>
+          <JourneyMap />
+        </div>
+
         {/* Personas, straight off the whiteboard */}
-        <div className="absolute" style={{ left: 410, top: 700 }}>
+        <div className="absolute" style={{ left: 490, top: 700 }}>
           <PersonaSketch
             variant="maya"
             name="Maya, 29"
@@ -363,7 +456,7 @@ export default function SnagrBoard() {
             rotate="rotate-[-1.5deg]"
           />
         </div>
-        <div className="absolute" style={{ left: 745, top: 720 }}>
+        <div className="absolute" style={{ left: 825, top: 730 }}>
           <PersonaSketch
             variant="dan"
             name="Dan, 31"
