@@ -18,7 +18,7 @@ const PROJECTS: Array<{
   soon?: boolean;
 }> = [
   { emoji: "", icon: "/snagr/icon.png", name: "Snagr", page: "snagr" },
-  { emoji: "🔬", name: "Trace spans", page: "tracespans" },
+  { emoji: "", icon: "/comet/icon.png", name: "Trace spans", page: "tracespans" },
   { emoji: "📋", name: "Peel", soon: true },
   { emoji: "🧪", name: "Experiments", soon: true },
 ];
