@@ -228,7 +228,7 @@ body {
 
 /* Reading spotlight: only the active section at full strength */
 .spotlight-doc [data-md-section] {
-  opacity: 0.35;
+  opacity: 0.16;
   transition: opacity 0.45s ease;
 }
 
