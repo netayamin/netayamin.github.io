@@ -226,16 +226,6 @@ body {
   border-bottom: 1px solid var(--line);
 }
 
-/* Reading spotlight: only the active section at full strength */
-.spotlight-doc [data-md-section] {
-  opacity: 0.16;
-  transition: opacity 0.45s ease;
-}
-
-.spotlight-doc [data-md-section][data-active="true"] {
-  opacity: 1;
-}
-
 /* Nap mode: the whole level goes black-and-white while asleep */
 .game-header {
   transition: filter 1.2s ease;
