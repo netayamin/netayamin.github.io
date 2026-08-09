@@ -180,9 +180,11 @@ function Raw({ source }: { source: string }) {
 export default function MarkdownDoc({
   source,
   rawSource,
+  rawView,
 }: {
   source: string;
   rawSource?: string; // an alternate story for the raw tab (e.g. the engineering cut)
+  rawView?: React.ReactNode; // a custom raw tab body (e.g. the Me page journey)
   icon?: string; // accepted but unused — docs are emoji-free
 }) {
   const [raw, setRaw] = useState(false);
@@ -214,7 +216,7 @@ export default function MarkdownDoc({
         </div>
       </div>
       <h1 className="mb-5 font-[family-name:var(--font-serif)] text-[30px] font-semibold italic leading-[1.15] tracking-tight">{title}</h1>
-      {raw ? <Raw source={rawBody} /> : <Formatted source={body} />}
+      {raw ? (rawView ?? <Raw source={rawBody} />) : <Formatted source={body} />}
     </div>
   );
 }
