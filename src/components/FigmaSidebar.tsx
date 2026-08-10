@@ -6,6 +6,7 @@ import { LinkedInIcon } from "./BrandIcons";
 import ThemeToggle from "./ThemeToggle";
 import { usePage, type PageId } from "@/context/PageContext";
 import ResumeViewer from "./ResumeViewer";
+import DecorativeButton from "./DecorativeButton";
 
 const PAGES: Array<{ id: PageId; name: string }> = [{ id: "me", name: "Me" }];
 
@@ -40,21 +41,20 @@ export default function FigmaSidebar() {
         </span>
         <div className="min-w-0 flex-1">
           <p className="text-[14px] font-semibold leading-tight">Neta</p>
-          <button
-            type="button"
+          <DecorativeButton
+            label="Change role"
             className="mt-0.5 flex items-center gap-1 text-[12px] text-muted transition-colors hover:text-fg"
           >
             Design Engineer
             <ChevronDown size={12} />
-          </button>
+          </DecorativeButton>
         </div>
-        <button
-          type="button"
-          aria-label="Edit profile"
+        <DecorativeButton
+          label="Edit profile"
           className="mt-0.5 text-muted transition-colors hover:text-fg"
         >
           <SquarePen size={15} />
-        </button>
+        </DecorativeButton>
       </div>
 
       {/* Pages */}
@@ -83,13 +83,12 @@ export default function FigmaSidebar() {
       <div className="px-4">
         <div className="flex items-center justify-between px-1 pb-2">
           <p className="text-[13px] font-semibold">Projects</p>
-          <button
-            type="button"
-            aria-label="Add project"
+          <DecorativeButton
+            label="Add project"
             className="text-muted transition-colors hover:text-fg"
           >
             <Plus size={15} />
-          </button>
+          </DecorativeButton>
         </div>
         {PROJECTS.map((project) => {
           const classes = `mb-0.5 flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-[13px] transition-colors ${
@@ -148,7 +147,7 @@ export default function FigmaSidebar() {
       <div className="flex-1" />
 
       {/* Links + theme */}
-      <div className="border-t border-line px-4 py-4">
+      <div data-sidebar-floor className="border-t border-line px-4 py-4">
         <button
           type="button"
           onClick={() => setResumeOpen(true)}
