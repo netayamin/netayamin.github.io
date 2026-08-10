@@ -5,8 +5,8 @@ import { useEffect, useRef, useState } from "react";
 // The Me page's Raw tab: a looping ASCII slideshow of the journey.
 // Each scene is a hand-drawn frame on a fixed 44x12 character grid.
 
-export const COLS = 44;
-export const ROWS = 12;
+const COLS = 44;
+const ROWS = 12;
 
 const HOLD_MS = 3500; // how long a scene rests before morphing
 const TICK_MS = 50;
@@ -108,8 +108,12 @@ const ACCENT: Record<string, string> = {
   "●": "text-emerald-500",
 };
 
+// Pre-derived grids for each scene, computed once at module load rather
+// than re-derived on every 50ms morph tick.
+const GRIDS = SCENES.map((s) => toGrid(s.art));
+
 export default function JourneyRaw() {
-  const [display, setDisplay] = useState(() => toGrid(SCENES[0].art));
+  const [display, setDisplay] = useState(() => GRIDS[0]);
   const [sceneIdx, setSceneIdx] = useState(0);
   const anim = useRef({ scene: 0, mode: "hold" as "hold" | "morph", t: 0 });
 
@@ -128,7 +132,7 @@ export default function JourneyRaw() {
           // No scramble: cut straight to the next scene.
           s.scene = (s.scene + 1) % SCENES.length;
           setSceneIdx(s.scene);
-          setDisplay(toGrid(SCENES[s.scene].art));
+          setDisplay(GRIDS[s.scene]);
           return;
         }
         s.mode = "morph";
@@ -138,8 +142,8 @@ export default function JourneyRaw() {
       // Morph: a wave sweeps diagonally; each cell scrambles briefly,
       // then settles on the next frame's character. Blank-to-blank
       // cells stay blank so the gaps never turn to static.
-      const from = toGrid(SCENES[s.scene].art);
-      const to = toGrid(SCENES[(s.scene + 1) % SCENES.length].art);
+      const from = GRIDS[s.scene];
+      const to = GRIDS[(s.scene + 1) % SCENES.length];
       let done = true;
       const next = from.map((row, r) =>
         row.map((ch, c) => {
@@ -186,7 +190,7 @@ export default function JourneyRaw() {
 
   return (
     <div className="font-mono text-[12px] leading-[1.7]">
-      <pre className="text-neutral-700 dark:text-neutral-300">
+      <pre aria-hidden="true" className="overflow-x-auto text-neutral-700 dark:text-neutral-300">
         {display.map((row, r) => (
           <div key={r}>
             {row.map((ch, c) => {
@@ -202,7 +206,7 @@ export default function JourneyRaw() {
           </div>
         ))}
       </pre>
-      <div className="mt-3 flex items-center text-[11px] text-neutral-400">
+      <div className="mt-3 flex items-center text-[11px] text-neutral-500">
         <span>{SCENES[sceneIdx].caption}</span>
         <span className="ml-auto flex gap-1">
           {SCENES.map((s, i) => (
