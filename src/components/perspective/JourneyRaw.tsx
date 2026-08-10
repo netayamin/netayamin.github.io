@@ -1,12 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // The Me page's Raw tab: a looping ASCII slideshow of the journey.
 // Each scene is a hand-drawn frame on a fixed 44x12 character grid.
 
 export const COLS = 44;
 export const ROWS = 12;
+
+const HOLD_MS = 3500; // how long a scene rests before morphing
+const TICK_MS = 50;
+const STAGGER_MS = 12; // per diagonal step of the wave
+const SCRAMBLE_MS = 260; // how long one cell churns before settling
+const GLYPHS = "abcdefghijklmnopqrstuvwxyz0123456789#*+=-:.";
 
 type Scene = { caption: string; art: string[] };
 
@@ -103,8 +109,80 @@ const ACCENT: Record<string, string> = {
 };
 
 export default function JourneyRaw() {
-  const [display] = useState(() => toGrid(SCENES[0].art));
-  const [sceneIdx] = useState(0);
+  const [display, setDisplay] = useState(() => toGrid(SCENES[0].art));
+  const [sceneIdx, setSceneIdx] = useState(0);
+  const anim = useRef({ scene: 0, mode: "hold" as "hold" | "morph", t: 0 });
+
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let id: number | undefined;
+
+    const tick = () => {
+      const s = anim.current;
+      s.t += TICK_MS;
+
+      if (s.mode === "hold") {
+        if (s.t < HOLD_MS) return;
+        s.t = 0;
+        if (reduced) {
+          // No scramble: cut straight to the next scene.
+          s.scene = (s.scene + 1) % SCENES.length;
+          setSceneIdx(s.scene);
+          setDisplay(toGrid(SCENES[s.scene].art));
+          return;
+        }
+        s.mode = "morph";
+        return;
+      }
+
+      // Morph: a wave sweeps diagonally; each cell scrambles briefly,
+      // then settles on the next frame's character. Blank-to-blank
+      // cells stay blank so the gaps never turn to static.
+      const from = toGrid(SCENES[s.scene].art);
+      const to = toGrid(SCENES[(s.scene + 1) % SCENES.length].art);
+      let done = true;
+      const next = from.map((row, r) =>
+        row.map((ch, c) => {
+          const delay = (c + r * 2) * STAGGER_MS;
+          if (s.t < delay) {
+            done = false;
+            return ch;
+          }
+          if (s.t < delay + SCRAMBLE_MS) {
+            if (ch === " " && to[r][c] === " ") return " ";
+            done = false;
+            return GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+          }
+          return to[r][c];
+        }),
+      );
+      setDisplay(next);
+      if (done) {
+        s.scene = (s.scene + 1) % SCENES.length;
+        s.mode = "hold";
+        s.t = 0;
+        setSceneIdx(s.scene);
+      }
+    };
+
+    const start = () => {
+      if (id === undefined) id = window.setInterval(tick, TICK_MS);
+    };
+    const stop = () => {
+      if (id !== undefined) {
+        clearInterval(id);
+        id = undefined;
+      }
+    };
+    const onVisibility = () => (document.hidden ? stop() : start());
+
+    document.addEventListener("visibilitychange", onVisibility);
+    start();
+    return () => {
+      stop();
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, []);
 
   return (
     <div className="font-mono text-[12px] leading-[1.7]">
