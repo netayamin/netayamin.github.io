@@ -119,6 +119,11 @@ export default function JourneyRaw() {
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) {
+      // Show the first scene statically: no interval, no scramble, no loop.
+      return () => {};
+    }
+
     let id: number | undefined;
 
     const tick = () => {
@@ -128,13 +133,6 @@ export default function JourneyRaw() {
       if (s.mode === "hold") {
         if (s.t < HOLD_MS) return;
         s.t = 0;
-        if (reduced) {
-          // No scramble: cut straight to the next scene.
-          s.scene = (s.scene + 1) % SCENES.length;
-          setSceneIdx(s.scene);
-          setDisplay(GRIDS[s.scene]);
-          return;
-        }
         s.mode = "morph";
         return;
       }
