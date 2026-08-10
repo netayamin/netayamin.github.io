@@ -1,4 +1,5 @@
 import MarkdownDoc from "./MarkdownDoc";
+import JourneyRaw from "./JourneyRaw";
 
 // The real resume, straight from the CV — the text lens of the Me page.
 const RESUME = `# Neta Yamin · Design Engineer
@@ -40,7 +41,7 @@ export default function DeveloperMode() {
       
       <div className="w-1/2">
         <div className="mx-auto w-[94%] max-w-[560px] pt-6">
-          <MarkdownDoc source={RESUME} icon="🧑‍🎨" />
+          <MarkdownDoc source={RESUME} rawView={<JourneyRaw />} icon="🧑‍🎨" />
         </div>
       </div>
     </div>
