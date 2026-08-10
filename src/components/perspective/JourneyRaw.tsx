@@ -1,222 +1,183 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-// The Me page's Raw tab: a looping ASCII slideshow of the journey.
-// Each scene is a hand-drawn frame on a fixed 44x12 character grid.
+// The Me page's Raw tab: the journey as one keyboard-drawn cartoon.
+// Not the resume again — the same years told as day-to-day life. A
+// timeline rail runs down the left, each stop gets a small ASCII
+// vignette, and the whole thing types itself out once. When the typing
+// ends, a tiny walker sets off down the rail and keeps going.
 
-const COLS = 44;
-const ROWS = 12;
-
-const HOLD_MS = 3500; // how long a scene rests before morphing
-const TICK_MS = 50;
-const STAGGER_MS = 12; // per diagonal step of the wave
-const SCRAMBLE_MS = 260; // how long one cell churns before settling
-const GLYPHS = "abcdefghijklmnopqrstuvwxyz0123456789#*+=-:.";
-
-type Scene = { caption: string; art: string[] };
-
-const SCENES: Scene[] = [
-  {
-    caption: "2021 · Tel Aviv · Comet ML, the full-stack years",
-    art: [
-      "                              \\ | /",
-      "                             -- o --",
-      "                              / | \\",
-      "",
-      "        ____      ________      ____",
-      "    ___|  o |____|  o  o  |____| o  |___",
-      "   |  o|  o |  o |  o  o  |  o | o  |o  |",
-      "   |  o|  o |  o |  o  o  |  o | o  |o  |",
-      "   |___|____|____|________|____|____|___|",
-      "    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~",
-    ],
-  },
-  {
-    caption: "2024 · the move · TLV to NYC",
-    art: [
-      "",
-      "                 __",
-      "                / _\\_________",
-      "               <  ✈  _______/",
-      "                \\__/ /",
-      "                   \\/",
-      "",
-      "      TLV - - - - - - - - - - ->  NYC",
-      "",
-      "     ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~",
-    ],
-  },
-  {
-    caption: "2025 · New York · TIFIN, design engineer",
-    art: [
-      "            _",
-      "           | |      _",
-      "        _  | |  _  | |    _",
-      "       | | | | | | | |   | |",
-      "       | |_| |_| |_| |_  | |",
-      "       | |o| |o| |o| |o|_| |",
-      "       | |o| |o| |o| |o| o |",
-      "    ___| |o| |o| |o| |o| o |___",
-      "   ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~",
-    ],
-  },
-  {
-    caption: "Snagr · idea to App Store",
-    art: [
-      "            ________",
-      "           | ______ |",
-      "           ||      ||    ● table for 4",
-      "           ||  ●   ||      just opened",
-      "           ||______||",
-      "           |        |",
-      "           | snagr  |",
-      "           |________|",
-    ],
-  },
-  {
-    caption: "Mazi · Chief Morale Officer",
-    art: [
-      "              __",
-      "         (\\__/  \\",
-      "          |  o o |",
-      "          \\  __  /_______",
-      "           |            \\",
-      "           |  mazi       |",
-      "           |  _|      |_ |",
-      "",
-      "              woof.",
-    ],
-  },
+const ART: string[] = [
+  "o  2019 - the remote years",
+  "|",
+  "|      .--------------.",
+  "|      |  __  __  __  |    working from the",
+  "|      | |__||__||__| |    kitchen table,",
+  "|      |  __  __  __  |    one component",
+  "|      | |__||__||__| |    at a time",
+  "|      '--------------'",
+  "|",
+  "o  2021 - tel aviv",
+  "|",
+  "|          \\ | /",
+  "|         - (_) -          standup at ten,",
+  "|          / | \\           beach by six",
+  "|     ~ ~ ~ ~ ~ ~ ~ ~",
+  "|",
+  "o  2024 - packing light",
+  "|",
+  "|            ____",
+  "|        ___|____|___",
+  "|       |  ________  |     one bag,",
+  "|       | | tlv    | |     one one-way",
+  "|       | |  > nyc | |     ticket",
+  "|       |_|________|_|",
+  "|",
+  "o  2025 - new york",
+  "|",
+  "|               ___",
+  "|              |   |  ___",
+  "|          ___ | : | |   |     new city,",
+  "|         |   || : | | : |     same laptop,",
+  "|         | : || : | | : |     bigger",
+  "|        _|_:_||_:_|_|_:_|_    buildings",
+  "|",
+  "o  nights + weekends",
+  "|",
+  "|        .---------.",
+  "|        |  snagr  |",
+  "|        | ------- |       started as a",
+  "|        | table   |       dinner problem,",
+  "|        | for two |       ended up on the",
+  "|        | [ snag ]|       app store",
+  "|        '---------'",
+  "|",
+  "o  always",
+  "|",
+  "|             __",
+  "|        (\\__/  \\",
+  "|         |  o o |",
+  "|         \\  __  /______",
+  "|          |           \\       every deploy",
+  "|          | mazi       |      supervised",
+  "|          |  _|     |_ |",
+  "|",
+  "v  ...still walking",
 ];
 
-// Pad a scene to a full ROWS x COLS grid of single characters.
-function toGrid(art: string[]): string[][] {
-  const rows: string[][] = [];
-  for (let r = 0; r < ROWS; r++) {
-    const line = art[r] ?? "";
-    const row: string[] = [];
-    for (let c = 0; c < COLS; c++) row.push(line[c] ?? " ");
-    rows.push(row);
-  }
-  return rows;
+// Two-frame walk cycle, drawn in a 4-column lane left of the rail so it
+// never collides with the art or the stop labels.
+const LANE = "    ";
+const WALKER: string[][] = [
+  [" o  ", "/|\\ ", "/ \\ "],
+  [" o  ", "/|\\ ", " |  "],
+];
+const WALK_MS = 240;
+
+const TICK_MS = 16;
+const CHARS_PER_TICK = 14; // visible (non-space) characters revealed per tick
+
+// A timeline stop ("o  2019 - ...") or the trailing "v ..." line.
+function isNodeLine(line: string): boolean {
+  return /^[ov]\s\s/.test(line);
 }
 
-// Glyphs that get an accent color when settled.
-const ACCENT: Record<string, string> = {
-  "✈": "text-[#0d78c9] dark:text-[#5dd8ff]",
-  "●": "text-emerald-500",
-};
-
-// Pre-derived grids for each scene, computed once at module load rather
-// than re-derived on every 50ms morph tick.
-const GRIDS = SCENES.map((s) => toGrid(s.art));
+// Slice each line to the revealed budget. Spaces are free so the typing
+// pace feels even regardless of indentation.
+function sliceLines(revealed: number, done: boolean) {
+  let budget = revealed;
+  return ART.map((line) => {
+    if (budget <= 0) return { text: "", cursor: false };
+    let shown = 0;
+    let end = 0;
+    while (end < line.length && shown < budget) {
+      if (line[end] !== " ") shown++;
+      end++;
+    }
+    budget -= shown;
+    return { text: line.slice(0, end), cursor: !done && budget <= 0 };
+  });
+}
 
 export default function JourneyRaw() {
-  const [display, setDisplay] = useState(() => GRIDS[0]);
-  const [sceneIdx, setSceneIdx] = useState(0);
-  const anim = useRef({ scene: 0, mode: "hold" as "hold" | "morph", t: 0 });
+  // Cumulative count of non-space characters at the end of each line,
+  // so a single "revealed" counter maps back to per-line slices.
+  const cumulative = useMemo(() => {
+    const out: number[] = [];
+    let total = 0;
+    for (const line of ART) {
+      total += line.replace(/\s/g, "").length;
+      out.push(total);
+    }
+    return out;
+  }, []);
+  const totalChars = cumulative[cumulative.length - 1];
+
+  const [revealed, setRevealed] = useState(0);
+  const [walker, setWalker] = useState(-1); // top line of the walker, -1 while typing
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) {
-      // Show the first scene statically: no interval, no scramble, no loop.
-      return () => {};
-    }
+    const id = window.setInterval(() => {
+      setRevealed((n) => {
+        const next = reduced ? totalChars : n + CHARS_PER_TICK;
+        if (next >= totalChars) clearInterval(id);
+        return Math.min(next, totalChars);
+      });
+    }, TICK_MS);
+    return () => clearInterval(id);
+  }, [totalChars]);
 
-    let id: number | undefined;
+  const done = revealed >= totalChars;
 
-    const tick = () => {
-      const s = anim.current;
-      s.t += TICK_MS;
+  // Once the story is typed, the walker sets off down the rail on a loop.
+  useEffect(() => {
+    if (!done) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = window.setInterval(() => {
+      setWalker((p) => (p + 1) % (ART.length - 2));
+    }, WALK_MS);
+    return () => clearInterval(id);
+  }, [done]);
 
-      if (s.mode === "hold") {
-        if (s.t < HOLD_MS) return;
-        s.t = 0;
-        s.mode = "morph";
-        return;
-      }
-
-      // Morph: a wave sweeps diagonally; each cell scrambles briefly,
-      // then settles on the next frame's character. Blank-to-blank
-      // cells stay blank so the gaps never turn to static.
-      const from = GRIDS[s.scene];
-      const to = GRIDS[(s.scene + 1) % SCENES.length];
-      let done = true;
-      const next = from.map((row, r) =>
-        row.map((ch, c) => {
-          const delay = (c + r * 2) * STAGGER_MS;
-          if (s.t < delay) {
-            done = false;
-            return ch;
-          }
-          if (s.t < delay + SCRAMBLE_MS) {
-            if (ch === " " && to[r][c] === " ") return " ";
-            done = false;
-            return GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
-          }
-          return to[r][c];
-        }),
-      );
-      setDisplay(next);
-      if (done) {
-        s.scene = (s.scene + 1) % SCENES.length;
-        s.mode = "hold";
-        s.t = 0;
-        setSceneIdx(s.scene);
-      }
-    };
-
-    const start = () => {
-      if (id === undefined) id = window.setInterval(tick, TICK_MS);
-    };
-    const stop = () => {
-      if (id !== undefined) {
-        clearInterval(id);
-        id = undefined;
-      }
-    };
-    const onVisibility = () => (document.hidden ? stop() : start());
-
-    document.addEventListener("visibilitychange", onVisibility);
-    start();
-    return () => {
-      stop();
-      document.removeEventListener("visibilitychange", onVisibility);
-    };
-  }, []);
+  const lines = sliceLines(revealed, done);
 
   return (
-    <div className="font-mono text-[12px] leading-[1.7]">
-      <pre aria-hidden="true" className="overflow-x-auto text-neutral-700 dark:text-neutral-300">
-        {display.map((row, r) => (
-          <div key={r}>
-            {row.map((ch, c) => {
-              const cls = ACCENT[ch];
-              return cls ? (
-                <span key={c} className={cls}>
-                  {ch}
-                </span>
-              ) : (
-                ch
-              );
-            })}
-          </div>
-        ))}
+    <div className="font-mono text-[12px] leading-[1.55]">
+      <p className="sr-only">
+        The journey as a day-to-day story: 2019, the remote years, building one
+        component at a time from the kitchen table. 2021, Tel Aviv, standup at ten
+        and beach by six. 2024, packing one bag and a one-way ticket to New York.
+        2025, new city, same laptop, bigger buildings. Nights and weekends, Snagr
+        went from a dinner problem to the App Store. And always, Mazi the dog
+        supervising every deploy. Still walking.
+      </p>
+      <pre aria-hidden="true" className="overflow-x-auto">
+        {ART.map((line, i) => {
+          const cls = isNodeLine(line)
+            ? "font-semibold text-accent"
+            : "text-neutral-600 dark:text-neutral-300";
+          const row = walker >= 0 ? i - walker : -1;
+          if (done && row >= 0 && row <= 2) {
+            const fig = WALKER[walker % WALKER.length][row];
+            return (
+              <div key={i} className={cls}>
+                <span className="font-semibold text-accent">{fig}</span>
+                {line}
+              </div>
+            );
+          }
+          return (
+            <div key={i} className={cls}>
+              {LANE}
+              {lines[i].text}
+              {lines[i].cursor && <span className="text-accent">█</span>}
+              {lines[i].text === "" && !lines[i].cursor ? " " : ""}
+            </div>
+          );
+        })}
       </pre>
-      <div className="mt-3 flex items-center text-[11px] text-neutral-500">
-        <span>{SCENES[sceneIdx].caption}</span>
-        <span className="ml-auto flex gap-1">
-          {SCENES.map((s, i) => (
-            <span
-              key={s.caption}
-              className={`h-1 w-1 rounded-full ${
-                i === sceneIdx ? "bg-neutral-500" : "bg-neutral-300 dark:bg-neutral-600"
-              }`}
-            />
-          ))}
-        </span>
-      </div>
     </div>
   );
 }
