@@ -494,6 +494,19 @@ export default function SnagrBoard() {
               <img src={`${BASE}/snagr/icon.png`} alt="Snagr app icon" className="h-14 w-14 rounded-2xl shadow-sm" />
               <div>
                 <p className="text-xl font-bold text-neutral-900 dark:text-white">Snagr</p>
+                <a
+                  href="https://apps.apple.com/us/app/snagr-live-editorial-dining/id6783079978"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-1 inline-flex items-center gap-1.5 rounded-full border border-black/10 bg-white px-2.5 py-1 text-[11px] font-medium text-neutral-800 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-white/15 dark:bg-white/[0.06] dark:text-neutral-100"
+                >
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                  </span>
+                  Live on the App Store
+                  <span aria-hidden>&rarr;</span>
+                </a>
               </div>
             </div>
           </Draggable>
