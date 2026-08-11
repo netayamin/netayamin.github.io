@@ -1,5 +1,5 @@
 // Heads Off case study. Designer-voiced, no em dashes.
-export const HEADSOFF_STUDY = `# Designing a social word game around one deceptively simple mechanic
+export const HEADSOFF_STUDY = `# A childhood word game, renamed by the Queen of Hearts
 
 *Heads Off · iOS Word Game · Product Design Case Study*
 
