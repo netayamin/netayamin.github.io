@@ -21,7 +21,11 @@ In Israel there's a word game called **"קפד ראשו"**, which roughly transl
 
 Living in New York now, the game is one of those small things that reminds me of home. Heads Off started as a way to carry it with me: take the game from those car rides and give it a life on the iPhone, in English, with friends who never heard a word of Hebrew.
 
-The name's guillotine energy naturally led to the visual world of the Queen of Hearts, playing cards, crowns, and Wonderland. But the goal wasn't to build a novelty Alice in Wonderland game. The goal was to turn the game I grew up on into something that feels **modern, competitive, social, and replayable on iPhone.**
+Then came the naming accident that shaped everything. Translating "קפד ראשו" into English lands on "off with its head", and in English that phrase already belongs to someone: the Queen of Hearts in Alice in Wonderland, storming through the garden yelling **"Off with their heads!"** A Hebrew children's word game and a British children's book had been holding the same sentence all along.
+
+That collision was a gift. It meant the English name could keep the exact meaning of the game I grew up with while unlocking a whole ready-made visual world: the Queen, playing cards, crowns, hearts, roses, Wonderland. The beheading in the game is the beheading in the story; every solved puzzle is a small pardon from the Queen.
+
+But the goal wasn't to build a novelty Alice in Wonderland game. The goal was to turn the game I grew up on into something that feels **modern, competitive, social, and replayable on iPhone.**
 
 ## The problem
 
