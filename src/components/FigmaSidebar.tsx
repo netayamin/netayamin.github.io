@@ -20,6 +20,7 @@ const PROJECTS: Array<{
 }> = [
   { emoji: "", icon: "/snagr/icon.png", name: "Snagr", page: "snagr" },
   { emoji: "", icon: "/comet/icon.png", name: "Trace spans", page: "tracespans" },
+  { emoji: "", icon: "/headsoff/icon.png", name: "Heads Off", soon: true },
   { emoji: "📋", name: "Peel", soon: true },
   { emoji: "🧪", name: "Experiments", soon: true },
 ];
@@ -102,7 +103,16 @@ export default function FigmaSidebar() {
                 key={project.name}
                 className="mb-0.5 flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-[13px] text-muted/70"
               >
-                <span className="text-[15px] leading-none opacity-60">{project.emoji}</span>
+                {project.icon ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${project.icon}`}
+                    alt=""
+                    className="h-[18px] w-[18px] rounded-[5px] opacity-60 grayscale-[0.3]"
+                  />
+                ) : (
+                  <span className="text-[15px] leading-none opacity-60">{project.emoji}</span>
+                )}
                 {project.name}
                 <span className="ml-auto rounded-full bg-fg/[0.05] px-1.5 py-0.5 text-[9px] font-medium text-muted dark:bg-white/[0.08]">
                   coming soon
