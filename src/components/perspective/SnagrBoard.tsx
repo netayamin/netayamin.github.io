@@ -23,6 +23,7 @@ const REGIONS: Record<string, Region> = {
   missed: { x: 850, y: 20, w: 270, h: 620 },
   collection: { x: 1150, y: 20, w: 270, h: 620 },
   planday: { x: 850, y: 640, w: 270, h: 650 },
+  marketing: { x: 520, y: 660, w: 310, h: 340 },
 };
 
 // Which region each case-study section focuses.
@@ -546,6 +547,21 @@ export default function SnagrBoard() {
             title="Plan · picking a day"
             caption="The date strip carries the counts: 12 open Thursday, none yet Sunday."
           />
+        </div>
+
+        {/* Marketing poster */}
+        <div className="absolute" style={{ left: 530, top: 680 }}>
+          <Draggable>
+            <FrameLabel>Marketing</FrameLabel>
+            <div className="w-[290px] overflow-hidden rounded-2xl bg-black shadow-sm">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`${BASE}/snagr/marketing.png`}
+                alt="Snagr launch poster: restaurant lists, made live — now on the App Store"
+                className="h-auto w-full"
+              />
+            </div>
+          </Draggable>
         </div>
 
         {/* Design system */}
