@@ -6,6 +6,8 @@ import SnagrBoard from "./SnagrBoard";
 import SnagrDeveloper from "./SnagrDeveloper";
 import TraceBoard from "./TraceBoard";
 import TraceDeveloper from "./TraceDeveloper";
+import HeadsOffBoard from "./HeadsOffBoard";
+import HeadsOffDeveloper from "./HeadsOffDeveloper";
 import { usePage } from "@/context/PageContext";
 
 // The stage. Me: a static half/half split, text lens left, Figma canvas
@@ -24,6 +26,23 @@ export default function PerspectivePanel() {
             <div className="relative">
               <div className="sticky top-0 h-[calc(100dvh-5rem)]">
                 <TraceBoard />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (page === "headsoff") {
+    return (
+      <div className="relative h-full min-w-0 flex-1 overflow-hidden">
+        <div data-stage-scroll className="absolute inset-0 overflow-x-hidden overflow-y-auto">
+          <div className="grid min-h-full grid-cols-2">
+            <HeadsOffDeveloper />
+            <div className="relative">
+              <div className="sticky top-0 h-[calc(100dvh-5rem)]">
+                <HeadsOffBoard />
               </div>
             </div>
           </div>
