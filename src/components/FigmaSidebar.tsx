@@ -108,10 +108,12 @@ export default function FigmaSidebar() {
                   <img
                     src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${project.icon}`}
                     alt=""
-                    className="h-[18px] w-[18px] rounded-[5px] opacity-60 grayscale-[0.3]"
+                    className="h-[30px] w-[30px] rounded-[8px] opacity-60 grayscale-[0.3]"
                   />
                 ) : (
-                  <span className="text-[15px] leading-none opacity-60">{project.emoji}</span>
+                  <span className="flex h-[30px] w-[30px] items-center justify-center text-[22px] leading-none opacity-60">
+                    {project.emoji}
+                  </span>
                 )}
                 {project.name}
                 <span className="ml-auto rounded-full bg-fg/[0.05] px-1.5 py-0.5 text-[9px] font-medium text-muted dark:bg-white/[0.08]">
@@ -132,10 +134,12 @@ export default function FigmaSidebar() {
                 <img
                   src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${project.icon}`}
                   alt=""
-                  className="h-[18px] w-[18px] rounded-[5px]"
+                  className="h-[30px] w-[30px] rounded-[8px]"
                 />
               ) : (
-                <span className="text-[15px] leading-none">{project.emoji}</span>
+                <span className="flex h-[30px] w-[30px] items-center justify-center text-[22px] leading-none">
+                  {project.emoji}
+                </span>
               )}
               {project.name}
             </button>
