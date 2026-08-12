@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
-export type PageId = "me" | "snagr" | "tracespans" | "headsoff";
+export type PageId = "me" | "snagr" | "tracespans" | "headsoff" | "redditmanager";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
@@ -10,6 +10,7 @@ function pathFor(page: PageId): string {
   if (page === "snagr") return `${BASE}/projects/snagr/`;
   if (page === "tracespans") return `${BASE}/projects/trace-spans/`;
   if (page === "headsoff") return `${BASE}/projects/heads-off/`;
+  if (page === "redditmanager") return `${BASE}/projects/reddit-marketing/`;
   return `${BASE}/`;
 }
 
@@ -17,6 +18,7 @@ function pageFromPath(pathname: string): PageId {
   if (pathname.includes("/projects/snagr")) return "snagr";
   if (pathname.includes("/projects/trace-spans")) return "tracespans";
   if (pathname.includes("/projects/heads-off")) return "headsoff";
+  if (pathname.includes("/projects/reddit-marketing")) return "redditmanager";
   return "me";
 }
 

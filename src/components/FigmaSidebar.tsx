@@ -14,15 +14,16 @@ const PROJECTS: Array<{
   emoji: string;
   icon?: string;
   appIcon?: boolean; // Apple-style icon treatment: radius + soft shadow
-  gold?: boolean; // gold border around the icon
+  iconBg?: string; // tile background class behind a transparent logo
   name: string;
   page?: PageId;
   href?: string;
   soon?: boolean;
 }> = [
   { emoji: "", icon: "/snagr/icon.png", appIcon: true, name: "Snagr", page: "snagr" },
-  { emoji: "", icon: "/headsoff/icon.png", appIcon: true, gold: true, name: "Heads Off", page: "headsoff" },
+  { emoji: "", icon: "/headsoff/icon.png", appIcon: true, iconBg: "bg-black", name: "Heads Off", page: "headsoff" },
   { emoji: "", icon: "/comet/icon.png", name: "Trace spans", page: "tracespans" },
+  { emoji: "📣", name: "Reddit Marketing Manager", page: "redditmanager" },
   { emoji: "📋", name: "Peel", soon: true },
   { emoji: "🧪", name: "Experiments", soon: true },
 ];
@@ -110,7 +111,7 @@ export default function FigmaSidebar() {
                   <img
                     src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${project.icon}`}
                     alt=""
-                    className={`opacity-60 grayscale-[0.3] h-[30px] w-[30px] rounded-[9px] ${project.appIcon ? "shadow-[0_1px_2px_rgba(0,0,0,0.22),0_2px_6px_rgba(0,0,0,0.10)]" : ""} ${project.gold ? "ring-1 ring-[#c9a227]" : ""}`}
+                    className={`opacity-60 grayscale-[0.3] h-[30px] w-[30px] rounded-[9px] ${project.appIcon ? "shadow-[0_1px_2px_rgba(0,0,0,0.22),0_2px_6px_rgba(0,0,0,0.10)]" : ""} ${project.iconBg ?? ""}`}
                   />
                 ) : (
                   <span className="flex h-[30px] w-[30px] items-center justify-center text-[22px] leading-none opacity-60">
@@ -136,7 +137,7 @@ export default function FigmaSidebar() {
                 <img
                   src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${project.icon}`}
                   alt=""
-                  className={`h-[30px] w-[30px] rounded-[9px] ${project.appIcon ? "shadow-[0_1px_2px_rgba(0,0,0,0.22),0_2px_6px_rgba(0,0,0,0.10)]" : ""} ${project.gold ? "ring-1 ring-[#c9a227]" : ""}`}
+                  className={`h-[30px] w-[30px] rounded-[9px] ${project.appIcon ? "shadow-[0_1px_2px_rgba(0,0,0,0.22),0_2px_6px_rgba(0,0,0,0.10)]" : ""} ${project.iconBg ?? ""}`}
                 />
               ) : (
                 <span className="flex h-[30px] w-[30px] items-center justify-center text-[22px] leading-none">
