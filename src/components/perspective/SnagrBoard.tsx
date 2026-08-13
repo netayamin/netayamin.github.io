@@ -19,10 +19,9 @@ const REGIONS: Record<string, Region> = {
   journeymap: { x: 20, y: 220, w: 520, h: 390 },
   designsystem: { x: 20, y: 640, w: 480, h: 700 },
   personas: { x: 1140, y: 640, w: 370, h: 670 },
-  main: { x: 550, y: 20, w: 270, h: 620 },
-  missed: { x: 850, y: 20, w: 270, h: 620 },
-  collection: { x: 1150, y: 20, w: 270, h: 620 },
-  planday: { x: 850, y: 640, w: 270, h: 650 },
+  home: { x: 550, y: 20, w: 270, h: 620 },
+  map: { x: 850, y: 20, w: 270, h: 620 },
+  explore: { x: 1150, y: 20, w: 270, h: 620 },
   marketing: { x: 520, y: 660, w: 310, h: 340 },
 };
 
@@ -32,17 +31,17 @@ const SECTION_TO_REGION: Record<string, string> = {
   "who-what-when-where-why-how": "brand",
   personas: "personas",
   "the-journey-before-snagr": "journeymap",
-  "the-journey-with-snagr": "collection",
-  "why-this-solution-and-what-i-rejected": "main",
-  "breaking-the-one-reservation-model": "planday",
+  "the-journey-with-snagr": "explore",
+  "why-this-solution-and-what-i-rejected": "home",
+  "breaking-the-one-reservation-model": "home",
   "how-it-evolved-four-products-four-lessons": "overview",
-  "research-honestly": "missed",
+  "research-honestly": "map",
   "what-i-learned": "overview",
   "stack-and-what-each-piece-bought": "designsystem",
   backend: "overview",
-  "availability-acquisition-the-hard-part": "planday",
-  "demand-is-the-scheduler": "planday",
-  "notifications-engineered-as-suppression": "missed",
+  "availability-acquisition-the-hard-part": "map",
+  "demand-is-the-scheduler": "home",
+  "notifications-engineered-as-suppression": "home",
   infrastructure: "overview",
 };
 
@@ -522,30 +521,23 @@ export default function SnagrBoard() {
         {/* Real screens, straight from the simulator */}
         <div className="absolute" style={{ left: 560, top: 60 }}>
           <Screen
-            file="main.png"
-            title="Home · Plans"
-            caption="Three plans quietly watching; 61 of 100 restaurants tracked."
+            file="home.png"
+            title="Home · your plans"
+            caption="A plan quietly watching, 60 of 100 restaurants tracked, then the city."
           />
         </div>
         <div className="absolute" style={{ left: 860, top: 60 }}>
           <Screen
-            file="missed.png"
-            title="Home · Since your last visit"
-            caption="What opened while you were away, before anything else."
+            file="map.png"
+            title="Browse nearby · the map"
+            caption="300 tracked tables in this area; pins carry the counts, not the pitch."
           />
         </div>
         <div className="absolute" style={{ left: 1160, top: 60 }}>
           <Screen
-            file="collection.png"
-            title="Collection · Declare"
-            caption="Selection is creation: tick venues straight from the guide."
-          />
-        </div>
-                <div className="absolute" style={{ left: 860, top: 680 }}>
-          <Screen
-            file="plan-day.png"
-            title="Plan · picking a day"
-            caption="The date strip carries the counts: 12 open Thursday, none yet Sunday."
+            file="explore.png"
+            title="Explore · collections"
+            caption="Editorial lists as the entry point: occasion, neighborhood, hard to book."
           />
         </div>
 
