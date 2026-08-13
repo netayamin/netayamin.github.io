@@ -22,6 +22,7 @@ const REGIONS: Record<string, Region> = {
   home: { x: 550, y: 20, w: 270, h: 620 },
   map: { x: 850, y: 20, w: 270, h: 620 },
   explore: { x: 1150, y: 20, w: 270, h: 620 },
+  plans: { x: 850, y: 640, w: 270, h: 650 },
   marketing: { x: 520, y: 660, w: 310, h: 340 },
 };
 
@@ -33,7 +34,7 @@ const SECTION_TO_REGION: Record<string, string> = {
   "the-journey-before-snagr": "journeymap",
   "the-journey-with-snagr": "explore",
   "why-this-solution-and-what-i-rejected": "home",
-  "breaking-the-one-reservation-model": "home",
+  "breaking-the-one-reservation-model": "plans",
   "how-it-evolved-four-products-four-lessons": "overview",
   "research-honestly": "map",
   "what-i-learned": "overview",
@@ -538,6 +539,13 @@ export default function SnagrBoard() {
             file="explore.png"
             title="Explore · collections"
             caption="Editorial lists as the entry point: occasion, neighborhood, hard to book."
+          />
+        </div>
+        <div className="absolute" style={{ left: 860, top: 680 }}>
+          <Screen
+            file="paris-plans.png"
+            title="Plans · more than one city"
+            caption="Paris with the girls sits beside MUST TRY: a plan is a list, a party size, and a set of nights, anywhere."
           />
         </div>
 
