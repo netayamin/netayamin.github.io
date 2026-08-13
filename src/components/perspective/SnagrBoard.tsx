@@ -543,9 +543,9 @@ export default function SnagrBoard() {
         </div>
         <div className="absolute" style={{ left: 860, top: 680 }}>
           <Screen
-            file="paris-plans.png"
-            title="Plans · more than one city"
-            caption="Paris with the girls sits beside MUST TRY: a plan is a list, a party size, and a set of nights, anywhere."
+            file="plan-inside.png"
+            title="Inside a plan · picking a night"
+            caption="One list, seven dates, 2 to 4 people. The date strip carries the counts: 12 open Thursday, none yet Sunday."
           />
         </div>
 
