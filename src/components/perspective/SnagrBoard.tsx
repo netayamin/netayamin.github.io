@@ -11,19 +11,21 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 // camera to its frame. Pinch (or Cmd/Ctrl + scroll) still zooms manually.
 type Region = { x: number; y: number; w: number; h: number };
 
-const CANVAS = { w: 1520, h: 1360 };
+const CANVAS = { w: 1900, h: 1400 };
 
 const REGIONS: Record<string, Region> = {
-  overview: { x: 10, y: 10, w: 1500, h: 1290 },
+  overview: { x: 10, y: 10, w: 1870, h: 1350 },
   brand: { x: 20, y: 20, w: 340, h: 190 },
   journeymap: { x: 20, y: 220, w: 520, h: 390 },
   designsystem: { x: 20, y: 640, w: 480, h: 700 },
-  personas: { x: 1140, y: 640, w: 370, h: 670 },
-  home: { x: 550, y: 20, w: 270, h: 620 },
-  map: { x: 850, y: 20, w: 270, h: 620 },
-  explore: { x: 1150, y: 20, w: 270, h: 620 },
-  plans: { x: 850, y: 640, w: 270, h: 650 },
-  marketing: { x: 520, y: 660, w: 310, h: 340 },
+  personas: { x: 1480, y: 390, w: 380, h: 700 },
+  home: { x: 550, y: 20, w: 270, h: 640 },
+  map: { x: 850, y: 20, w: 270, h: 640 },
+  explore: { x: 1150, y: 20, w: 270, h: 640 },
+  parisplan: { x: 550, y: 640, w: 270, h: 660 },
+  planmenu: { x: 850, y: 640, w: 270, h: 660 },
+  darkmode: { x: 1150, y: 640, w: 270, h: 660 },
+  marketing: { x: 1480, y: 20, w: 340, h: 350 },
 };
 
 // Which region each case-study section focuses.
@@ -34,15 +36,15 @@ const SECTION_TO_REGION: Record<string, string> = {
   "the-journey-before-snagr": "journeymap",
   "the-journey-with-snagr": "explore",
   "why-this-solution-and-what-i-rejected": "home",
-  "breaking-the-one-reservation-model": "plans",
+  "breaking-the-one-reservation-model": "parisplan",
   "how-it-evolved-four-products-four-lessons": "overview",
   "research-honestly": "map",
-  "what-i-learned": "overview",
+  "what-i-learned": "darkmode",
   "stack-and-what-each-piece-bought": "designsystem",
   backend: "overview",
   "availability-acquisition-the-hard-part": "map",
-  "demand-is-the-scheduler": "home",
-  "notifications-engineered-as-suppression": "home",
+  "demand-is-the-scheduler": "parisplan",
+  "notifications-engineered-as-suppression": "planmenu",
   infrastructure: "overview",
 };
 
@@ -524,14 +526,14 @@ export default function SnagrBoard() {
           <Screen
             file="home.png"
             title="Home · your plans"
-            caption="A plan quietly watching, 60 of 100 restaurants tracked, then the city."
+            caption="Two plans quietly watching, 83 of 100 restaurants tracked, then the city."
           />
         </div>
         <div className="absolute" style={{ left: 860, top: 60 }}>
           <Screen
             file="map.png"
             title="Browse nearby · the map"
-            caption="300 tracked tables in this area; pins carry the counts, not the pitch."
+            caption="237 restaurants in this area. Tap a pin and the only verb is add to a plan."
           />
         </div>
         <div className="absolute" style={{ left: 1160, top: 60 }}>
@@ -541,16 +543,30 @@ export default function SnagrBoard() {
             caption="Editorial lists as the entry point: occasion, neighborhood, hard to book."
           />
         </div>
+        <div className="absolute" style={{ left: 560, top: 680 }}>
+          <Screen
+            file="paris-plan.png"
+            title="Inside a plan · Paris Trip"
+            caption="Five dates, 2 to 5 people, two guides in one plan. The date strip carries the counts: 6 open Monday, Tuesday already booked."
+          />
+        </div>
         <div className="absolute" style={{ left: 860, top: 680 }}>
           <Screen
-            file="plan-inside.png"
-            title="Inside a plan · picking a night"
-            caption="One list, seven dates, 2 to 4 people. The date strip carries the counts: 12 open Thursday, none yet Sunday."
+            file="plan-menu.png"
+            title="A plan is group-native"
+            caption="Add people, add a table you booked elsewhere, mute the noise. The plan is the shared object, not the account."
+          />
+        </div>
+        <div className="absolute" style={{ left: 1160, top: 680 }}>
+          <Screen
+            file="home-dark.png"
+            title="Home · dark"
+            caption="The same screen after dark: semantic colors, so the red stays the one thing that means live."
           />
         </div>
 
         {/* Marketing poster */}
-        <div className="absolute" style={{ left: 530, top: 680 }}>
+        <div className="absolute" style={{ left: 1500, top: 60 }}>
           <Draggable>
             <FrameLabel>Marketing</FrameLabel>
             <div className="w-[290px] overflow-hidden rounded-2xl bg-black shadow-sm">
@@ -575,7 +591,7 @@ export default function SnagrBoard() {
         </div>
 
         {/* Personas, straight off the whiteboard */}
-        <div className="absolute" style={{ left: 1160, top: 680 }}>
+        <div className="absolute" style={{ left: 1500, top: 420 }}>
           <PersonaSketch
             variant="maya"
             name="Maya, 29"
@@ -589,7 +605,7 @@ export default function SnagrBoard() {
             rotate="rotate-[-1.5deg]"
           />
         </div>
-        <div className="absolute" style={{ left: 1160, top: 1010 }}>
+        <div className="absolute" style={{ left: 1500, top: 760 }}>
           <PersonaSketch
             variant="dan"
             name="Dan, 31"
