@@ -11,21 +11,16 @@ import DecorativeButton from "./DecorativeButton";
 const PAGES: Array<{ id: PageId; name: string }> = [{ id: "me", name: "Me" }];
 
 const PROJECTS: Array<{
-  emoji: string;
-  icon?: string;
-  appIcon?: boolean; // Apple-style icon treatment: radius + soft shadow
-  iconBg?: string; // tile background class behind a transparent logo
   name: string;
   page?: PageId;
   href?: string;
   soon?: boolean;
 }> = [
-  { emoji: "", icon: "/snagr/icon.png", appIcon: true, name: "Snagr", page: "snagr" },
-  { emoji: "", icon: "/headsoff/icon.png", appIcon: true, iconBg: "bg-black", name: "Heads Off", page: "headsoff" },
-  { emoji: "", icon: "/comet/icon.png", name: "Trace spans", page: "tracespans" },
-  { emoji: "📣", name: "Reddit Marketing Manager", page: "redditmanager" },
-  { emoji: "📋", name: "Peel", soon: true },
-  { emoji: "🧪", name: "Experiments", soon: true },
+  { name: "Snagr", page: "snagr" },
+  { name: "Heads Off", page: "headsoff" },
+  { name: "Trace spans", page: "tracespans" },
+  { name: "Peel", soon: true },
+  { name: "Experiments", soon: true },
 ];
 
 const LINKS = [
@@ -33,8 +28,22 @@ const LINKS = [
   { label: "Email", href: "mailto:netayamin@gmail.com", icon: <Mail size={15} /> },
 ];
 
-export default function FigmaSidebar() {
+function navItemClasses(active: boolean): string {
+  return `mb-0.5 flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-[13px] transition-colors ${
+    active ? "bg-accent-soft font-medium text-fg" : "text-fg/80 hover:bg-fg/5"
+  }`;
+}
+
+function PageButton({ id, name }: { id: PageId; name: string }) {
   const { page, setPage } = usePage();
+  return (
+    <button type="button" onClick={() => setPage(id)} className={navItemClasses(page === id)}>
+      {name}
+    </button>
+  );
+}
+
+export default function FigmaSidebar() {
   const [resumeOpen, setResumeOpen] = useState(false);
   return (
     <aside className="flex w-64 shrink-0 flex-col border-r border-line bg-card">
@@ -65,19 +74,7 @@ export default function FigmaSidebar() {
       <div className="px-4">
         <p className="px-1 pb-2 text-[13px] font-semibold">Pages</p>
         {PAGES.map((item) => (
-          <button
-            key={item.id}
-            type="button"
-            onClick={() => setPage(item.id)}
-            className={`flex w-full items-center gap-2.5 rounded-lg py-1.5 pl-2 pr-2 text-left text-[13px] transition-colors ${
-              page === item.id ? "font-semibold text-fg" : "text-muted hover:text-fg"
-            }`}
-          >
-            <span className="flex w-2 justify-center">
-              {page === item.id && <span className="h-1.5 w-1.5 rounded-full bg-fg" />}
-            </span>
-            {item.name}
-          </button>
+          <PageButton key={item.id} id={item.id} name={item.name} />
         ))}
       </div>
 
@@ -95,29 +92,12 @@ export default function FigmaSidebar() {
           </DecorativeButton>
         </div>
         {PROJECTS.map((project) => {
-          const classes = `mb-0.5 flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-[13px] transition-colors ${
-            project.page && page === project.page
-              ? "bg-accent-soft font-medium text-fg"
-              : "text-fg/80 hover:bg-fg/5"
-          }`;
           if (project.soon) {
             return (
               <div
                 key={project.name}
                 className="mb-0.5 flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-[13px] text-muted/70"
               >
-                {project.icon ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${project.icon}`}
-                    alt=""
-                    className={`opacity-60 grayscale-[0.3] h-[30px] w-[30px] rounded-[9px] ${project.appIcon ? "shadow-[0_1px_2px_rgba(0,0,0,0.22),0_2px_6px_rgba(0,0,0,0.10)]" : ""} ${project.iconBg ?? ""}`}
-                  />
-                ) : (
-                  <span className="flex h-[30px] w-[30px] items-center justify-center text-[22px] leading-none opacity-60">
-                    {project.emoji}
-                  </span>
-                )}
                 {project.name}
                 <span className="ml-auto rounded-full bg-fg/[0.05] px-1.5 py-0.5 text-[9px] font-medium text-muted dark:bg-white/[0.08]">
                   coming soon
@@ -126,35 +106,15 @@ export default function FigmaSidebar() {
             );
           }
           return project.page ? (
-            <button
-              key={project.name}
-              type="button"
-              onClick={() => setPage(project.page!)}
-              className={classes}
-            >
-              {project.icon ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${project.icon}`}
-                  alt=""
-                  className={`h-[30px] w-[30px] rounded-[9px] ${project.appIcon ? "shadow-[0_1px_2px_rgba(0,0,0,0.22),0_2px_6px_rgba(0,0,0,0.10)]" : ""} ${project.iconBg ?? ""}`}
-                />
-              ) : (
-                <span className="flex h-[30px] w-[30px] items-center justify-center text-[22px] leading-none">
-                  {project.emoji}
-                </span>
-              )}
-              {project.name}
-            </button>
+            <PageButton key={project.name} id={project.page} name={project.name} />
           ) : (
             <a
               key={project.name}
               href={project.href}
               target={project.href?.startsWith("http") ? "_blank" : undefined}
               rel="noreferrer"
-              className={classes}
+              className={navItemClasses(false)}
             >
-              <span className="text-[15px] leading-none">{project.emoji}</span>
               {project.name}
             </a>
           );
