@@ -27,10 +27,6 @@ Design-minded software engineer with 5+ years building intuitive products across
 - Designed and built a reusable Storybook design system adopted across multiple products
 - Scalable frontend architecture and reusable UI components for enterprise web apps
 
-## Projects
-- **Snagr**: native SwiftUI, idea → App Store launch
-- **Peel**: AI-powered commercial real estate · getpeel.co
-
 ## Sidekick
 - Mazi: Chief Morale Officer, barks at bugs`;
 
